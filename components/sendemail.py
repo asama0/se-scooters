@@ -1,16 +1,19 @@
 
 import smtplib
 
+from email.message import EmailMessage
 
-ser = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-ser.login("salimbader734@gmail.com", "123456SS")
-ser.sendmail("salimbader734@gmail.com", 
-             "salimbader22@gmail.com", 
-             "hi salim")
+massage = EmailMessage()
+massage['Subject'] = 'test it'
+massage['From'] = 'salimbader734@gmail.com'
+massage['To'] = 'salimbader18@gmail.com'
+
+massage.set_content('hi our nice group')
 
 
-ser.quit()
-
+with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+    smtp.login("salimbader734@gmail.com", "123456SS")
+    smtp.send_message(massage)
 
     
     
