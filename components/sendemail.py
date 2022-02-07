@@ -36,7 +36,7 @@ massage.add_alternative("""\
         </div>
     </header>
     <main>
-        <h1>Thanks for renting our scooter, Salim</h1>
+        <h1 style="color: rgb(255, 0, 34);">Thanks for renting our scooter, Salim</h1>
         <h2>Here's your receipt from nameofapp (leeds).</h2>
         <div class="button">
             <a href="Rate.html" class="btn">Rate Order</a>
