@@ -11,33 +11,43 @@ massage['To'] = 'salimbader18@gmail.com' # to who you want send email
 massage.set_content('hi our nice group')
 
 massage.add_alternative("""\
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
-  </head>
-  <body>
+    <title>receipt page</title>
+
+    <style>
+        body {
+            color: rgb(119, 236, 178);
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
     <header>
-      <div class="main">
-        <div class="nameofapp">
-          <h1>NAME OF APP</h1>
+        <div class="main">
+            <div class="nameofapp">
+                <h1>NAME OF APP</h1>
+            </div>
         </div>
-      </div>
     </header>
     <main>
-        <div class="title">
-            <h1>Thanks for renting our scooter, Salim</h1>
-            <h2>Here's your receipt from nameofapp (leeds).</h2>
-        </div>
+        <h1>Thanks for renting our scooter, Salim</h1>
+        <h2>Here's your receipt from nameofapp (leeds).</h2>
         <div class="button">
             <a href="Rate.html" class="btn">Rate Order</a>
         </div>
         <div class="price">
-            <h1>Total              £8.27</h1>
+            <h1>Total £8.27</h1>
         </div>
-    </main> 
-    
-  </body>
+    </main>
+
+</body>
+
 </html>
 
 """, subtype='html')
