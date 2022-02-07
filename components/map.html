@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <title>Map</title>
+    </head>
+    <body>
+
+        <h1 id = "header1">Maps</h1>
+        <p id="p1">Available Scooters:</p>
+        <p id="p2">TEST</p>
+        <p id="p3"></p>
+
+        <div id = "map"></div>
+
+            <!-- https://www.w3schools.com/html/html5_geolocation.asp -->
+            <script> 
+
+                //Not going to attempt changing var values inside functions
+                //
+                var p1 = document.getElementById("p1");
+                var p2 = document.getElementById("p2");
+                var p3 = document.getElementById("p3");
+                 
+
+                //This code is to find user's current location
+                //NOTE: the code works, but the value of location when stored in
+                //a var, the var value returns again to original value when
+                //outside of the function scope.
+
+                //TODO:  move everything inside initmap methode.
+
+                // if(navigator.geolocation){
+                //     navigator.geolocation.getCurrentPosition(function(current_location){
+
+                //         //var place = {lat: 0, lng: 0};
+                //         place.lat = current_location.coords.latitude;
+                //         place.lng = current_location.coords.longitude;  
+                //         //return place;
+
+                //     });             
+                // }else{    
+                //     p1.innerHTML = ("Your browser does not support GPS!");
+                // }
+
+                
+  
+                
+                
+                //https://developers.google.com/maps/documentation/javascript/overview
+                
+                //This is the function the google link with be looking for when
+                //it launches the map's api.
+
+                function initMap() {
+
+                    //SOC for the moment
+                    var place = {lat: 53.8089, lng: -1.5540}; 
+
+                    var map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 12,
+                        center: place
+                        });
+                    
+
+                    //adding a bunch of scooter markers.
+                    var id = 0; //temp id for scooters
+                    addMarker(place,id);
+                    id++;
+                    //gryphons center 
+                    var scooter0_loc = {lat: 53.8073, lng: -1.5630}; 
+                    addMarker(scooter0_loc,id);
+                    id++;
+
+                    //ziff building
+                    var scooter1_loc = {lat: 53.8068, lng: -1.5530};
+                    addMarker(scooter1_loc,id);
+
+
+                    //Shows user current location in lat-lng formate
+                    p2.innerHTML = ("Your Current location is:" + 
+                    " Lat: " + place.lat +
+                    " Long: " + place.lng);  
+
+
+                    // source: https://www.youtube.com/watch?v=Zxf1mnP5zcw
+                    //dynamic function to add marker in map.
+                    //param: place: place of scooter, 
+
+                    function addMarker(place,id){
+
+                        var Marker =  new google.maps.Marker({
+                        position: place,
+                        map: map,
+                        icon: "scooter_icon.png",
+                    
+                        });
+
+                        var scooter_info = new google.maps.InfoWindow({
+
+                            content: "<h1> Scooter ID: </h1>"  + id  
+                        });
+
+                        Marker.addListener('click',function(){
+                            
+                            scooter_info.open(map,Marker);
+                            //p3.innerHTML("Scooter id: " + id);
+                        });
+                        
+                    }
+                        
+                }
+                    
+                
+                
+                </script>
+
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB344Weh66EBaK4-2hY47OUeZ3et8-adls&callback=initMap"></script>
+              
+
+                <p>"Scooter icon made by Freepik from <a src="www.flaticon.com">www.flaticon.com</a>"</p>
+
+    </body>
+</html>
