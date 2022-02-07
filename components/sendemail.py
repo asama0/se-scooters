@@ -20,23 +20,65 @@ massage.add_alternative("""\
     <title>receipt page</title>
 
     <style>
+        .receipt {
+            background-color: rgb(183, 187, 187);
+            width: 400px;
+            height: 350px;
+            position: absolute;
+            top: -50px;
+            left: 0%;
+            margin: 50px auto;
+            border: 10px solid #000;
+        }
+        
         body {
-            color: rgb(119, 236, 178);
-            margin: 50px;
+            color: #000;
+        }
+        
+        h1 {
+            color: rgb(3, 3, 3);
+            width: 300px;
+        }
+        
+        h2 {
+            color: rgb(6, 248, 26);
+            font-size: 20px;
+        }
+        
+        .button {
+            transform: translate(-50%-50%);
+            top: 250px;
+        }
+        
+        .btn {
+            border: 1px solid rgb(12, 11, 11);
+            padding: 10px 30px;
+            color: rgb(12, 10, 10);
+            text-decoration: none;
+            transition: 0, 6s ease;
+        }
+        
+        .btn:hover {
+            background-color: rgb(90, 88, 88);
+            color: #000;
+        }
+        
+        .price {
+            position: relative;
+            top: 50px;
         }
     </style>
 </head>
 
 <body>
-    <header>
+    <div class="receipt">
+
         <div class="main">
             <div class="nameofapp">
                 <h1>NAME OF APP</h1>
             </div>
         </div>
-    </header>
-    <main>
-        <h1 style="color: rgb(255, 0, 34);">Thanks for renting our scooter, Salim</h1>
+        <h1>Thanks for renting our scooter, Salim</h1>
         <h2>Here's your receipt from nameofapp (leeds).</h2>
         <div class="button">
             <a href="Rate.html" class="btn">Rate Order</a>
@@ -44,12 +86,11 @@ massage.add_alternative("""\
         <div class="price">
             <h1>Total £8.27</h1>
         </div>
-    </main>
+    </div>
 
 </body>
 
 </html>
-
 """, subtype='html')
 
 
