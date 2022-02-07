@@ -10,7 +10,7 @@ massage['To'] = 'salimbader18@gmail.com' # to who you want send email
 
 massage.set_content('hi our nice group')
 
-msg.add_alternative("""\
+massage.add_alternative("""\
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -31,6 +31,9 @@ msg.add_alternative("""\
         </div>
         <div class="button">
             <a href="Rate.html" class="btn">Rate Order</a>
+        </div>
+        <div class="price">
+            <h1>Total              £8.27</h1>
         </div>
     </main> 
     
