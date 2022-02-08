@@ -1,17 +1,35 @@
 
+import email
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import smtplib
 
-from email.message import EmailMessage
 
-massage = EmailMessage()
-massage['Subject'] = 'test it'
-massage['From'] = 'salimbader734@gmail.com' # user email address
-massage['To'] = 'salimbader18@gmail.com' # to who you want send email 
 
-massage.set_content('hi our nice group')
+def send_mail(Subject, Body, To, From):
+    
+    massage = MIMEMultipart('alternative')
+    massage['Subject'] = Subject
+    massage['From'] = To # user email address
+    massage['To'] = From # to who you want send email 
 
-massage.add_alternative("""\
-<!DOCTYPE html>
+#the MIME type text/html
+    Html_Body = MIMEText(Body, "html")
+# attch the html code to massage container
+    massage.attach(Html_Body)
+#the port number of gmail.com
+    ser = smtplib.SMTP("smtp.gmail.com:587")
+#password of the user who want to send email
+    Password = "123456SS"
+
+    ser.starttls()
+    ser.login(From, Password)
+    ser.sendmail(From, [To], massage.as_string())
+    ser.quit()
+    
+if __name__ == "__main__":
+    email_content = """
+        <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
@@ -62,14 +80,10 @@ massage.add_alternative("""\
 </body>
 
 </html>
-""", subtype='html')
-
-
-
-
-with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp: # 465 is the gmail port number
-    smtp.login("salimbader734@gmail.com", "123456SS")# user email address and password
-    smtp.send_message(massage)
-
+    """
     
     
+To = 'salimbader22@gmail.com'
+From = 'salimbader734@gmail.com'
+
+send_mail("Test email", email_content, To, From)
