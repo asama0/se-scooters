@@ -1,6 +1,5 @@
 from app import app
-from app import db
 
 if __name__ == '__main__':
-    db.create_all()
+    # debug will show errors in the webpage instead of the terminal
     app.run(debug=True)

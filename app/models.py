@@ -1,4 +1,3 @@
-from email.policy import default
 from app import db
 
 class User(db.Model):
@@ -40,3 +39,11 @@ class Parking(db.Model):
 
     def __repr__(self):
         return f'<Parking #{self.id} {self.location}>'
+
+class Cost(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    duration = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+
+    def __repr__(self):
+        return f'<Cost #{self.id} t={self.duration} ${self.duration}>'
