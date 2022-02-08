@@ -94,9 +94,7 @@ massage.add_alternative("""\
 """, subtype='html')
 
 
-receipttmp = r'C:\Users\salim badar alhajri\Desktop\se-scooters\components'
-with open(receipttmp, "r", encoding='utf-8') as f:
-  tmp = f.read()
+
 
 with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp: # 465 is the gmail port number
     smtp.login("salimbader734@gmail.com", "123456SS")# user email address and password
