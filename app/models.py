@@ -7,7 +7,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.Integer, unique=True, nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
-    payments = db.relationship('Payment', backref='user')
+    bookings = db.relationship('Booking', backref='user')
     blocked = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
@@ -16,21 +16,22 @@ class User(db.Model):
 class Scooter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     availability = db.Column(db.Boolean, nullable=False)
-    bookings = db.relationship('Payment', backref='scooter')
+    bookings = db.relationship('Booking', backref='scooter')
     parking_id = db.Column(db.Integer, db.ForeignKey('parking.id'))
 
     def __repr__(self):
         return f'<Scooter #{self.id}>'
 
-class Payment(db.Model):
+class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, nullable=False)
+    duration = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     scooter_id = db.Column(db.Integer, db.ForeignKey('scooter.id'))
 
     def __repr__(self):
-        return f'<Payment #{self.id}>'
+        return f'<Booking #{self.id}>'
 
 class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
