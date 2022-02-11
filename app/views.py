@@ -16,14 +16,15 @@ admin.add_view(ModelView(Cost, db.session))
 def index():
     return render_template('index.html')
 
-@app.route('/getmethod/<jsdata>')
-def get_javascript_data(jsdata):
-    print(jsdata)
-    return jsdata
-
 @app.route('/postmethod', methods = ['POST'])
-def get_post_javascript_data():
+def post_javascript_data():
     jsdata = request.form['javascript_data']
     print(jsdata)
     return jsdata
 
+count_requests = 0
+@app.route('/requestdata', methods = ['POST'])
+def post_request_data():
+    global count_requests # saying that count_requests is a global variable
+    count_requests += 1
+    return f"this is the request {count_requests}"

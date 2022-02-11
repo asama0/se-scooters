@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 
-<p>Hello world!</p>
-<button onclick="action()">Send #1</button>
+<p id="parag">Hello world!</p>
+<button onclick="send_data()">Send #111</button>
+<button onclick="request_data()">Request data for parag</button>
+
 <script>
 
-function action() {
-    // $.get( "/getmethod/1111111111" );
+function send_data() {
+    // $.post('path', {key: value to send})
     $.post( "/postmethod", {javascript_data: 111});
+}
+
+function request_data(){
+    // $.post('path', function to run when success)
+    $.post("/requestdata", function (data){
+        document.getElementById("parag").innerText = data
+    })
 }
 
 </script>
