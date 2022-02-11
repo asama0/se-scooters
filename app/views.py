@@ -1,5 +1,5 @@
 
-from flask import render_template
+from flask import render_template, request
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 
@@ -14,6 +14,16 @@ admin.add_view(ModelView(Cost, db.session))
 
 @app.route('/')
 def index():
-
     return render_template('index.html')
+
+@app.route('/getmethod/<jsdata>')
+def get_javascript_data(jsdata):
+    print(jsdata)
+    return jsdata
+
+@app.route('/postmethod', methods = ['POST'])
+def get_post_javascript_data():
+    jsdata = request.form['javascript_data']
+    print(jsdata)
+    return jsdata
 

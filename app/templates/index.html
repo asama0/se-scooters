@@ -2,5 +2,14 @@
 {% block content %}
 
 <p>Hello world!</p>
+<button onclick="action()">Send #1</button>
+<script>
+
+function action() {
+    // $.get( "/getmethod/1111111111" );
+    $.post( "/postmethod", {javascript_data: 111});
+}
+
+</script>
 
 {% endblock %}
