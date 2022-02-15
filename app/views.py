@@ -1,4 +1,4 @@
-
+from urllib import request
 from flask import render_template
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
@@ -14,6 +14,8 @@ admin.add_view(ModelView(Cost, db.session))
 
 @app.route('/')
 def index():
-
     return render_template('index.html')
 
+@app.route('/QRCodeScanner')
+def QRCodeScanner():
+    return render_template('QRCodeScanner.html')

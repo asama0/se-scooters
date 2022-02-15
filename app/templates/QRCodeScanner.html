@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<video id="qr-video"></video>
+<br>
+<button id="start-button">Start</button>
+<button id="stop-button">Stop</button>
+
+<script type="module">
+    import QrScanner from "../qr-scanner.min.js";
+    const video = document.getElementById('qr-video');
+    
+    var QrMessage;
+
+    function setResult(result) {
+        QrMessage = Number(result.data);
+        console.log(QrMessage);
+        if(QrMessage != undefined){
+            scanner.stop();
+        }
+    }
+
+    // ####### Web Cam Scanning #######
+    const scanner = new QrScanner(video, result => setResult(result), {
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+    });
+
+    document.getElementById('start-button').addEventListener('click', () => {
+        scanner.start();
+    });
+
+    document.getElementById('stop-button').addEventListener('click', () => {
+        scanner.stop();
+    });
+</script>
+
+{% endblock %}
