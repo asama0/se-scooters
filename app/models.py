@@ -7,6 +7,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.Integer, unique=True, nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
+    privilege = db.Column(db.Integer, nullable=False, default=1)
     bookings = db.relationship('Booking', backref='user')
     blocked = db.Column(db.Boolean, nullable=False, default=False)
 
