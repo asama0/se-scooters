@@ -7,13 +7,13 @@
 <button id="stop-button">Stop</button>
 
 <script type="module">
-    import QrScanner from "../qr-scanner.min.js";
+    import QrScanner from "{{url_for('static', filename='qr-scanner.min.js')}}";
     const video = document.getElementById('qr-video');
-    
+
     var QrMessage;
 
     function setResult(result) {
-        QrMessage = Number(result.data);
+        QrMessage = Number(result.data); // this assumes we are only getting numbers
         console.log(QrMessage);
         if(QrMessage != undefined){
             scanner.stop();
