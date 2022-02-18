@@ -36,7 +36,7 @@ def send_mail(Subject, From, To, Body):
 
 
     # now open the image and attach it to the email
-    with open('grapefruit.jpeg', 'rb') as img:
+    with open('email_images/grapefruit.jpeg', 'rb') as img:
 
         # know the Content-Type of the image
         maintype, subtype = mimetypes.guess_type(img.name)[0].split('/')
