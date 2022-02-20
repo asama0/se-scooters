@@ -1,7 +1,8 @@
 import email
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField
-from wtforms.validators import DataRequired,Email,Length,EqualTo
+from wtforms.validators import DataRequired,Email,Length,EqualTo,ValidationError
+
 
 
 
@@ -43,6 +44,9 @@ class registrationForm(FlaskForm):
     # changes to the error messages needed 
     #submit field to submit user info
     submit = SubmitField('register')
+
+    
+
 
 
 

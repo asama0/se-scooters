@@ -2,13 +2,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+from flask_login import login_manager
 
 
 # creating and configuring the app object
 app = Flask(__name__)
 # configure the app from config.py
 app.config.from_object('config')
+
 
 # creating the database object
 db = SQLAlchemy(app)
