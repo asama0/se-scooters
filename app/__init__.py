@@ -1,9 +1,20 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
 
-
+# creating and configuring the app object
 app = Flask(__name__)
-app.config['SECRET_KEY']= 'WEKAS '
+# configure the app from config.py
+app.config.from_object('config')
 
-from app import views
-from .auth import auth
-    
+
+# creating the database object
+db = SQLAlchemy(app)
+
+# admin pages setup
+admin = Admin(app, template_mode='bootstrap4')
+
+
+
+# combine code from all other files to this file
+from app import views, models
