@@ -6,11 +6,10 @@ Stripe Sample.
 Python 3.6 or newer required.
 """
 import os
-from flask import Flask, redirect, request
-
+from flask import Flask
+import stripeFunctions as SF
 import stripe
-# This is your test secret API key.
-stripe.api_key = 'sk_test_51KRcJeAWMfIxY0DOsedfn3ItYh6VF1h7yq7lWt3EoGCOCmvCUOgHRbglgaHr5izKL6LS1zSUnMOOYuoB7IjBgT6H00xY6mZPuL'
+
 
 app = Flask(__name__,
             static_url_path='',
@@ -18,27 +17,9 @@ app = Flask(__name__,
 
 YOUR_DOMAIN = 'http://localhost:4242'
 
-quant = 1
 
-@app.route('/create-checkout-session', methods=['POST'])
-def create_checkout_session():
-    try:
-        checkout_session = stripe.checkout.Session.create(
-            line_items=[
-                {
-                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    'price': 'price_1KRf7vAWMfIxY0DOyijy1b5m',
-                    'quantity': quant,
-                },
-            ],
-            mode='payment',
-            success_url=YOUR_DOMAIN + '/success.html',
-            cancel_url=YOUR_DOMAIN + '/cancel.html',
-        )
-    except Exception as e:
-        return str(e)
+SF.checkout(app, YOUR_DOMAIN, "1h", "returning")
 
-    return redirect(checkout_session.url, code=303)
 
 if __name__ == '__main__':
     app.run(port=4242)
