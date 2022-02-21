@@ -45,7 +45,6 @@ class registrationForm(FlaskForm):
 
 
 class loginForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email',
                         validators=[
                             Email(message='Error, Enter a valid email'),

@@ -1,13 +1,15 @@
 
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 from flask_login import login_user, current_user, login_required, logout_user
 from flask_bcrypt import Bcrypt
+from urllib.parse import urlparse, urljoin
 
 from app import app, db, admin, login_manager
 from .models import *
 from .forms import *
+
 
 bcrypt = Bcrypt(app)
 
@@ -15,7 +17,7 @@ bcrypt = Bcrypt(app)
 # this is for flask login
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(user_id)
+    return User.query.get(user_id)
 
 
 # add models to admin page
@@ -44,10 +46,9 @@ def register():
 
     form = registrationForm()
     if form.validate_on_submit():
-        hashedPassword = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
+        hashedPassword = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(name=form.name.data, email=form.email.data,
-                    password=hashedPassword, birth_date=datetime.utcnow(), phone=44498989646)
+                    password=hashedPassword, birth_date=datetime.utcnow(), phone=77777777)
         db.session.add(user)
         db.session.commit()
         flash(f'user {user.email} was created')
@@ -68,8 +69,13 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 flash('Logged in successfully.')
-                return redirect(url_for('dashboard'))
-            flash('Logged in failed.')
+
+                next = request.args.get('next')
+                if not is_safe_url(next):
+                    return abort(400)
+
+                return redirect(next or url_for('dashboard'))
+            flash('Log in failed.')
 
     return render_template('login.html', title='login', form=form)
 
@@ -78,4 +84,12 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return render_template('login.html', title='login')
+    return redirect(url_for('index'))
+
+
+# check if url in get request is safe
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
