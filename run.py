@@ -1,2 +1,5 @@
 from app import app
-app.run(debug=True)
+
+if __name__ == '__main__':
+    # debug will show errors in the webpage in addition to the terminal
+    app.run(debug=True)

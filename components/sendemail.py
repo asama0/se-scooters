@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 import smtplib
 
 
+<<<<<<< HEAD
 
 def send_mail(Subject, Body, To, From):
     
@@ -31,6 +32,14 @@ if __name__ == "__main__":
     email_content = """
         <!doctype html>
 <html ⚡4email data-css-strict>
+=======
+massage = EmailMessage()
+massage['Subject'] = 'test it'
+massage['From'] = 'salimbader734@gmail.com' # user email address
+massage['To'] = 'salimbader18@gmail.com' # to who you want send email
+
+massage.set_content('This is a test email')
+>>>>>>> 752936deb13ac8bc54877e3dc2eb499bff54dc60
 
 <head>
     <meta charset="utf-8">
@@ -643,6 +652,7 @@ if __name__ == "__main__":
     </style>
 </head>
 
+<<<<<<< HEAD
 <body>
     <div class="es-wrapper-color">
         <!--[if gte mso 9]><v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t"> <v:fill type="tile" color="#eeeeee"></v:fill> </v:background><![endif]-->
@@ -958,3 +968,8 @@ To = 'salimbader22@gmail.com'
 From = 'salimbader734@gmail.com'
 
 send_mail("Test email", email_content, To, From)
+=======
+with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp: # 465 is the gmail port number
+    smtp.login("salimbader734@gmail.com", "123456SS")# user email address and password
+    smtp.send_message(massage)
+>>>>>>> 752936deb13ac8bc54877e3dc2eb499bff54dc60
