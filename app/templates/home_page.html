@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home_style.css')}}">
+<script src="{{ url_for('static', filename='home_js.js')}}"></script>
+
+<div class="navbar" id="navbarid">
+    <a href="#">Home <i class="fa fa-home" aria-hidden="true"></i></a>
+    <a href="#">Services</a>
+    <a href="#">About</a>
+
+    <div class="right-lnk">
+        <a href="#">login / Signup</i></a>
+    </div>
+    
+    <a class="icon" onclick="myFunction()">
+    <img id="menu" src="{{ url_for('static', filename='menu.png')}}">
+    </a>
+</div>
+
+{% endblock %}

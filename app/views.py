@@ -14,6 +14,9 @@ admin.add_view(ModelView(Cost, db.session))
 
 @app.route('/')
 def index():
-
     return render_template('index.html')
+
+@app.route('/home')
+def welcome():
+    return render_template('home_page.html')
 
