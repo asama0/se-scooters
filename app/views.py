@@ -48,7 +48,7 @@ def register():
     if form.validate_on_submit():
         hashedPassword = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(name=form.name.data, email=form.email.data,
-                    password=hashedPassword, birth_date=datetime.utcnow(), phone=77777777)
+                    password=hashedPassword, birth_date=form.birth_date.data, phone=form.phone.data)
         db.session.add(user)
         db.session.commit()
         flash(f'user {user.email} was created')
@@ -84,7 +84,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 # check if url in get request is safe

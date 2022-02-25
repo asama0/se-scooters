@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.fields import DateField,TelField
 
 
 class registrationForm(FlaskForm):
@@ -35,6 +36,17 @@ class registrationForm(FlaskForm):
                                   DataRequired()
                               ]
                               )
+    birth_date = DateField('Date of Birth',
+                            validators=[
+                                DataRequired()
+                            ]
+                            )
+
+    phone = TelField('Phone Number',
+                            validators=[
+                                DataRequired()
+                            ]
+                            )
     # user phone number and user birth-date to be added in registrationForm class
     # limitation should be disscussed
     # changes to the error messages needed
