@@ -2,7 +2,7 @@ from app import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.Integer, unique=True, nullable=False)
@@ -38,6 +38,8 @@ class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(120), unique=True, nullable=False)
     scooters = db.relationship('Scooter', backref='parking')
+    longitude = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
         return f'<Parking #{self.id} {self.location}>'
