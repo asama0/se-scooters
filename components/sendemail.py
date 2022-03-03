@@ -32,6 +32,7 @@ if __name__ == "__main__":
 <html ⚡4email data-css-strict>
 
 <head>
+    <title>Email</title>
     <meta charset="utf-8">
     <style amp4email-boilerplate>
         body {
@@ -641,6 +642,7 @@ if __name__ == "__main__":
         }
     </style>
 </head>
+
 <body>
     <div class="es-wrapper-color">
         <!--[if gte mso 9]><v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t"> <v:fill type="tile" color="#eeeeee"></v:fill> </v:background><![endif]-->
@@ -725,7 +727,7 @@ if __name__ == "__main__":
                                                         <table width="100%" cellspacing="0" cellpadding="0" role="presentation">
                                                             <tr>
                                                                 <td class="es-p25t es-p25b es-p35r es-p35l" align="center" style="font-size:0">
-                                                                    <a target="_blank" href="https://viewstripo.email/">
+                                                                    <a target="_blank" href="">
                                                                         <amp-img src="images/67611522142640957.png" alt style="display: block" width="120" height="115"></amp-img>
                                                                     </a>
                                                                 </td>
@@ -918,7 +920,7 @@ if __name__ == "__main__":
                                                         <table width="100%" cellspacing="0" cellpadding="0" role="presentation">
                                                             <tr>
                                                                 <td class="es-p15b" align="center" style="font-size:0">
-                                                                    <amp-img src="images/12331522050090454.png" alt="Beretun logo" style="display: block" title="Beretun logo" width="37" height="37"></amp-img>
+                                                                    <amp-img src="images/DKcubedLogo.png" alt="Beretun logo" style="display: block" title="Beretun logo" width="100" height="100"></amp-img>
                                                                 </td>
                                                             </tr>
                                                             <tr>
