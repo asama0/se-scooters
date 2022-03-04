@@ -34,13 +34,8 @@ if __name__ == "__main__":
 <head>
     <title>Email</title>
     <meta charset="utf-8">
-    <style amp4email-boilerplate>
-        body {
-            visibility: hidden
-        }
-    </style>
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <style amp-custom>
+    <!--<script async src="https://cdn.ampproject.org/v0.js"></script>-->
+    <style>
         .es-desk-hidden {
             display: none;
             float: left;
@@ -287,11 +282,10 @@ if __name__ == "__main__":
             display: block;
             font-family: "open sans", "helvetica neue", helvetica, arial, sans-serif;
         }
-        
-        .es-menu amp-img,
+        /*.es-menu amp-img,
         .es-button amp-img {
             vertical-align: middle;
-        }
+        }*/
         
         .es-wrapper {
             width: 100%;
@@ -541,7 +535,7 @@ if __name__ == "__main__":
             .es-m-txt-l h3 {
                 text-align: left
             }
-            .es-m-txt-r amp-img {
+            /*.es-m-txt-r amp-img {
                 float: right
             }
             .es-m-txt-c amp-img {
@@ -549,7 +543,7 @@ if __name__ == "__main__":
             }
             .es-m-txt-l amp-img {
                 float: left
-            }
+            }*/
             .es-button-border {
                 display: inline-block
             }
@@ -698,7 +692,7 @@ if __name__ == "__main__":
                                                                                 </table>
                                                                             </td>
                                                                             <td class="es-p10l" valign="top" align="left" style="font-size:0">
-                                                                                <amp-img src="images/77981522050090360.png" alt style="display: block" width="27" height="23"></amp-img>
+                                                                                <!--<amp-img src="images/77981522050090360.png" alt style="display: block" width="27" height="23"></amp-img>-->
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -728,7 +722,7 @@ if __name__ == "__main__":
                                                             <tr>
                                                                 <td class="es-p25t es-p25b es-p35r es-p35l" align="center" style="font-size:0">
                                                                     <a target="_blank" href="">
-                                                                        <amp-img src="images/67611522142640957.png" alt style="display: block" width="120" height="115"></amp-img>
+                                                                        <!--<amp-img src="images/67611522142640957.png" alt style="display: block" width="120" height="115"></amp-img>-->
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -920,7 +914,7 @@ if __name__ == "__main__":
                                                         <table width="100%" cellspacing="0" cellpadding="0" role="presentation">
                                                             <tr>
                                                                 <td class="es-p15b" align="center" style="font-size:0">
-                                                                    <amp-img src="images/DKcubedLogo.png" alt="Beretun logo" style="display: block" title="Beretun logo" width="100" height="100"></amp-img>
+                                                                    <img src="images/DKcubedLogo.png" alt="Beretun logo" style="display: block" title="Beretun logo" width="100" height="100" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
