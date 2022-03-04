@@ -2,7 +2,6 @@
 from flask import render_template
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
-from flask import jsonify
 
 from app import app, db, admin
 from .models import *
@@ -23,18 +22,18 @@ def index():
     return render_template('index.html')
 
 def query_booking_by_date(start_date, end_date):
+    # querying bookings from database
     result_query = Booking.query\
         .filter(and_(Booking.date >= start_date, Booking.date <= end_date))\
         .order_by(Booking.date)\
         .all()
 
+    # change every booking to a dictionary
     result_dict = [
-    {
-        'date': str(booking.date),
+        { 'date': str(booking.date),
         'amount': booking.amount,
-        'duration': booking.duration
-    }
-    for booking in result_query
+        'duration': booking.duration }
+        for booking in result_query
     ]
 
     return result_dict
@@ -56,7 +55,7 @@ def query_booking_by_date(start_date, end_date):
 #         )
 #     )
 
-db.session.commit()
+# db.session.commit()
 
 # pprint(query_booking_by_date(datetime(1980, 1, 1), datetime(2021, 12, 31)))
 
