@@ -1,9 +1,0 @@
-pip install Flask
-pip install flask-login
-pip install flask-mail
-pip install flask-sqlalchemy
-pip install flask-migrate
-pip install flask-whooshalchemy
-pip install flask-wtf
-pip install flask-babel
-pip install coverage
