@@ -43,12 +43,12 @@ get_discount(id)
 returns the percentage off, amount off, and the number of times this discount have been used
 
 checkout(app, domain, price, discountID)
-creates a checkout session with app: current app, domain: the current domain, price: price lookup, discountID: discount id or None, returns True if successful  
+creates a checkout session with app: current app, domain: the current domain, price: price lookup, discountID: discount id or None, returns True if successful
 """
 
 
 
-
+# ***: VERY GOOD AND CLEAN CODE WITH HELPFUL COMMENTS.
 
 
 # creates a price for the product id, with the price which can be obtained using lookupKey
@@ -68,6 +68,7 @@ def create_a_discount(id, percentageOff, amountOff):
 
 # edits the price to the new price newprice (the id of the price not the product)
 def edit_price(id, newPrice):
+    # !!!: "id" MUST BE REPLASED WITH id RIGHT?
     stripe.Product.modify("id", unit_amount = int(newPrice * 100))
 
 
@@ -78,7 +79,7 @@ def edit_discount(id, newPercentageOff, newAmountOff):
     # deletes the old discount object
     stripe.Coupon.delete(id)
 
-    # creates a new discount object with the new values 
+    # creates a new discount object with the new values
     if newPercentageOff and (not newAmountOff):
         stripe.Coupon.create(duration = "once", id = id, percent_off = int(newPercentageOff), currency="GBP")
     elif newAmountOff and (not newPercentageOff):
@@ -89,7 +90,7 @@ def edit_discount(id, newPercentageOff, newAmountOff):
 # returns the price from its lookup key
 def get_price(lookUpKey):
     return float(stripe.Price.list(lookup_keys=[lookUpKey],).get("data")[0].get("unit_amount")) / 100
-    
+
 
 
 # returns the price id using priceLookUpKey (the price lookup key)
@@ -109,15 +110,17 @@ def get_discount(id):
 
     # seperately assigns the amount off to avoid errors
     if discountData.get("amount_off"):
-        amount = float(discountData.get("amount_off")) / 100  
+        amount = float(discountData.get("amount_off")) / 100
 
     return [percentage, amount, used]
 
 
 
-# creates a checkout session with app: current app, domain: the current domain, price: price lookup, discountID: discount id or None, returns True if successful  
+# creates a checkout session with app: current app, domain: the current domain, price: price lookup, discountID: discount id or None, returns True if successful
 def checkout(app, domain, price, discountID):
 
+    # ???: I THINK THIS PART NEEDS TO BE IN SERVER.PY AND GETS PRICE, discountID
+    # ???: FROM AN HTML FROM. TRY ADDING A BOOKING FROM A FORM.
     # creates a checkout session
     @app.route('/create-checkout-session', methods=['POST'])
     def create_checkout_session():
@@ -128,7 +131,7 @@ def checkout(app, domain, price, discountID):
                 checkout_session = stripe.checkout.Session.create(
                     line_items=[
                         {
-                            # Provide price ID you would like to charge 
+                            # Provide price ID you would like to charge
                             'price': get_price_id(price),
                             'quantity': 1,
                         },
@@ -139,11 +142,11 @@ def checkout(app, domain, price, discountID):
                     cancel_url=domain + '/cancel.html',
                 )
             # proceeds without a discount if discountID is None
-            else: 
+            else:
                 checkout_session = stripe.checkout.Session.create(
                     line_items=[
                         {
-                            # Provide price ID you would like to charge 
+                            # Provide price ID you would like to charge
                             'price': get_price_id(price),
                             'quantity': 1,
                         },
