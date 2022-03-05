@@ -1,4 +1,3 @@
-
 from flask import render_template
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
@@ -17,6 +16,9 @@ def index():
     return render_template('index.html')
 
 @app.route('/home')
-def welcome():
+def home():
     return render_template('home_page.html')
 
+@app.route('/home-admin')
+def home_admin():
+    return render_template('home_admin.html')
