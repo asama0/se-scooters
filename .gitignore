@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 __pycache__/
 app/__pycache__/
 tests/__pycache__/
+=======
+**/__pycache__/ 
+>>>>>>> 4811a66096e30df993263933fda8ddd7b7e30684

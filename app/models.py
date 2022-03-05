@@ -1,8 +1,16 @@
 from app import db
+<<<<<<< HEAD
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
+=======
+from flask_login import UserMixin
+
+class User(db.Model,UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+>>>>>>> 4811a66096e30df993263933fda8ddd7b7e30684
     password = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.Integer, unique=True, nullable=False)
@@ -38,6 +46,11 @@ class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(120), unique=True, nullable=False)
     scooters = db.relationship('Scooter', backref='parking')
+<<<<<<< HEAD
+=======
+    longitude = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+>>>>>>> 4811a66096e30df993263933fda8ddd7b7e30684
 
     def __repr__(self):
         return f'<Parking #{self.id} {self.location}>'
@@ -48,4 +61,8 @@ class Cost(db.Model):
     price = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
+<<<<<<< HEAD
         return f'<Cost #{self.id} t={self.duration} ${self.duration}>'
+=======
+        return f'<Cost #{self.id} t={self.duration} ${self.duration}>'
+>>>>>>> 4811a66096e30df993263933fda8ddd7b7e30684
