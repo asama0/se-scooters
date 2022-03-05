@@ -1,34 +1,49 @@
 {% extends "admin/master.html" %}
 {% block body %}
 
+<div class="card bg-light mb-3 mx-auto" style="max-width: 18rem;">
+<h5 class="card-header">Make a booking</h5>
+<div class="card-body">
 <form>
-  <label for="date">Date:</label>
-  <input type="date" id="date">
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" id="admin_booking_email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+  </div>
 
-  <label for="time">Pickup time:</label>
-  <input type="time" id="time">
+  <div class="form-group">
+    <label for="date">Date:</label>
+    <input type="date" id="date">
+  </div>
 
-  <label for="time_period">Time period:</label>
-  <select id="time_period">
-    <option value="1">1 hour</option>
-    <option value="4">4 hours</option>
-    <option value="24">1 day</option>
-    <option value="168">1 week</option>
-  </select>
+  <div class="form-group">
+    <label for="time">Pickup time:</label>
+    <input type="time" id="time">
+  </div>
 
-  <label for="email">E-mail:</label>
-  <input type="email" id="email">
-  
-  <label for="time_period">Pickup location:</label>
-  <select id="time_period">
-    <option value="1">Trinity centre</option>
-    <option value="2">Train station</option>
-    <option value="3">Merrion centre</option>
-    <option value="4">LRI hospital</option>
-    <option value="5">UoL Edge sports centre</option>
-  </select>
+  <div class="form-group">
+    <label for="time_period">Time period:</label>
+    <select class="form-control" id="time_period">
+      <option value="1">1 hour</option>
+      <option value="4">4 hours</option>
+      <option value="24">1 day</option>
+      <option value="168">1 week</option>
+    </select>
+  </div>
 
-  <input type="submit" value="pay">
+  <div class="form-group">
+    <label for="time_period">Pickup location:</label>
+    <select class="form-control" id="time_period">
+      <option value="1">Trinity centre</option>
+      <option value="2">Train station</option>
+      <option value="3">Merrion centre</option>
+      <option value="4">LRI hospital</option>
+      <option value="5">UoL Edge sports centre</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary"> Submit </button>
 </form>
+</div>
+</div>
 
 {% endblock %}
