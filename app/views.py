@@ -51,7 +51,7 @@ def register():
                     password=hashedPassword, birth_date=form.birth_date.data, phone=form.phone.data)
         db.session.add(user)
         db.session.commit()
-        flash(f'user {user.email} was created')
+        flash(f'user {user.email} was created', category='alert-success')
         return redirect(url_for('login'))
 
     return render_template('register.html', title='register', form=form)
@@ -68,14 +68,14 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
-                flash('Logged in successfully.')
+                flash('Logged in successfully.', category='alert-success')
 
                 next = request.args.get('next')
                 if not is_safe_url(next):
                     return abort(400)
 
                 return redirect(next or url_for('dashboard'))
-            flash('Log in failed.')
+            flash('Log in failed.', category='alert-danger')
 
     return render_template('login.html', title='login', form=form)
 
@@ -84,6 +84,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('Logged out successfully.', category='alert-success')
     return redirect(url_for('login'))
 
 
