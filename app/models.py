@@ -1,5 +1,6 @@
 from app import db
 from flask_login import UserMixin
+from sqlalchemy.sql.functions import now
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,10 +28,13 @@ class Scooter(db.Model):
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    pickup_date = db.Column(db.Date, nullable=False)
     duration = db.Column(db.Float, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    scooter_id = db.Column(db.Integer, db.ForeignKey('scooter.id'))
+
+    created_date_time = db.Column(db.DateTime(timezone=True), default=now())
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    scooter_id = db.Column(db.Integer, db.ForeignKey('scooter.id'), nullable=False)
 
     def __repr__(self):
         return f'<Booking #{self.id}>'
@@ -43,7 +47,7 @@ class Parking(db.Model):
     latitude = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
-        return f'<Parking #{self.id} {self.location}>'
+        return str(self.location)
 
 class Cost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,4 +55,4 @@ class Cost(db.Model):
     price = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
-        return f'<Cost #{self.id} t={self.duration} ${self.duration}>'
+        return str(self.duration)
