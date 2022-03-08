@@ -1,30 +1,35 @@
 
 from flask import render_template, url_for, flash, redirect, request, abort
-from flask_admin.contrib.sqla import ModelView
-from datetime import datetime
 from flask_login import login_user, current_user, login_required, logout_user
-from flask_bcrypt import Bcrypt
 from urllib.parse import urlparse, urljoin
 
-from app import app, db, admin, login_manager
+from app import app, db, login_manager, bcrypt
 from .models import *
 from .forms import *
+from .stripe_functions import *
 
+from datetime import datetime
 
-bcrypt = Bcrypt(app)
+# check if url in get request is safe
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
 
+def flash_errors(form):
+    """Flashes form errors"""
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label.text,
+                error
+            ), category='alert-danger')
 
 # this is for flask login
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
-
-
-# add models to admin page
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Scooter, db.session))
-admin.add_view(ModelView(Parking, db.session))
-admin.add_view(ModelView(Cost, db.session))
 
 
 @app.route('/')
@@ -36,7 +41,13 @@ def index():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    form = BookingForm()
+    if form.validate_on_submit():
+        pass
+    else:
+        flash_errors(form)
+
+    return render_template('dashboard.html', form=form)
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -53,6 +64,8 @@ def register():
         db.session.commit()
         flash(f'user {user.email} was created', category='alert-success')
         return redirect(url_for('login'))
+    else:
+        flash_errors(form)
 
     return render_template('register.html', title='register', form=form)
 
@@ -76,6 +89,8 @@ def login():
 
                 return redirect(next or url_for('dashboard'))
             flash('Log in failed.', category='alert-danger')
+    else:
+        flash_errors(form)
 
     return render_template('login.html', title='login', form=form)
 
@@ -88,9 +103,25 @@ def logout():
     return redirect(url_for('login'))
 
 
-# check if url in get request is safe
-def is_safe_url(target):
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and \
-           ref_url.netloc == test_url.netloc
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
+    checkout_session = stripe.checkout.Session.create(
+        line_items=[
+            {
+                # Provide price ID you would like to charge
+                'price': get_price_id(price),
+                'quantity': 1,
+            },
+        ],
+        mode='payment',
+        discounts=[{'coupon': discountID,}] if discountID else [],
+        success_url= 'success',
+        cancel_url= 'cancel',
+    )
+
+    if checkout_session.url == 'success':
+        flash('Payment failed', category='alert-danger')
+    else:
+        flash('Payment failed', category='alert-success')
+
+    return redirect(request.referrer, code=303)

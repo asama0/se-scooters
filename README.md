@@ -1,12 +1,5 @@
-1. pip3 install -r requirements.txt
+# Cards to test with (use any random CVC and any future date):
 
-2. python server.py
-
-3. Go to [http://localhost:4242/checkout.html]
-
-
-
-cards to test with (use any random CVC and any future date): 
 4242424242424242 Visa
 4000056655665556 Visa (debit)
 5555555555554444 Mastercard

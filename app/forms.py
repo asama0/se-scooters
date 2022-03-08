@@ -1,8 +1,40 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
-from wtforms.fields import DateField,TelField
+from wtforms.fields import DateField,TelField, TimeField
+from wtforms_sqlalchemy.fields import QuerySelectField
 
+from .models import Cost, Parking
+
+def hours_to_words(hours_arg):
+    hours = int(round(hours_arg))
+
+    words = ''
+    count = 0 # counts how many weeks or days or hours..
+
+    if hours < 24:
+        count = hours
+        words = f'{hours} hour'
+    elif hours < 168:
+        count = int(round(hours//24))
+        words = f'{count} day'
+    elif hours < 730.001:
+        count = int(round(hours//168))
+        words = f'{count} day'
+    elif hours < 8760.0024:
+        count = int(round(hours//730.001))
+        words = f'{count} month'
+    else:
+        count = int(round(hours//8760.0024))
+        words = f'{count} year'
+
+    return words + 's' if count == 1 else ''
+
+def get_time_periods():
+    return Cost.query.order_by('duration')
+
+def get_parkings():
+    return Parking.query.order_by('location')
 
 class registrationForm(FlaskForm):
     # string field to write username
@@ -71,3 +103,29 @@ class loginForm(FlaskForm):
                              ]
                              )
     submit = SubmitField('Login')
+
+
+class BookingForm(FlaskForm):
+    email = StringField(
+        validators=[
+            Email(message='Error, Enter a valid email'),
+            DataRequired()
+        ]
+    )
+
+    pickup_date = DateField(validators=[DataRequired()])
+
+    pickup_time = TimeField(validators=[DataRequired()])
+
+    time_period = QuerySelectField(
+        validators=[DataRequired()],
+        query_factory=get_time_periods
+    )
+
+    pickup_location = QuerySelectField(
+        validators=[DataRequired()],
+        query_factory=get_parkings
+    )
+
+    submit = SubmitField('submit')
+
