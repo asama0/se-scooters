@@ -1,6 +1,87 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="../static/index.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <!-- onload calls all integers -->
+    <body onload="InitializeMe()">
+<div class="SuperContainer2">
+<div class="SuperContainer">
 
-<p>Hello world!</p>
+        <!-- BUTTONS TO HIDE OR VICE VERSA -->
+    <button id="Full graph">Full Graph</button>
+    <button id="Week">Weekly graph</button>
+    <button id="Month">Monthly Graph</button>
+    <button id="Year">Yearly Graph</button>
+    <button id="Total">Total Graph</button>
 
-{% endblock %}
+</div>
+
+
+        <!-- Full -->
+        <div id="container" style="display: grid;">
+
+             <div class="item" id="position1">
+                    <canvas id = "canvas_plot1" > </canvas>
+                </div>
+
+                <div class="item" id="position2">
+                    <canvas id = "canvas_plot2" > </canvas>
+                </div>
+
+                 <div class="item" id="position3">
+                    <canvas id = "canvas_plot3" > </canvas>
+                </div>
+
+                <div class="item" id="position4">
+                    <canvas id = "canvas_plot4" > </canvas>
+            </div>
+
+        </div>
+
+     <!-- Part 1 -->
+            <div id="container2" style="display: none;">
+
+                <div class="item" id="position5">
+                    <canvas id = "canvas_plot5" width="300" height="300"> </canvas>
+                </div>
+
+            </div>
+
+    <!-- Part 2 -->
+            <div id="container3" style="display: none;">
+
+                <div class="item" id="position6">
+                    <canvas id = "canvas_plot6" width="300" height="300"> </canvas>
+                </div>
+
+            </div>
+
+    <!-- Part 3 -->
+            <div id="container4" style="display: none;">
+
+                <div class="item" id="position7">
+                    <canvas id = "canvas_plot7" width="300" height="300"> </canvas>
+                </div>
+
+            </div>
+
+    <!-- Part 4 -->
+            <div id="container5" style="display: none;">
+
+                <div class="item" id="position8">
+                    <canvas id = "canvas_plot8" width="300" height="300"> </canvas>
+                </div>
+
+            </div>
+
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/Income2.js"></script>
+    <script src="../static/index.js"></script>
+    </body>
+</html>

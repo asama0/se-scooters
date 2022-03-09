@@ -1,0 +1,25 @@
+.btn-styled {
+    font-size: 14px;
+    margin: 8px;
+    padding: 0 10px;
+    line-height: 2;
+}
+
+#showContent{
+    margin: 0px;
+    border-radius: 0 0 0 0;
+    height: 25px;
+    padding: 10% 10% 5% 10%;
+    display: inline-block;
+    border-color: white;
+}
+
+#hideContent{
+    margin-left: 0px;
+    border-radius: 0 10px 0 0;
+    height: 25px;
+    padding: 1px 10px 10px 10px;
+    display: inline-block;
+    border-color: white;
+}
+
