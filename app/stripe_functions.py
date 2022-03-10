@@ -10,10 +10,10 @@ prod_L7tv4Gbl7YQuKm
 
 prices:
 lookup key | ID
-1h         | price_1KS0sAAWMfIxY0DOOfJJlzag
-4h         | rice_1KS0sAAWMfIxY0DOXu2iK9M6
-1d         | price_1KS0sAAWMfIxY0DO2wKYA9OY
-1w         | price_1KS0sBAWMfIxY0DOyf4iumx9
+1 hour        | price_1Kbmu1AWMfIxY0DOLY8Cn4cA
+4 hours       | price_1Kbmu1AWMfIxY0DOuHJ5TQe7
+1 day         | price_1Kbmu2AWMfIxY0DOf9guYpvC
+1 week        | price_1Kbmu2AWMfIxY0DOSe2cEQpV
 
 discounts:
 returning
@@ -166,15 +166,15 @@ def checkout(app, domain, price, discountID):
 
 
 
-#create_a_price("prod_L7tv4Gbl7YQuKm", 10, "1h")
-#create_a_price("prod_L7tv4Gbl7YQuKm", 40, "4h")
-#create_a_price("prod_L7tv4Gbl7YQuKm", 80, "1d")
-#create_a_price("prod_L7tv4Gbl7YQuKm", 500, "1w")
+#create_a_price("prod_L7tv4Gbl7YQuKm", 10, "1 hour")
+#create_a_price("prod_L7tv4Gbl7YQuKm", 40, "4 hours")
+#create_a_price("prod_L7tv4Gbl7YQuKm", 80, "1 day")
+#create_a_price("prod_L7tv4Gbl7YQuKm", 500, "1 week")
 
-#print(str(get_price("1h")))
-#print(str(get_price("4h")))
-#print(str(get_price("1d")))
-#print(str(get_price("1w")))
+#print(str(get_price("1 hour")))
+#print(str(get_price("4 hours")))
+#print(str(get_price("1 day")))
+#print(str(get_price("1 week")))
 
 #print(str(get_price_id("1h")))
 
