@@ -16,16 +16,15 @@ class AdminHomeView(AdminIndexView):
 
         return self.render('admin/index.html', form=form)
 
-    def is_accessible(self):
-        if current_user.is_authenticated:
-            print('==================', current_user.name, current_user.privilege)
-            return current_user.privilege == 22 or current_user.privilege == 333
-        return False
+    # def is_accessible(self):
+    #     if current_user.is_authenticated:
+    #         return current_user.privilege == 22 or current_user.privilege == 333
+    #     return False
 
-    def inaccessible_callback(self, name, **kwargs):
-        # redirect to login page if user doesn't have access
-        flash('/admin is staff only.', category='message alert-danger')
-        return redirect(url_for('login'))
+    # def inaccessible_callback(self, name, **kwargs):
+    #     # redirect to login page if user doesn't have access
+    #     flash('/admin is staff only.', category='message alert-danger')
+    #     return redirect(url_for('login'))
 
 # admin pages setup
 admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
@@ -34,4 +33,4 @@ admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Scooter, db.session))
 admin.add_view(ModelView(Parking, db.session))
-admin.add_view(ModelView(Cost, db.session))
+admin.add_view(ModelView(Price, db.session))

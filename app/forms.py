@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 from wtforms.fields import DateField,TelField, TimeField
 from wtforms_sqlalchemy.fields import QuerySelectField
 
-from .models import Cost, Parking
+from .models import Price, Parking
 
 def hours_to_words(hours_arg):
     hours = int(round(hours_arg))
@@ -31,10 +31,10 @@ def hours_to_words(hours_arg):
     return words + 's' if count == 1 else ''
 
 def get_time_periods():
-    return Cost.query.order_by('duration')
+    return Price.query.order_by('duration')
 
 def get_parkings():
-    return Parking.query.order_by('location')
+    return Parking.query.filter(Parking.scooters.any()).order_by('location')
 
 class registrationForm(FlaskForm):
     # string field to write username
@@ -106,12 +106,6 @@ class loginForm(FlaskForm):
 
 
 class BookingForm(FlaskForm):
-    email = StringField(
-        validators=[
-            Email(message='Error, Enter a valid email'),
-            DataRequired()
-        ]
-    )
 
     pickup_date = DateField(validators=[DataRequired()])
 
