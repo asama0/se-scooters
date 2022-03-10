@@ -56,8 +56,6 @@ def dashboard():
         pickup_date = datetime.combine(booking_form.pickup_date.data, booking_form.pickup_time.data)
         scooter_chosen = Scooter.query.filter((Scooter.availability==True)&\
         (Scooter.parking_id==booking_form.pickup_location.data.id)).first()
-        print(f'{scooter_chosen = }')
-        print(f'{booking_form.pickup_location.data.id = }')
         price_used = booking_form.time_period.data
 
         new_booking = Booking(
