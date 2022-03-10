@@ -1,14 +1,17 @@
 
+from crypt import methods
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, login_required, logout_user
 from urllib.parse import urlparse, urljoin
+from sqlalchemy import and_
+from datetime import datetime
 
 from app import app, db, login_manager, bcrypt
 from .models import *
 from .forms import *
-from .stripe_functions import *
+from stripe_functions import *
 
-from datetime import datetime
+booking_form:BookingForm
 
 # check if url in get request is safe
 def is_safe_url(target):
@@ -38,12 +41,44 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    global booking_form
+    checkout_status = request.args.get('checkout_status')
+
+    if checkout_status == 'canceled':
+        flash('Payment session was canceled.')
+    elif checkout_status == 'success':
+        if not booking_form:
+            flash('Booking form was not submitted.')
+
+        pickup_date = datetime.combine(booking_form.pickup_date.data, booking_form.pickup_time.data)
+        scooter_chosen = Scooter.query.filter((Scooter.availability==True)&\
+        (Scooter.parking_id==booking_form.pickup_location.data.id)).first()
+        print(f'{scooter_chosen = }')
+        print(f'{booking_form.pickup_location.data.id = }')
+        price_used = booking_form.time_period.data
+
+        new_booking = Booking(
+            pickup_date= pickup_date,
+            user_id = current_user.id,
+            scooter_id = scooter_chosen.id,
+            price_id = price_used.id
+        )
+
+        db.session.add(new_booking)
+        db.session.commit()
+        scooter_chosen.parking_id = None
+        scooter_chosen.availability = False
+        booking_form = None # form data won't be used any more
+        flash('Booking was saved successfuly.')
+
+
     form = BookingForm()
     if form.validate_on_submit():
-        pass
+        booking_form = form
+        return redirect(url_for('checkout', _method='POST'), code=307)
     else:
         flash_errors(form)
 
@@ -103,25 +138,24 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/create-checkout-session', methods=['POST'])
-def create_checkout_session():
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    global booking_form
+    price_api_id = booking_form.time_period.data.api_id
+    discount_id = None  #TODO
+
     checkout_session = stripe.checkout.Session.create(
         line_items=[
             {
                 # Provide price ID you would like to charge
-                'price': get_price_id(price),
+                'price': price_api_id,
                 'quantity': 1,
             },
         ],
         mode='payment',
-        discounts=[{'coupon': discountID,}] if discountID else [],
-        success_url= 'success',
-        cancel_url= 'cancel',
+        discounts=[{'coupon': discount_id}] if discount_id else [],
+        success_url= url_for('dashboard', _external=True, checkout_status='success'),
+        cancel_url= url_for('dashboard', _external=True, checkout_status='canceled'),
     )
 
-    if checkout_session.url == 'success':
-        flash('Payment failed', category='alert-danger')
-    else:
-        flash('Payment failed', category='alert-success')
-
-    return redirect(request.referrer, code=303)
+    return redirect(checkout_session.url)

@@ -4,11 +4,8 @@
 <div class="card bg-light mb-3 mx-auto" style="max-width: 18rem;">
   <h5 class="card-header">Make a booking</h5>
   <div class="card-body">
-    <form method="post">
-      <div class="form-group">
-        <label for="email">Email address:</label>
-        {{ form.email(class_="form-control", placeholder = "Email", **{'aria-describedby':"emailHelp"} ) }}
-      </div>
+    <form method="POST">
+      {{ form.hidden_tag() }}
 
       <div class="form-group">
         <label for="pickup_date">Date:</label>
