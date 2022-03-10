@@ -1,9 +1,7 @@
 
-from crypt import methods
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, login_required, logout_user
 from urllib.parse import urlparse, urljoin
-from sqlalchemy import and_
 from datetime import datetime
 
 from app import app, db, login_manager, bcrypt
