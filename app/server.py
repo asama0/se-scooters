@@ -1,6 +1,6 @@
 import os
 from flask import Flask, redirect
-import stripeFunctions as SF
+import stripe_functions as SF
 import stripe
 
 

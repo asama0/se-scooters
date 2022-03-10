@@ -1,5 +1,4 @@
 import stripe
-from flask import redirect
 stripe.api_key = "sk_test_51KRcJeAWMfIxY0DOsedfn3ItYh6VF1h7yq7lWt3EoGCOCmvCUOgHRbglgaHr5izKL6LS1zSUnMOOYuoB7IjBgT6H00xY6mZPuL"
 # DO *NOT* SHARE THE API KEY
 
@@ -41,9 +40,6 @@ returns the price id using priceLookUpKey (the price lookup key)
 
 get_discount(id)
 returns the percentage off, amount off, and the number of times this discount have been used
-
-checkout(app, domain, price, discountID)
-creates a checkout session with app: current app, domain: the current domain, price: price lookup, discountID: discount id or None, returns True if successful
 """
 
 
@@ -113,54 +109,6 @@ def get_discount(id):
 
     return [percentage, amount, used]
 
-
-
-# creates a checkout session with app: current app, domain: the current domain, price: price lookup, discountID: discount id or None, returns True if successful
-def checkout(app, domain, price, discountID):
-
-    # ???: I THINK THIS PART NEEDS TO BE IN SERVER.PY AND GETS PRICE, discountID
-    # ???: FROM AN HTML FROM. TRY ADDING A BOOKING FROM A FORM.
-    # creates a checkout session
-    @app.route('/create-checkout-session', methods=['POST'])
-    def create_checkout_session():
-        try:
-
-            # applies the discount if discountID is not None
-            if discountID:
-                checkout_session = stripe.checkout.Session.create(
-                    line_items=[
-                        {
-                            # Provide price ID you would like to charge
-                            'price': get_price_id(price),
-                            'quantity': 1,
-                        },
-                    ],
-                    mode='payment',
-                    discounts=[{'coupon': discountID,}],
-                    success_url=domain + '/success.html',
-                    cancel_url=domain + '/cancel.html',
-                )
-            # proceeds without a discount if discountID is None
-            else:
-                checkout_session = stripe.checkout.Session.create(
-                    line_items=[
-                        {
-                            # Provide price ID you would like to charge
-                            'price': get_price_id(price),
-                            'quantity': 1,
-                        },
-                    ],
-                    mode='payment',
-                    success_url=domain + '/success.html',
-                    cancel_url=domain + '/cancel.html',
-                )
-
-        except Exception as e:
-            return str(e)
-
-        return redirect(checkout_session.url, code=303)
-
-    return False
 
 
 
