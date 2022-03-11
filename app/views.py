@@ -38,6 +38,18 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+#the reset password email sender 
+#the meesage body will change 
+#email is visable for now, must be hidden for security reasons 
+def reset_email(user):
+    token = user.get_reset_token()
+    message = Message('Password Reset Request',
+                   sender='salimbader734@gmail.com',
+                   recipients=[user.email])
+    message.body = f''' visit the following link to reset your password:
+{url_for('reset_token', token=token, _external=True)}
+'''
+    mail.send( message)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -155,3 +167,40 @@ def checkout():
     )
 
     return redirect(checkout_session.url)
+    
+#here user requist password reset by submmiting email account
+#email must be registerd
+#need to add some error messages
+#link expires after 1000s 
+@app.route("/forgot_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    form = forgotPasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        reset_email(user)
+        return redirect(url_for('login'))
+    return render_template('forgotPassword.html', title='Forgot Password', form=form)
+
+
+#here user will write the new paassword after clicking on the link recieved in the email
+@app.route("/forgot_password/<token>", methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        return redirect(url_for('forgotPassword'))
+    form = resetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('resetPassword.html', title='Reset Password', form=form)
+
+
+
+    
+ 

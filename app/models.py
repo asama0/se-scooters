@@ -3,6 +3,23 @@ from app import db
 from flask_login import UserMixin
 from sqlalchemy.sql.functions import now
 
+
+
+
+    #for password reset 
+    def get_reset_token(self, expires_sec=1000):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
+        
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)

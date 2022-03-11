@@ -123,3 +123,40 @@ class BookingForm(FlaskForm):
 
     submit = SubmitField('submit')
 
+    class forgotPasswordForm(FlaskForm):
+    email = StringField('Email',
+                        validators=[
+                            Email()
+                            ,
+                            DataRequired()
+                        ]
+                        )    
+    submit = SubmitField('send email')
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('no account found .')
+
+class resetPasswordForm(FlaskForm):
+    password = PasswordField('Password',
+                            validators=[
+                                Length(
+                                    min=8, max=25, message='Error, password must be between 8-25 charecter '),
+                                DataRequired()
+                            ]
+                            )
+    # password field to re-write user password
+    # error message provided
+    password2 = PasswordField('Confirm Password',
+                            validators=[
+                                EqualTo(
+                                    'password', message='passwords does not match'),
+                                DataRequired()
+                            ]
+                            )
+    submit = SubmitField('change password')
+
+
+
+
+
