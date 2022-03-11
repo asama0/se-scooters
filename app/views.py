@@ -3,7 +3,7 @@ from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, login_required, logout_user
 from urllib.parse import urlparse, urljoin
 from datetime import datetime
-
+from flask_mail import Message
 from app import app, db, login_manager, bcrypt
 from .models import *
 from .forms import *

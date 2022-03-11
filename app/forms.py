@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from wtforms.fields import DateField,TelField, TimeField
 from wtforms_sqlalchemy.fields import QuerySelectField
+from .models import *
 
 from .models import Price, Parking
 
@@ -123,14 +124,14 @@ class BookingForm(FlaskForm):
 
     submit = SubmitField('submit')
 
-    class forgotPasswordForm(FlaskForm):
+class forgotPasswordForm(FlaskForm):
     email = StringField('Email',
-                        validators=[
-                            Email()
-                            ,
-                            DataRequired()
-                        ]
-                        )    
+                    validators=[
+                        Email()
+                        ,
+                         DataRequired()
+                    ]
+                     )    
     submit = SubmitField('send email')
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
