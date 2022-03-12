@@ -150,6 +150,9 @@ def get_analitics(period, period_key):
             year.append(sum_of_period)
 
 
+week.insert(1, 111)
+month.insert(2, 30)
+
 # gets data from database and sorts it to different lists
 # which are used in the graphs
 # one week graph

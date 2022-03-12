@@ -7,21 +7,21 @@ var total_array = []
 function InitializeMe(){
     $.post("/week_request", function (data){
         week_array = data.slice();
-        updateTheGraphs(barchar, labels2, week_array);
+        updateTheGraphs(barchar, weekl, week_array);
     })
 
      $.post("/month_request", function (data){
-        week_array = data.slice();
-        updateTheGraphs(barchar, labels2, month_array);
+        month_array = data.slice();
+        updateTheGraphs(barchar2, month_lable, month_array);
     })
 
      $.post("/year_request", function (data){
-        week_array = data.slice();
+        year_array = data.slice();
         updateTheGraphs(barchar, labels2, year_array);
     })
 
      $.post("/total_request", function (data){
-        week_array = data.slice();
+        total_array = data.slice();
         updateTheGraphs(barchar, labels2, total_array);
     })
 }
@@ -43,14 +43,13 @@ function updateTheGraphs(chart, label, arr) {
 
 
 
-const labels2 = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+const weekl = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
 
-var data2 = {
-  labels: labels2,
+var data_week = {
+  labels: weekl,
         datasets: [{
             label: '# of Votes',
             data: [],
-            // data: [12, 19, 3, 5, 2, 3],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -71,9 +70,40 @@ var data2 = {
         }]
 };
 
+
+
+const month_lable = ['1', '2', '3', '4', '5', '6']
+
+var data_month = {
+  labels: month_lable,
+        datasets: [{
+            label: 'Second',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+};
+
+
+
 var config2 = {
   type: 'bar',
-  data: data2,
+  data: data_week,
   options: {
         scales: {
             y: {
@@ -81,8 +111,42 @@ var config2 = {
             }
         }
     }
-
 };
+
+
+var monthl = {
+  type: 'bar',
+  data: data_month,
+  options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //for  different layers dublicated
 var barchar = new Chart(
     document.getElementById('canvas_plot1'),
@@ -91,7 +155,7 @@ var barchar = new Chart(
 //for  different layers dublicated
 const barchar2 = new Chart(
     document.getElementById('canvas_plot2'),
-    config2
+    monthl
 )
 
 //for  different layers dublicated
@@ -151,14 +215,14 @@ const barchar5 = new Chart(
       label: 'Lololop',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45],
+      data: [],
     },
-        {
-            label: 'Something',
-          backgroundColor: 'rgb(100, 99, 132)',
-          borderColor: 'rgb(100, 99, 132)',
-          data: [0, 30, 5, 33, 20, 30, 45],
-        }
+        // {
+        //     label: 'Something',
+        //   backgroundColor: 'rgb(100, 99, 132)',
+        //   borderColor: 'rgb(100, 99, 132)',
+        //   data: [0, 30, 5, 33, 20, 30, 45],
+        // }
     ]
   };
 
