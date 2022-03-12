@@ -1,14 +1,35 @@
-var arrayy = []
-
+var week_array = []
+var month_array = []
+var year_array = []
+var total_array = []
 
 //sets array and gets data from flask
 function InitializeMe(){
-    $.post("/request3", function (data){
-        arrayy = data.slice();
-        // document.getElementById("popa").innerText = arrayy[2]
-        updateTheGraphs(barchar, labels2, arrayy);
+    $.post("/week_request", function (data){
+        week_array = data.slice();
+        updateTheGraphs(barchar, labels2, week_array);
+    })
+
+     $.post("/month_request", function (data){
+        week_array = data.slice();
+        updateTheGraphs(barchar, labels2, month_array);
+    })
+
+     $.post("/year_request", function (data){
+        week_array = data.slice();
+        updateTheGraphs(barchar, labels2, year_array);
+    })
+
+     $.post("/total_request", function (data){
+        week_array = data.slice();
+        updateTheGraphs(barchar, labels2, total_array);
     })
 }
+
+
+
+
+
 
 
 function updateTheGraphs(chart, label, arr) {

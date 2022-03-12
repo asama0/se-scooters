@@ -161,10 +161,24 @@ get_data_list_days(1, 1, "total")
 
 
 # sending array to javascript
-@app.route('/request3', methods=['POST'])
-def post_request_data3():
-    global p
+@app.route('/week_request', methods=['POST'])
+def post_week_request():
     # return a list of integers
     return jsonify(week)
+
+@app.route('/month_request', methods=['POST'])
+def post_month_request():
+    # return a list of integers
+    return jsonify(month)
+
+@app.route('/year_request', methods=['POST'])
+def post_year_request():
+    # return a list of integers
+    return jsonify(year)
+
+@app.route('/total_request', methods=['POST'])
+def post_total_request():
+    # return a list of integers
+    return jsonify(max_period)
 
 
