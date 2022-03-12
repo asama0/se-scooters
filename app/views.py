@@ -150,11 +150,13 @@ def get_analitics(period, period_key):
             year.append(sum_of_period)
 
 
-# one week
+# gets data from database and sorts it to different lists
+# which are used in the graphs
+# one week graph
 get_analitics(7, "week")
-# one month
+# one month graph
 get_analitics(30, "month")
-# one year
+# one year graph
 get_analitics(12, "year")
 # general dynamic graph
 get_data_list_days(1, 1, "total")
@@ -166,15 +168,18 @@ def post_week_request():
     # return a list of integers
     return jsonify(week)
 
+
 @app.route('/month_request', methods=['POST'])
 def post_month_request():
     # return a list of integers
     return jsonify(month)
 
+
 @app.route('/year_request', methods=['POST'])
 def post_year_request():
     # return a list of integers
     return jsonify(year)
+
 
 @app.route('/total_request', methods=['POST'])
 def post_total_request():
