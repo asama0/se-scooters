@@ -1,4 +1,4 @@
-
+import numpy as np
 from flask import render_template, jsonify
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime, timedelta
@@ -18,26 +18,23 @@ admin.add_view(ModelView(Parking, db.session))
 admin.add_view(ModelView(Cost, db.session))
 
 
-
-
-
 @app.route('/')
 def index():
-
     return render_template('index.html')
+
 
 def query_booking_by_date(start_date, end_date):
     # querying bookings from database
-    result_query = Booking.query\
-        .filter(and_(Booking.date >= start_date, Booking.date <= end_date))\
-        .order_by(Booking.date)\
+    result_query = Booking.query \
+        .filter(and_(Booking.date >= start_date, Booking.date <= end_date)) \
+        .order_by(Booking.date) \
         .all()
 
     # change every booking to a dictionary
     result_dict = [
-        { 'date': str(booking.date),
-        'amount': booking.amount,
-        'duration': booking.duration }
+        {'date': str(booking.date),
+         'amount': booking.amount,
+         'duration': booking.duration}
         for booking in result_query
     ]
 
@@ -67,106 +64,107 @@ def query_booking_by_date(start_date, end_date):
 # pprint(query_booking_by_date(datetime(2015, 1, 1), datetime(2015, 12, 31)))
 
 
-
-
-
-
 # qu = query_booking_by_date(datetime(2000, 1, 1), datetime(2015, 12, 31))
 # print(qu[0]["amount"])
 # print(qu)
 
 
-
-
-#---------------------------------------------------------#
+# ---------------------------------------------------------#
 
 start_year = int(datetime.today().strftime('%Y'))
 start_month = int((datetime.today().strftime('%m')))
 start_day = int((datetime.today().strftime('%d')))
 
 
+def get_full_data():
+    resssult = Booking.query.filter(and_(Booking.id >= 1, Booking.date <= datetime(start_year, start_month, start_day)))
+
+    # change every booking to a dictionary
+    result_dict = [
+        {'date': str(booking.date),
+         'amount': booking.amount,
+         'duration': booking.duration}
+        for booking in resssult
+    ]
+
+    return result_dict
 
 
+week = []
+month = []
+year = []
+max_period = []
+sum = 0
 
-
-## WEEK
-day_1, day_2, day_3, day_4, day_5, day_6, day_7 = 0, 0, 0, 0, 0, 0, 0
-sum=0
 
 # pass days between to store sumes in the list , ex  January to February and so on
-def get_data_list_days(period_list_start, period_list_end):
+def get_data_list_days(period_list_start, period_list_end, period_key):
+    if period_key == "week":
+        period = query_booking_by_date(
+            (datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(
+                days=period_list_start)),
+            datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(days=period_list_end))
+    elif period_key == "month":
+        period = query_booking_by_date(
+            (datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(
+                days=period_list_start)),
+            datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(days=period_list_end))
+    elif period_key == "year":
+        period = query_booking_by_date(
+            (datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(
+                months=period_list_start)),
+            datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(months=period_list_end))
+    elif period_key == "total":
+        period = np.array_split(get_full_data(), 20)
 
-    period = query_booking_by_date(
-        (datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(days=period_list_start)),
-        datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(days=period_list_end))
     # sum for lenth
     global sum
     sum = 0
 
-    for i in period:
-        sum = sum + i.get("amount")
+    if period_key == "total":
+        for i in period:
+            sum = 0
+            for j in i:
+                sum = sum + j.get("amount")
+            max_period.append(sum)
+    else:
+        for i in period:
+            sum = sum + i.get("amount")
+        return sum
 
 
+def get_analitics(period, period_key):
+    sum_of_period = 0
+
+    for i in range(period):
+        sum_of_period = 0
+
+        if period_key == "week":
+            sum_of_period = get_data_list_days(i + 1, i, period_key)
+            week.append(sum_of_period)
+        elif period_key == "month":
+            sum_of_period = get_data_list_days(i + 1, i, period_key)
+            month.append(sum_of_period)
+        elif period_key == "year":
+            sum_of_period = get_data_list_days(i + 1, i, period_key)
+            year.append(sum_of_period)
 
 
-get_data_list_days(10000, 9500)
-day_1, day_2, day_3 = sum, sum, 50
+# one week
+get_analitics(7, "week")
+# one month
+get_analitics(30, "month")
+# one year
+get_analitics(12, "year")
+# general dynamic graph
+get_data_list_days(1, 1, "total")
 
-print(day_1)
-print(day_2)
-print(day_3)
-print(day_4)
-
-
-
-# p = [50.33, 10.22222222, 4, 4, 19, 4, 14, 99]
-week = [day_1, day_2, day_3, day_4, day_5, day_6, day_7]
 
 # sending array to javascript
 @app.route('/request3', methods=['POST'])
 def post_request_data3():
     global p
-    #return a list of integers
+    # return a list of integers
     return jsonify(week)
-
-
-
-
-
-# for weekly graph
-weekly_day_1 = query_booking_by_date((datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(days=7)),
-                           datetime(start_year, start_month, start_day))
-
-
-
-# for monthly graph
-monthly = query_booking_by_date((datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(months=7)),
-                           datetime(start_year, start_month, start_day))
-
-#for yearly graph
-yearly = query_booking_by_date((datetime(start_year, start_month, start_day) - dateutil.relativedelta.relativedelta(years=7)),
-                           datetime(start_year, start_month, start_day))
-
-
-
-
-
-
-
-
-
-
-
-# print(datetime.today() - dateutil.relativedelta.relativedelta(months= 10))
-#print(start_year, start_month, start_day)
-
-#
-# ssstart = str(datetime.today())
-# print(ssstart.replace("-", ","))
-# print(datetime.today() - timedelta(6))
-
-
-
-
 
 
