@@ -3,6 +3,7 @@ from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, login_required, logout_user
 from urllib.parse import urlparse, urljoin
 from datetime import datetime
+import stripe
 
 from app import app, db, login_manager, bcrypt
 from .models import *
@@ -89,8 +90,10 @@ def register():
     form = registrationForm()
     if form.validate_on_submit():
         hashedPassword = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_stripe_id = stripe.Customer.create()['id']
         user = User(name=form.name.data, email=form.email.data,
-                    password=hashedPassword, birth_date=form.birth_date.data, phone=form.phone.data)
+                    password=hashedPassword, birth_date=form.birth_date.data,
+                    phone=form.phone.data, stripe_id=new_stripe_id)
         db.session.add(user)
         db.session.commit()
         flash(f'user {user.email} was created', category='alert-success')
@@ -152,6 +155,7 @@ def checkout():
         discounts=[{'coupon': discount_id}] if discount_id else [],
         success_url= url_for('dashboard', _external=True, checkout_status='success'),
         cancel_url= url_for('dashboard', _external=True, checkout_status='canceled'),
+        customer = current_user.stripe_id,
     )
 
     return redirect(checkout_session.url)
