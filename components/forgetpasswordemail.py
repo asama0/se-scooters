@@ -9,8 +9,8 @@ DOMAIM_NAME = 'google.com'
 
 bodies = {
     'forgetpassword': {
-        'filename': 'imported-from-beefreeio.html',
-        'images': {
+            'filename': 'imported-from-beefreeio.html',
+            'images': {
             'images/DKcubedLogo.png': make_msgid(domain=DOMAIM_NAME), 
             'images/animated_header.gif': make_msgid(domain=DOMAIM_NAME), 
             'images/body_background_2.png': make_msgid(domain=DOMAIM_NAME),
