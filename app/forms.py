@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
 from wtforms.fields import DateField,TelField, TimeField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from .models import *
@@ -39,11 +39,8 @@ def get_parkings():
 
 class registrationForm(FlaskForm):
     # string field to write username
-    # no limitations yet
     name = StringField('Name', validators=[DataRequired()])
     # string field to write email
-    # validator used from wtforms.validators is  Email
-    # error message provided
     email = StringField('Email',
                         validators=[
                             Email(message='Error, Enter a valid email'),
@@ -51,8 +48,8 @@ class registrationForm(FlaskForm):
                         ]
                         )
     # password field to write user password
-    # limitations: length, min=8,max=25
-    # error message provided
+    # length, min=8,max=25
+    
     password = PasswordField('Password',
                              validators=[
                                  Length(
@@ -60,8 +57,8 @@ class registrationForm(FlaskForm):
                                  DataRequired()
                              ]
                              )
-    # password field to re-write user password
-    # error message provided
+    # password field to re-write user password for confirmation 
+   
     password2 = PasswordField('Confirm Password',
                               validators=[
                                   EqualTo(
@@ -80,9 +77,7 @@ class registrationForm(FlaskForm):
                                 DataRequired()
                             ]
                             )
-    # user phone number and user birth-date to be added in registrationForm class
-    # limitation should be disscussed
-    # changes to the error messages needed
+    
     # submit field to submit user info
     submit = SubmitField('register')
 
@@ -147,7 +142,6 @@ class resetPasswordForm(FlaskForm):
                             ]
                             )
     # password field to re-write user password
-    # error message provided
     password2 = PasswordField('Confirm Password',
                             validators=[
                                 EqualTo(

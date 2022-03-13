@@ -4,7 +4,7 @@ from flask_login import login_user, current_user, login_required, logout_user
 from urllib.parse import urlparse, urljoin
 from datetime import datetime
 from flask_mail import Message
-from app import app, db, login_manager, bcrypt
+from app import app, db, login_manager, bcrypt,mail
 from .models import *
 from .forms import *
 from stripe_functions import *
@@ -39,7 +39,6 @@ def index():
     return render_template('index.html')
 
 #the reset password email sender 
-#the meesage body will change 
 #email is visable for now, must be hidden for security reasons 
 def reset_email(user):
     token = user.get_reset_token()
@@ -168,10 +167,7 @@ def checkout():
 
     return redirect(checkout_session.url)
     
-#here user requist password reset by submmiting email account
-#email must be registerd
-#need to add some error messages
-#link expires after 1000s 
+#here user requist password reset by submmiting email account, email must be registerd
 @app.route("/forgot_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:

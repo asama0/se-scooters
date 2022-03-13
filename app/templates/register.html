@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form method="POST" action="">
+<!-- <form method="POST" action="">
       {{ form.hidden_tag() }}
       {{ form.name( placeholder = "Name") }}
       {{ form.email( placeholder = "Email") }}
@@ -10,6 +10,51 @@
       {{ form.birth_date( placeholder = "Date of Birth") }}
       {{ form.phone( placeholder = "Phone Number") }}
       {{ form.submit() }}
-</form>
+</form> -->
+<div class="card bg-light mb-3 mx-auto" style="max-width: 18rem;">
+      <h5 class="card-header">sign up</h5>
+      <div class="card-body">
+          <form method="POST" action="">
+              {{ form.hidden_tag() }}
+              <div class="form-group">
+                  <label for="name">Name:</label>
+                  {{ form.name(class_="form-control") }}
+              </div>
+
+              <div class="form-group">
+                  <label for="email">Email:</label>
+                  {{ form.email(class_="form-control") }}
+              </div>
+  
+              <div class="form-group">
+                  <label for="password">Password:</label>
+                  {{ form.password(class_="form-control") }}
+              </div>
+
+              <div class="form-group">
+                  <label for="password2">Confirm Password:</label>
+                  {{ form.password2(class_="form-control") }}
+              </div>
+
+              <div class="form-group">
+                  <label for="birth_date">Birth Date:</label>
+                  {{ form.birth_date(class_="form-control") }}
+              </div>
+
+              <div class="form-group">
+                  <label for="phone">Phone Number:</label>
+                  {{ form.phone(class_="form-control") }}
+              </div>
+
+              
+
+  
+              <div class="form-group">
+                  {{ form.submit(class_="btn btn-primary") }}
+              </div>
+          </form>
+      </div>
+  </div>
+
 
 {% endblock %}
