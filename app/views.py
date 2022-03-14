@@ -1,4 +1,3 @@
-
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, login_required, logout_user
 from urllib.parse import urlparse, urljoin
@@ -39,6 +38,13 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+@app.route('/home')
+def home():
+    return render_template('home_page.html')
+
+@app.route('/home-admin')
+def home_admin():
+    return render_template('home_admin.html')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
