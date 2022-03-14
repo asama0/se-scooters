@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+
+    display: grid;
+
+    /*min-height: 100vh;*/
+}
+
+
+#canvas_plot5 {
+    min-width: 600px;
+    min-height: 600px;
+}
+
+#canvas_plot6 {
+    min-width: 600px;
+    min-height: 600px;
+}
+
+#canvas_plot7 {
+    min-width: 600px;
+    min-height: 600px;
+}
+
+#canvas_plot8 {
+    min-width: 600px;
+    min-height: 600px;
+}
+
+#canvas_plot {
+    margin: auto;
+    background-color: wheat;
+}
+
+
+#canvas_plot2 {
+    margin: auto;
+    background-color: cadetblue;
+}
+
+
+#container{
+    margin: 5% auto 5%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 3%;
+    grid-row-gap: 3%;
+    display: grid;
+
+
+}
+
+
+#container2{
+    margin: 5% auto 5%;
+
+    display: inline-block;
+}
+
+
+#container3{
+    margin: 5% auto 5%;
+
+    display: inline-block;
+}
+
+#container4{
+    margin: 5% auto 5%;
+
+    display: inline-block;
+}
+
+#container5{
+    margin: 5% auto 5%;
+
+    display: inline-block;
+}
+
+.item{
+    padding: 10px;
+    border: 2px solid black;
+}
+
+
+.SuperContainer {
+
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: 50px 50px;
+}
+
+.SuperContainer2 {
+
+    display: grid;
+    grid-row-gap: 3%;
+    grid-template-rows: 50px 50px;
+}
