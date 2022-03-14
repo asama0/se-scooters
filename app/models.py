@@ -2,10 +2,10 @@ from email.policy import default
 from app import db,app
 from flask_login import UserMixin
 from sqlalchemy.sql.functions import now
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import jwt
+from time import time
 
 
-   
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     stripe_id = db.Column(db.String(64), nullable=False)
@@ -21,20 +21,22 @@ class User(db.Model,UserMixin):
 
     def __repr__(self):
         return f'<User #{self.id} {self.name}>'
-    #for password reset 
-    def get_reset_token(self, expires_sec=1000):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    #for password reset
+    def get_reset_token(self, expires=1000):
+        return jwt.encode({'reset_password': self.username, 'exp': time() + expires},
+                           key=app.config['SECRET_KEY'])
 
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
         try:
-            user_id = s.loads(token)['user_id']
-        except:
-            return None
-        return User.query.get(user_id)
-        
+            username = jwt.decode(token, key=app.config['SECRET_KEY'])['reset_password']
+            print('Verifed toker for:',username)
+        except Exception as e:
+            print(e)
+            return
+        return User.query.filter_by(username=username).first()
+
 class Scooter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     availability = db.Column(db.Boolean, default=True, nullable=False)
