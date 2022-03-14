@@ -207,13 +207,11 @@ def post_total_request():
     get_data_list_days(1, 1, "total")
     return jsonify(max_period)
 
-@app.route('/home')
-def home():
-    return render_template('home_page.html')
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
 
-@app.route('/home-admin')
-def home_admin():
-    return render_template('home_admin.html')
+
 # the reset password email sender
 # email is visable for now, must be hidden for security reasons
 def reset_email(user):
