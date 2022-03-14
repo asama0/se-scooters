@@ -41,6 +41,9 @@ returns the price from its lookup key
 get_price_id(priceLookupKey)
 returns the price id using priceLookUpKey (the price lookup key)
 
+get_price_info(priceLookupKey)
+returns the price id and amount using priceLookUpKey (the price lookup key)
+
 get_discount(id)
 returns the percentage off, amount off, and the number of times this discount have been used
 
@@ -87,6 +90,11 @@ def get_price(lookUpKey):
 # returns the price id using priceLookUpKey (the price lookup key)
 def get_price_id(priceLookupKey):
     return stripe.Price.list(lookup_keys=[priceLookupKey]).get("data")[0].get("id")
+
+
+# returns the price id and amount using priceLookUpKey (the price lookup key)
+def get_price_info(priceLookupKey):
+    return stripe.Price.list(lookup_keys=[priceLookupKey]).get("data")[0].get("id"), (float(stripe.Price.list(lookup_keys=[priceLookupKey]).get("data")[0].get("unit_amount"))/100)
 
 
 # returns the percentage off, amount off, and the number of times this discount have been used
