@@ -26,7 +26,7 @@ popupAnchor: [-3, -76],
 //adding parkings
 
 //trinity parking
-var park_a = { name : "trinity", loc : {lat: 53.7965, lng: -1.5425}, 
+var park_a = { name : "Trinity Shopping Centre", loc : {lat: 53.7965, lng: -1.5425}, 
 availability: "Available",
 scooters : "100-103" };
 
@@ -57,15 +57,37 @@ availability: "Available", scooters:"206-209"};
 
 
 //adding markers for parkings
-var marker0 = L.marker([park_a.loc.lat, park_a.loc.lng], {icon: myIcon}).addTo(map);
-var marker1 = L.marker([park_b.loc.lat, park_b.loc.lng], {icon: myIcon}).addTo(map);
-var marker2 = L.marker([park_c.loc.lat, park_c.loc.lng], {icon: myIcon}).addTo(map);
-var marker3 = L.marker([park_d.loc.lat, park_d.loc.lng], {icon: myIcon}).addTo(map);
-var marker4 = L.marker([park_e.loc.lat, park_e.loc.lng], {icon: myIcon}).addTo(map);
+// var marker0 = L.marker([park_a.loc.lat, park_a.loc.lng], {icon: myIcon}).addTo(map);
+// var marker1 = L.marker([park_b.loc.lat, park_b.loc.lng], {icon: myIcon}).addTo(map);
+// var marker2 = L.marker([park_c.loc.lat, park_c.loc.lng], {icon: myIcon}).addTo(map);
+// var marker3 = L.marker([park_d.loc.lat, park_d.loc.lng], {icon: myIcon}).addTo(map);
+// var marker4 = L.marker([park_e.loc.lat, park_e.loc.lng], {icon: myIcon}).addTo(map);
 
-const str = "some text";
 
-const form0 = "<form action=\"#\" method=\"get\"> " +
+// const form0 = "Parking: " + park_a.name +
+//             "<br></br>"+  
+//             "<form action=\"#\" method=\"get\"> " +
+//             "<label for=\"date\">Date:</label><input type=\"date\" "+
+//             " id=\"time\" name=\"time\"><br><br><label for=\"time\"> " +
+//             " Time:</label><input type=\"time\" id=\"time\" name=\" time\"> " +
+//             "<br></br>"+   
+//             " <label for=\"duration\">Duration:</label> " +       
+//             "<select name = \"select\" id = \'#'>" +
+//             "<option value \"1\"> 1 hour</option>>" +
+//             "<option value \"2\"> 24 hours</option>>" +
+//             "<option value \"3\"> 1 week</option>>" +
+//             "</select>" +
+//             "<br><br>" +
+//             "<input type=\"submit\" value=\"Book\">" +
+//             "</form>";
+
+function dynamic_form(park){
+
+    var marker101 = L.marker([park.loc.lat, park.loc.lng], {icon: myIcon}).addTo(map);
+
+    var dynamic_form101 = "Parking: " + park.name +
+            "<br></br>"+  
+            "<form action=\"#\" method=\"get\"> " +
             "<label for=\"date\">Date:</label><input type=\"date\" "+
             " id=\"time\" name=\"time\"><br><br><label for=\"time\"> " +
             " Time:</label><input type=\"time\" id=\"time\" name=\" time\"> " +
@@ -80,11 +102,18 @@ const form0 = "<form action=\"#\" method=\"get\"> " +
             "<input type=\"submit\" value=\"Book\">" +
             "</form>";
 
-// function dynamic_form(){
+            marker101.bindPopup(dynamic_form101)
 
-// }
-marker0.bindPopup(form0);
-marker1.bindPopup(form0);
-marker2.bindPopup(form0);
-marker3.bindPopup(form0);
-marker4.bindPopup(form0);
+}
+
+dynamic_form(park_a)
+dynamic_form(park_b)
+dynamic_form(park_c)
+dynamic_form(park_d)
+dynamic_form(park_e)
+
+// marker0.bindPopup(form0);
+// marker1.bindPopup(form0);
+// marker2.bindPopup(form0);
+// marker3.bindPopup(form0);
+// marker4.bindPopup(form0);
