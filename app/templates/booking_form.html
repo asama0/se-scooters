@@ -1,5 +1,5 @@
 <div class="card mb-3 mx-auto" style="max-width: 18rem;">
-    <h5 class="card-header">Make a booking</h5>
+    <h5 class="card-header">{{ parking.location }}</h5>
     <div class="card-body">
         <form method="POST">
             {{ form.hidden_tag() }}
@@ -19,9 +19,9 @@
                 {{ form.time_period(class_="form-control") }}
             </div>
 
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label for="pickup_location">Pickup location:</label>
-                {{ form.pickup_location(class_="form-control") }}
+                {{ form.pickup_parking_id(type="number", class_="form-control", value=parking.id) }}
             </div>
 
             <div class="form-group">
