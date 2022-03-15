@@ -238,7 +238,7 @@ def dashboard():
 
         pickup_date = datetime.combine(booking_form.pickup_date.data, booking_form.pickup_time.data)
         scooter_chosen = Scooter.query.filter((Scooter.availability==True)&\
-        (Scooter.parking_id==booking_form.pickup_location.data.id)).first()
+        (Scooter.parking_id==booking_form.pickup_parking_id.data)).first()
         price_used = booking_form.time_period.data
 
         new_booking = Booking(
@@ -250,8 +250,6 @@ def dashboard():
 
         db.session.add(new_booking)
         db.session.commit()
-        scooter_chosen.parking_id = None
-        scooter_chosen.availability = False
         booking_form = None # form data won't be used any more
         flash('Booking was saved successfuly.')
 
@@ -263,7 +261,9 @@ def dashboard():
     else:
         flash_errors(form)
 
-    return render_template('dashboard.html', form=form)
+    parkings = Parking.query.filter(Parking.scooters.any()).all()
+
+    return render_template('dashboard.html', form=form, parkings=parkings)
 
 
 @app.route("/register", methods=['GET', 'POST'])

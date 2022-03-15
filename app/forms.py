@@ -1,35 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
 from wtforms.fields import DateField,TelField, TimeField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from .models import *
 
 from .models import Price, Parking
-
-def hours_to_words(hours_arg):
-    hours = int(round(hours_arg))
-
-    words = ''
-    count = 0 # counts how many weeks or days or hours..
-
-    if hours < 24:
-        count = hours
-        words = f'{hours} hour'
-    elif hours < 168:
-        count = int(round(hours//24))
-        words = f'{count} day'
-    elif hours < 730.001:
-        count = int(round(hours//168))
-        words = f'{count} day'
-    elif hours < 8760.0024:
-        count = int(round(hours//730.001))
-        words = f'{count} month'
-    else:
-        count = int(round(hours//8760.0024))
-        words = f'{count} year'
-
-    return words + 's' if count == 1 else ''
 
 def get_time_periods():
     return Price.query.order_by('duration')
@@ -49,7 +25,7 @@ class registrationForm(FlaskForm):
                         )
     # password field to write user password
     # length, min=8,max=25
-    
+
     password = PasswordField('Password',
                              validators=[
                                  Length(
@@ -57,8 +33,8 @@ class registrationForm(FlaskForm):
                                  DataRequired()
                              ]
                              )
-    # password field to re-write user password for confirmation 
-   
+    # password field to re-write user password for confirmation
+
     password2 = PasswordField('Confirm Password',
                               validators=[
                                   EqualTo(
@@ -77,7 +53,7 @@ class registrationForm(FlaskForm):
                                 DataRequired()
                             ]
                             )
-    
+
     # submit field to submit user info
     submit = SubmitField('register')
 
@@ -112,10 +88,7 @@ class BookingForm(FlaskForm):
         query_factory=get_time_periods
     )
 
-    pickup_location = QuerySelectField(
-        validators=[DataRequired()],
-        query_factory=get_parkings
-    )
+    pickup_parking_id = IntegerField(validators=[DataRequired()])
 
     submit = SubmitField('submit')
 
@@ -126,7 +99,7 @@ class forgotPasswordForm(FlaskForm):
                         ,
                          DataRequired()
                     ]
-                     )    
+                     )
     submit = SubmitField('send email')
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
