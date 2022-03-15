@@ -1,3 +1,5 @@
+<script type="text/javascript" >
+
 //Scooter icon made by Freepik from: https://www.w3schools.com/html/html5_geolocation.asp
 
 //leeds art gallery
@@ -21,7 +23,7 @@ tiles.addTo(map)
 
 var myIcon = L.icon({
 
-    iconUrl: 'scooter_icon.png',
+    iconUrl: "{{ url_for('static', filename='scooter_icon.png') }}",
     iconSize: [40, 40],
     iconAnchor: [22, 94],
     popupAnchor: [-3, -76],
@@ -114,23 +116,11 @@ var marker4 = L.marker([park_e.loc.lat, park_e.loc.lng], {
 
 const str = "some text";
 
-const form0 = "<form action=\"#\" method=\"get\"> " +
-    "<label for=\"date\">Date:</label><input type=\"date\" " +
-    " id=\"time\" name=\"time\"><br><br><label for=\"time\"> " +
-    " Time:</label><input type=\"time\" id=\"time\" name=\" time\"> " +
-    "<br></br>" +
-    " <label for=\"duration\">Duration:</label> " +
-    "<select name = \"select\" id = \'#'>" +
-    "<option value \"1\"> 1 hour</option>>" +
-    "<option value \"2\"> 24 hours</option>>" +
-    "<option value \"3\"> 1 week</option>>" +
-    "</select>" +
-    "<br><br>" +
-    "<input type=\"submit\" value=\"Book\">" +
-    "</form>";
+const form0 = `{% include 'booking_form.html' %}`;
 
 marker0.bindPopup(form0);
 marker1.bindPopup(form0);
 marker2.bindPopup(form0);
 marker3.bindPopup(form0);
 marker4.bindPopup(form0);
+</script>
