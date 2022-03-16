@@ -5,7 +5,7 @@ from flask_admin.contrib.sqla import ModelView
 from app import app, db
 from .models import *
 from .forms import BookingForm
-from .views import current_user, login, redirect, url_for, request
+from .authentication_views import current_user, login, redirect, url_for, request
 
 from flask_admin import BaseView, expose
 
@@ -20,7 +20,6 @@ class AdminHomeView(AdminIndexView):
 
     # def is_accessible(self):
     #     if current_user.is_authenticated:
-    #         print('==================', current_user.name, current_user.privilege)
     #         return current_user.privilege == 22 or current_user.privilege == 333
     #     return False
 

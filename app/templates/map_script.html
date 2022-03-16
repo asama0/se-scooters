@@ -1,0 +1,52 @@
+<script type="text/javascript" >
+
+//Scooter icon made by Freepik from: https://www.w3schools.com/html/html5_geolocation.asp
+
+//leeds art gallery
+const map_centre = {
+    lat: 53.8000,
+    lng: -1.5482
+};
+
+
+//lat   long    ,zoom.
+let map = L.map('map').setView([map_centre.lat, map_centre.lng], 15);
+
+const attribution =
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ';
+
+const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const tiles = L.tileLayer(tileURL, {
+    attribution
+});
+tiles.addTo(map)
+
+const myIcon = L.icon({
+
+    iconUrl: "{{ url_for('static', filename='scooter_icon.png') }}",
+    iconSize: [40, 40],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+
+});
+
+// booking form
+let booking_form = '';
+let marker = {};
+
+//adding parkings
+{% for parking in parkings %}
+
+    marker = L.marker([{{parking.latitude}}, {{parking.longitude}}], {
+        icon: myIcon
+    }).addTo(map);
+
+    {% with parking=parking %}
+        booking_form = `{% include 'booking_form.html' %}`;
+    {% endwith %}
+
+    marker.bindPopup(booking_form);
+
+{% endfor %}
+
+</script>
