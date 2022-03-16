@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from sqlalchemy.sql.functions import now
+from flask_admin import BaseView, expose
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -56,3 +57,11 @@ class Cost(db.Model):
 
     def __repr__(self):
         return str(self.duration)
+
+class Analytics(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('analytics_index.html')
+
+
+
