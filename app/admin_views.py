@@ -5,7 +5,7 @@ from flask_admin.contrib.sqla import ModelView
 from app import app, db
 from .models import *
 from .forms import BookingForm
-from .views import current_user, login, redirect, url_for, request
+from .authentication_views import current_user, login, redirect, url_for, request
 
 class AdminHomeView(AdminIndexView):
     @expose('/')
