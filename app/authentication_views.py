@@ -1,5 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
-from .views import login_user, current_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user
+from .views import current_user
 import stripe
 from flask_mail import Message
 from app import db, login_manager, bcrypt, mail
