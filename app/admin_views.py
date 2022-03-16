@@ -7,6 +7,8 @@ from .models import *
 from .forms import BookingForm
 from .authentication_views import current_user, login, redirect, url_for, request
 
+from flask_admin import BaseView, expose
+
 class AdminHomeView(AdminIndexView):
     @expose('/')
     def index(self):
@@ -33,4 +35,5 @@ admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Scooter, db.session))
 admin.add_view(ModelView(Parking, db.session))
-admin.add_view(ModelView(Price, db.session))
+admin.add_view(ModelView(Cost, db.session))
+admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
