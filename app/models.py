@@ -1,12 +1,11 @@
-from email.policy import default
-from app import db,app
+from app import db, app
 from flask_login import UserMixin
 from sqlalchemy.sql.functions import now
 import jwt
 from time import time
 
 
-class User(db.Model,UserMixin):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     stripe_id = db.Column(db.String(64), nullable=False)
     name = db.Column(db.String(120), nullable=False)

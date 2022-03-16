@@ -23,10 +23,17 @@ bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'authentication_views.login'
 
 # combine code from all other files to this file
 from app import views
 from app import models
 from app import admin_views
+
+# adding blueprints
+from app.authentication_views import authentication_views
+
+app.register_blueprint(authentication_views)
+
+
 
