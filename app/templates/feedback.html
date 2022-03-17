@@ -3,30 +3,45 @@
 
 <!-- when this is submitted it should send an email (with priority option) -->
 
-<div class="card bg-light mb-3 mx-auto" style="max-width: 18rem;">
+<div class="card bg-light mb-6 mx-auto" style="max-width: 32rem;">
     <h5 class="card-header">feedback</h5>
     <div class="card-body">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
 
             <div class="form-group">
-                <label for="feedback">Feedback:</label>
+                <p>How do you rate your overall experience:</p>
+                <label for="experience"></label>
+                {% for subfield in form.experience %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <p><br></p>
+            <div class="form-group">
+                <label for="feedback">Comments:</label>
                 {{ form.feedback(class_="form-control") }}
             </div>
-
+            <p><br></p>
             <div class="row">
-                <div class="form-group">
-                    <label for="name">Name:</label>
+                <div class="form-group col-3" style="width: 50%;">
+                    <label for="name">Your name:</label>
                     {{ form.name(class_="form-control") }}
                 </div>
     
-                <div class="form-group">
+                <div class="form-group col-3" style="width: 50%;">
                     <label for="email">Email:</label>
                     {{ form.email(class_="form-control") }}
                 </div>
             </div>
             
-
+            <p><br></p>
+            <div class="form-group>
+                <label for="urgent">Mark as high priority</label>
+                {{ form.urgent}}
+            </div>
             <div class="form-group">
                 {{ form.submit(class_="btn btn-primary") }}
             </div>
