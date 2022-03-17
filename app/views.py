@@ -59,6 +59,20 @@ def dashboard():
 
     return render_template('dashboard.html', form=form, parkings=parkings)
 
+@app.route('/tickets')
+def tickets():
+    return render_template('tickets.html')
+
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    return render_template('account.html')
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    return render_template('feedback.html')
+
+
+
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
