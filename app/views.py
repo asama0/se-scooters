@@ -69,7 +69,9 @@ def account():
 
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
-    return render_template('feedback.html', page_name='feedback')
+    form = feedbackForm()
+    
+    return render_template('feedback.html', page_name='feedback', form=form)
 
 
 
