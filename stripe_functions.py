@@ -1,3 +1,4 @@
+from importlib.util import spec_from_file_location
 import stripe
 from datetime import datetime
 from time import mktime
@@ -43,6 +44,9 @@ returns the price id using priceLookUpKey (the price lookup key)
 
 get_price_info(priceLookupKey)
 returns the price id and amount using priceLookUpKey (the price lookup key)
+
+get_all_prices()
+returns a list of all the prices, each with its lookup key, Id, and amount
 
 get_discount(id)
 returns the percentage off, amount off, and the number of times this discount have been used
@@ -97,6 +101,18 @@ def get_price_info(priceLookupKey):
     return stripe.Price.list(lookup_keys=[priceLookupKey]).get("data")[0].get("id"), (float(stripe.Price.list(lookup_keys=[priceLookupKey]).get("data")[0].get("unit_amount"))/100)
 
 
+# returns a list of all the prices, each with its lookup key, Id, and amount
+def get_all_prices():
+
+    fullList = stripe.Price.list(active=True)
+    specificList = []
+
+    for price in fullList:
+        specificList.append((price.get("lookup_key"), price.get("id"), float(price.get("unit_amount"))/100))
+
+    return specificList
+
+
 # returns the percentage off, amount off, and the number of times this discount have been used
 def get_discount(id):
 
@@ -141,3 +157,5 @@ def list_payments(start_date:datetime, end_date:datetime):
 
 #create_a_discount("returning", 10, None)
 #print(get_discount("returning"))
+
+#get_all_prices()
