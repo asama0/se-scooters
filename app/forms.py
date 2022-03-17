@@ -125,6 +125,17 @@ class resetPasswordForm(FlaskForm):
     submit = SubmitField('change password')
 
 
+class feedbackForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email',
+                        validators=[
+                            Email(message='Error, Enter a valid email'),
+                            DataRequired()
+                        ]
+                        )
+    submit = SubmitField('Submit')
+
+
 
 
 
