@@ -57,19 +57,19 @@ def dashboard():
 
     parkings = Parking.query.filter(Parking.scooters.any()).all()
 
-    return render_template('dashboard.html', form=form, parkings=parkings)
+    return render_template('dashboard.html', form=form, parkings=parkings, page_name='dashboard')
 
 @app.route('/tickets')
 def tickets():
-    return render_template('tickets.html')
+    return render_template('tickets.html', page_name='tickets')
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
-    return render_template('account.html')
+    return render_template('account.html', page_name='account')
 
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
-    return render_template('feedback.html')
+    return render_template('feedback.html', page_name='feedback')
 
 
 
