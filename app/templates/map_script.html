@@ -12,14 +12,31 @@ const map_centre = {
 //lat   long    ,zoom.
 let map = L.map('map').setView([map_centre.lat, map_centre.lng], 15);
 
-const attribution =
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ';
 
-const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const tiles = L.tileLayer(tileURL, {
-    attribution
+//defult map theme
+// const attribution =
+//     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ';
+
+// const tileURL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+// const tiles = L.tileLayer(tileURL, {attribution});
+// tiles.addTo(map)
+
+
+
+//new smooth theme for map
+var Jawg_Sunny = L.tileLayer('https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken}', {
+	attribution: '<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	minZoom: 0,
+	maxZoom: 22,
+	subdomains: 'abcd',
+	accessToken: 'CVUdQ2mJxWpvaP2eTYPuhTZsjvBQzKZ26UhYfai8XIJnzyiiEK7j7wPrGG7VmIdU'
 });
-tiles.addTo(map)
+Jawg_Sunny.addTo(map)
+
+
+
+
+
 
 const myIcon = L.icon({
 
