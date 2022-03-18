@@ -1,6 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flask_login import current_user, login_required
-from datetime import datetime
+from email.message import EmailMessage
+import smtplib
+from datetime import datetime, date
 import stripe
 from app import app, db
 
@@ -70,6 +72,44 @@ def account():
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     form = feedbackForm()
+    urgent = False
+    feedbackText = ""
+
+    # retrieve the data 
+    if form.validate_on_submit():
+        feedbackText += "Feedback submitted on " + date.today().strftime("%B %d, %Y") + "\n"
+        feedbackText += "Name: " + form.name.data + "\n"
+        feedbackText += "Email: " + form.email.data + "\n"
+        feedbackText += "Overall eexperience: " + form.experience.data + "\n\n"
+        feedbackText += "Comments: \n" + form.feedback.data
+        urgent = form.urgent.data
+
+        msg = EmailMessage()
+        msg.set_content(feedbackText)
+
+        msg['Subject'] = 'feedback'
+        msg['From'] = "dkacubed@gmail.com"
+        msg['To'] = "dkacubed@gmail.com"
+        if urgent:
+            msg['X-Priority'] = '2'
+        else:
+            msg['X-Priority'] = '0'
+        
+
+        # send the feedback email 
+        try:
+            smtp_server = smtplib.SMTP("smtp.gmail.com:587")
+            smtp_server.starttls()
+            smtp_server.login("dkacubed@gmail.com", "RX52@h@MqMj3")
+            smtp_server.send_message(msg)
+            smtp_server.close()
+            print ("Email sent successfully")
+        except Exception as ex:
+            print ("Failed to send the email",ex)
+    else:
+        flash_errors(form)
+
+
     return render_template('feedback.html', page_name='feedback', form=form)
 
 
