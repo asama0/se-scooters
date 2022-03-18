@@ -70,6 +70,7 @@ def account():
     return render_template('account.html', page_name='account')
 
 @app.route('/feedback', methods=['GET', 'POST'])
+@login_required
 def feedback():
     form = feedbackForm()
     urgent = False
@@ -78,8 +79,8 @@ def feedback():
     # retrieve the data 
     if form.validate_on_submit():
         feedbackText += "Feedback submitted on " + date.today().strftime("%B %d, %Y") + "\n"
-        feedbackText += "Name: " + form.name.data + "\n"
-        feedbackText += "Email: " + form.email.data + "\n"
+        feedbackText += "Name: " + current_user.name + "\n"
+        feedbackText += "Email: " + current_user.email + "\n"
         feedbackText += "Overall eexperience: " + form.experience.data + "\n\n"
         feedbackText += "Comments: \n" + form.feedback.data
         urgent = form.urgent.data
@@ -105,6 +106,7 @@ def feedback():
             smtp_server.login("dkacubed@gmail.com", "RX52@h@MqMj3")
             smtp_server.send_message(msg)
             smtp_server.close()
+            flash('Feedback submitted successfuly.')
             print ("Email sent successfully")
         except Exception as ex:
             print ("Failed to send the email",ex)

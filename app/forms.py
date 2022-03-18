@@ -133,13 +133,6 @@ class feedbackForm(FlaskForm):
                             message='please provide a feedback')
                         ]
                         )
-    name = StringField('Name', validators=[DataRequired()])
-    email = StringField('Email',
-                        validators=[
-                            Email(message='Error, Enter a valid email'),
-                            DataRequired()
-                        ]
-                        )
     urgent = BooleanField('Urgent')
     submit = SubmitField('Submit')
 
