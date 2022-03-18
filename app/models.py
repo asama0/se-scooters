@@ -1,7 +1,6 @@
 from app import db, app
 from flask_login import UserMixin
 from sqlalchemy.sql.functions import now
-from flask_admin import BaseView, expose
 import jwt
 from time import time
 
@@ -82,7 +81,3 @@ class Price(db.Model):
     def __repr__(self):
         return str(self.lookup_key)
 
-class Analytics(BaseView):
-    @expose('/')
-    def index(self):
-        return self.render('analytics_index.html')

@@ -28,6 +28,11 @@ class AdminHomeView(AdminIndexView):
     #     flash('/admin is staff only.', category='message alert-danger')
     #     return redirect(url_for('login'))
 
+class Analytics(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('analytics_index.html')
+
 # admin pages setup
 admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
 

@@ -1,5 +1,5 @@
 import numpy as np
-from app.models import Booking
+from app.models import Booking, Price
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -23,8 +23,8 @@ def query_booking_by_date(start_date, end_date):
     # change every booking to a dictionary
     result_dict = [
         {'date': str(booking.created_date_time),
-         'amount': booking.amount,
-         'duration': booking.duration}
+         'amount': Price.query.get(booking.price_id).amount,
+         'duration': Price.query.get(booking.price_id).duration}
         for booking in result_query
     ]
 
@@ -36,8 +36,8 @@ def get_full_data():
     # change every booking to a dictionary
     result_dict = [
         {'date': str(booking.created_date_time),
-         'amount': booking.amount,
-         'duration': booking.duration}
+         'amount': Price.query.get(booking.price_id).amount,
+         'duration': Price.query.get(booking.price_id).duration}
         for booking in resssult
     ]
 
