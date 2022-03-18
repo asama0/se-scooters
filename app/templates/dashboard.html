@@ -1,11 +1,25 @@
 {% extends "dashboard_sidebar.html" %}
 {% block main_content %}
 
+
+
 <div id="map"></div>
 
 
 {% with parkings=parkings %}
     {% include 'map_script.html' %}
 {% endwith %}
+
+<div id="loading_screen">
+    {% include 'loading.html' %}
+</div>
+
+<script>
+    $(window).on('load', function () {
+        setTimeout(function() {
+            $('#loading_screen').remove();
+        }, 1000);
+    });
+</script>
 
 {% endblock %}
