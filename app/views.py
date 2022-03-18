@@ -87,13 +87,15 @@ def feedback():
         msg = EmailMessage()
         msg.set_content(feedbackText)
 
-        msg['Subject'] = 'feedback'
+        
         msg['From'] = "dkacubed@gmail.com"
         msg['To'] = "dkacubed@gmail.com"
         if urgent:
-            msg['X-Priority'] = '2'
+            msg['Priority'] = '2'
+            msg['Subject'] = 'URGENT feedback'
         else:
-            msg['X-Priority'] = '0'
+            msg['Priority'] = '0'
+            msg['Subject'] = 'feedback'
         
 
         # send the feedback email 
