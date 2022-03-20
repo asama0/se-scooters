@@ -10,7 +10,7 @@ from stripe_functions import *
 from helper_functions import *
 from analytics_quries import *
 
-booking_form:BookingForm
+new_booking:Booking
 
 @app.route('/')
 @app.route('/index')
@@ -21,19 +21,28 @@ def index():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    global booking_form
-    checkout_status = request.args.get('checkout_status')
+    global new_booking
+    checkout_status = request.args['checkout_status'] if 'checkout_status' in request.args else ''
 
-    if checkout_status == 'canceled':
-        flash('Payment session was canceled.')
-    elif checkout_status == 'success':
-        if not booking_form:
-            flash('Booking form was not submitted.')
+    if request.method == 'GET':
+        if checkout_status == 'canceled':
+            flash('Payment session was canceled.')
+        elif checkout_status == 'success':
+            db.session.add(new_booking)
+            db.session.commit()
+            flash('Booking was saved successfuly.', category='alert-success')
+            new_booking = None
 
-        pickup_date = datetime.combine(booking_form.pickup_date.data, booking_form.pickup_time.data)
-        scooter_chosen = Scooter.query.filter((Scooter.availability==True)&\
-        (Scooter.parking_id==booking_form.pickup_parking_id.data)).first()
-        price_used = booking_form.time_period.data
+    form = BookingForm()
+
+    if form.validate_on_submit():
+
+        pickup_date = datetime.combine(form.pickup_date.data, form.pickup_time.data)
+        scooter_chosen = Scooter.query.filter(
+                            (Scooter.availability==True)&\
+                            (Scooter.parking_id==form.pickup_parking_id.data)
+                        ).first()
+        price_used = form.time_period.data
 
         new_booking = Booking(
             pickup_date= pickup_date,
@@ -42,16 +51,8 @@ def dashboard():
             price_id = price_used.id
         )
 
-        db.session.add(new_booking)
-        db.session.commit()
-        booking_form = None # form data won't be used any more
-        flash('Booking was saved successfuly.')
+        return redirect(url_for('checkout', _method='POST', price_api_id=form.time_period.data.api_id), code=307)
 
-
-    form = BookingForm()
-    if form.validate_on_submit():
-        booking_form = form
-        return redirect(url_for('checkout', _method='POST'), code=307)
     else:
         flash_errors(form)
 
@@ -76,8 +77,7 @@ def feedback():
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
-    global booking_form
-    price_api_id = booking_form.time_period.data.api_id
+    price_api_id = request.args['price_api_id']
     discount_id = None  #TODO
 
     checkout_session = stripe.checkout.Session.create(
