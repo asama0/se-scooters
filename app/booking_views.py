@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request
+from datetime import date, datetime
 import stripe
 
 from app import db
@@ -67,7 +68,9 @@ def dashboard():
 
     parkings = Parking.query.filter(Parking.scooters.any()).all()
 
-    return render_template('dashboard.html', form=form, parkings=parkings, page_name='dashboard')
+    return render_template('dashboard.html', form=form, parkings=parkings,
+                            page_name='dashboard', date_today=date.today(),
+                            time_now=datetime.now().strftime("%H:00"))
 
 @booking_views.route('/tickets', methods=['GET', 'POST'])
 def tickets():

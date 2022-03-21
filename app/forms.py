@@ -1,11 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
-from wtforms.fields import DateField,TelField, TimeField, HiddenField
+from wtforms.fields import DateField,TelField, TimeField, SelectField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from .models import *
 
-from .models import Price, Parking
 
 def get_time_periods():
     return Price.query.order_by('duration')
@@ -127,7 +126,12 @@ class resetPasswordForm(FlaskForm):
 
 class TicketForm(FlaskForm):
 
+    new_dutration:SelectField
     booking_id = IntegerField(validators=[DataRequired()])
+    activate = SubmitField('submit')
     refund = SubmitField('submit')
+
+    def set_duration_options(self, booking:Booking):
+        self.new_dutration = SelectField(choices=[(price.id, price.duration) for price in Price.quey.all()])
 
 
