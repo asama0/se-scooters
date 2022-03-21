@@ -16,6 +16,9 @@ from analytics_quries import *
 def index():
     return render_template('index.html')
 
+@app.route('/QRCodeScanner')
+def QRCodeScanner():
+    return render_template('QRCodeScanner.html')
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
@@ -61,4 +64,3 @@ def post_total_request():
 @app.route('/analytics')
 def analytics():
     return render_template('analytics.html')
-
