@@ -1,0 +1,35 @@
+{% extends "dashboard_sidebar.html" %}
+{% block main_content %}
+
+<div class="py-5">
+    <div class="container">
+        {% for booking in bookings %}
+            {% if loop.index0%3 == 0 %}
+            <div class="row hidden-md-up">
+            {% endif %}
+
+            <div class="col-md-4" style="width: 20rem;">
+                <div class="card">
+                    <h6 class="card-header"> {{ booking.pickup_date }} </h6>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <form action="" method="POST">
+                            {{ form.hidden_tag() }}
+                            {{ form.booking_id(type="hidden", value=booking.id ) }}
+                            <div class="form-group">
+                            {{ form.refund(class_="btn btn-danger",  value="refund") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {% if loop.index0%3 == 2 %}
+            </div><br>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

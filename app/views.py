@@ -1,21 +1,66 @@
-from urllib import request
-from flask import render_template
-from flask_admin.contrib.sqla import ModelView
+from flask import render_template, url_for, flash, redirect, request, abort, jsonify
+from flask_login import current_user, login_required
 from datetime import datetime
+import stripe
+from app import app, db
 
-from app import app, db, admin
 from .models import *
+from .forms import *
+from stripe_functions import *
+from helper_functions import *
+from analytics_quries import *
 
-# add models to admin page
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(Scooter, db.session))
-admin.add_view(ModelView(Parking, db.session))
-admin.add_view(ModelView(Cost, db.session))
 
 @app.route('/')
+@app.route('/index')
 def index():
     return render_template('index.html')
 
 @app.route('/QRCodeScanner')
 def QRCodeScanner():
     return render_template('QRCodeScanner.html')
+
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    return render_template('account.html', page_name='account')
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    return render_template('feedback.html', page_name='feedback')
+
+
+# sending array to javascript
+@app.route('/week_request', methods=['POST'])
+def post_week_request():
+    # return a list of integers
+    # one week graph
+    get_analitics(7, "week")
+    return jsonify(week)
+
+
+@app.route('/month_request', methods=['POST'])
+def post_month_request():
+    # return a list of integers
+    # one month graph
+    get_analitics(30, "month")
+    return jsonify(month)
+
+
+@app.route('/year_request', methods=['POST'])
+def post_year_request():
+    # return a list of integers
+    # one year graph
+    get_analitics(12, "year")
+    return jsonify(year)
+
+
+@app.route('/total_request', methods=['POST'])
+def post_total_request():
+    # return a list of integers
+    # general dynamic graph
+    get_data_list_days(1, 1, "total")
+    return jsonify(max_period)
+
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
