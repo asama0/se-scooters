@@ -55,6 +55,7 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     scooter_id = db.Column(db.Integer, db.ForeignKey('scooter.id'), nullable=False)
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
+    payment_intent = db.Column(db.String(100), unique=True, nullable=False)
 
     def __repr__(self):
         return f'<Booking #{self.id}>'
@@ -62,8 +63,8 @@ class Booking(db.Model):
 class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(120), unique=True, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
 
     scooters = db.relationship('Scooter', backref='parking')
 

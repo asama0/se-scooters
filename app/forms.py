@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
-from wtforms.fields import DateField,TelField, TimeField
+from wtforms.fields import DateField,TelField, TimeField, HiddenField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from .models import *
 
@@ -125,6 +125,9 @@ class resetPasswordForm(FlaskForm):
     submit = SubmitField('change password')
 
 
+class TicketForm(FlaskForm):
 
+    booking_id = IntegerField(validators=[DataRequired()])
+    refund = SubmitField('submit')
 
 

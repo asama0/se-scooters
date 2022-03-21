@@ -136,6 +136,9 @@ def list_payments(start_date:datetime, end_date:datetime):
         'gte': start_unix_timestamp, 'lte': end_unix_timestamp
     })
 
+def refund(payment_intent):
+    stripe.Refund.create(payment_intent=payment_intent)
+
 
 #create_a_price("prod_L7tv4Gbl7YQuKm", 10, "1h")
 #create_a_price("prod_L7tv4Gbl7YQuKm", 40, "4h")
