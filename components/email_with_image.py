@@ -7,23 +7,34 @@ import smtplib
 DOMAIM_NAME = 'google.com'
 
 bodies = {
-    'welcome': {
-        'filename': 'index.html',
+    'reciept': {
+        'filename': 'reciept.html',
         'images': {
             'images/DKcubedLogo.png': make_msgid(domain=DOMAIM_NAME), 
             'images/tick.png': make_msgid(domain=DOMAIM_NAME), 
             'images/shop-basket.png': make_msgid(domain=DOMAIM_NAME),
         }
+    },
+    'forgetpassword': {
+            'filename': 'forgot_password.html',
+            'images': {
+            'images/DKcubedLogo.png': make_msgid(domain=DOMAIM_NAME), 
+            'images/animated_header.gif': make_msgid(domain=DOMAIM_NAME), 
+            'images/body_background_2.png': make_msgid(domain=DOMAIM_NAME),
+            'images/bottom_img.png': make_msgid(domain=DOMAIM_NAME),
+            'images/instagram2x.png': make_msgid(domain=DOMAIM_NAME),
+            'images/twitter2x.png': make_msgid(domain=DOMAIM_NAME),
+        }
     }
 }
 
-def send_mail(Subject, From, To, Body_name):
+def send_mail(Subject, To, Body_name, **kwargs):
     global bodies
     msg = EmailMessage()
 
     # generic email headers
     msg['Subject'] = Subject
-    msg['From'] = From
+    msg['From'] = 'dkacubed@gmail.com'
     msg['To'] = To
 
     # set the plain text body
@@ -36,9 +47,13 @@ def send_mail(Subject, From, To, Body_name):
     with open (bodies[Body_name]['filename'], "r", encoding='utf8') as htmlfile:
         htmlBody = htmlfile.read().replace("\n", "")
         htmlBody = ' '.join(htmlBody.split())
+        
+        for key in kwargs.keys():
+            htmlBody = htmlBody.replace("{{"+str(key)+"}}", kwargs[key])
+            
 
     # set an alternative html body
-    for image_path, image_cid in bodies['welcome']['images'].items():
+    for image_path, image_cid in bodies[Body_name]['images'].items():
         htmlBody = htmlBody.replace(image_path, image_cid[1:-1])
     
     # image_cid looks like <long.random.number@xyz.com>
@@ -49,7 +64,7 @@ def send_mail(Subject, From, To, Body_name):
 
 
     # now open the image and attach it to the email
-    for image_path, image_cid in bodies['welcome']['images'].items():
+    for image_path, image_cid in bodies[Body_name]['images'].items():
         with open(image_path, 'rb') as img:
 
             # know the Content-Type of the image
@@ -66,7 +81,7 @@ def send_mail(Subject, From, To, Body_name):
     # or send it using smtplib
 
     ser = smtplib.SMTP("smtp.gmail.com:587")
-    Password = "123456SS"
+    Password = "RX52@h@MqMj3"
     ser.starttls()
     ser.login(msg['From'], Password)
     ser.send_message(msg)
@@ -74,7 +89,8 @@ def send_mail(Subject, From, To, Body_name):
 
 
 def main():
-    send_mail('Hello there', 'salimbader734@gmail.com', 'salimbader22@gmail.com', 'welcome')
+    # send_mail('Hello there', 'salimbader22@gmail.com', 'reciept')
+    send_mail('Hello there', 'salimbader22@gmail.com', 'forgetpassword', forgot_password_url="www.youtube.com")
 
 if __name__ == '__main__':
     main()
