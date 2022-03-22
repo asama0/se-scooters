@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextAreaField, RadioField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
 from wtforms.fields import DateField,TelField, TimeField
 from wtforms_sqlalchemy.fields import QuerySelectField
@@ -123,6 +123,18 @@ class resetPasswordForm(FlaskForm):
                             ]
                             )
     submit = SubmitField('change password')
+
+class feedbackForm(FlaskForm):
+    experience = RadioField('Experience', choices=["awful", "bad", "average", "good", "excellent"],
+                        validators=[DataRequired()])
+    feedback = TextAreaField('Feedback', 
+                        validators=[
+                            DataRequired(), Length(min=0, max=10000, 
+                            message='please provide a feedback')
+                        ]
+                        )
+    urgent = BooleanField('Urgent')
+    submit = SubmitField('Submit')
 
 
 

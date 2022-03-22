@@ -2,8 +2,39 @@
 {% block main_content %}
 
 <!-- when this is submitted it should send an email (with priority option) -->
-<form action="">
 
-</form>
+<div class="card bg-light mb-6 mx-auto" style="max-width: 32rem;">
+    <h5 class="card-header">feedback</h5>
+    <div class="card-body">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                <p>How do you rate your overall experience:</p>
+                <label for="experience"></label>
+                {% for subfield in form.experience %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+                {% endfor %}
+            </div>
+            <p><br></p>
+            <div class="form-group">
+                <label for="feedback">Comments:</label>
+                {{ form.feedback(class_="form-control") }}
+            </div>
+            
+            <p><br></p>
+            <div class="form-group>
+                <label for="urgent">Mark as high priority</label>
+                {{ form.urgent}}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class_="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
