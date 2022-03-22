@@ -127,4 +127,28 @@ class resetPasswordForm(FlaskForm):
 
 
 
+class editProfileForm(FlaskForm):
+    # string field to write username
+    name = StringField('Name', validators=[])
 
+    # password field to write user password
+    # length, min=8,max=25
+
+    birth_date = DateField('Date of Birth',
+                            validators=[
+                                
+                            ]
+                            )
+
+    phone = TelField('Phone Number',
+                            validators=[
+                                
+                            ]
+                            )
+
+    # submit field to submit user info
+    submit = SubmitField('Update')
+
+
+
+    

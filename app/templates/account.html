@@ -3,4 +3,32 @@
 
 <!-- the user should be able to edit his details here -->
 
+<div class="card bg-light mb-3 mx-auto center" style="max-width: 18rem;">
+    <h5 class="card-header">Edit Profile</h5>
+    <div class="card-body">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="name">New Name:</label>
+                {{ form.name(class_="form-control") }}
+            </div>
+
+            <div class="form-group">
+                <label for="birth_date">Birth Date:</label>
+                {{ form.birth_date(class_="form-control") }}
+            </div>
+
+            <div class="form-group">
+                <label for="phone">New Phone Number:</label>
+                {{ form.phone(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class_="btn btn-primary") }}
+
+                <a href="{{url_for('authentication_views.forgot_password')}}" style="float: right;" class="btn btn-warning">Reset password</a>
+            </div>
+        </form>
+    </div>
+</div>
+
 {% endblock %}

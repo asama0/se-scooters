@@ -71,7 +71,7 @@ def logout():
 
 #here user requist password reset by submmiting email account, email must be registerd
 @authentication_views.route("/forgot_password", methods=['GET', 'POST'])
-def reset_request():
+def forgot_password():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
     form = forgotPasswordForm()
