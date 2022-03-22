@@ -126,12 +126,13 @@ class resetPasswordForm(FlaskForm):
 
 class TicketForm(FlaskForm):
 
-    new_dutration:SelectField
+    new_dutration = SelectField(choices=[])
+    extend = SubmitField('Extend')
     booking_id = IntegerField(validators=[DataRequired()])
-    activate = SubmitField('submit')
-    refund = SubmitField('submit')
+    refund = SubmitField('Refund')
+    activate = SubmitField('Activate')
 
     def set_duration_options(self, booking:Booking):
-        self.new_dutration = SelectField(choices=[(price.id, price.duration) for price in Price.quey.all()])
+        self.new_dutration.choices.extend([(price.id, price.lookup_key) for price in Price.query.all()])
 
 

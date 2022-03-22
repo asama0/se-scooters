@@ -77,9 +77,14 @@ def tickets():
     form = TicketForm()
     if form.validate_on_submit():
         booking_chosen = Booking.query.get(form.booking_id.data)
+        print(form.refund.data, form.activate.data)
         if form.refund.data:
+            print("=================== refund was pushed")
             refund(booking_chosen.payment_intent)
             db.session.delete(booking_chosen)
             db.session.commit()
+        elif form.activate.data:
+            redirect(url_for('activate'))
+            print("=================== refund was pushed")
 
     return render_template('tickets.html', form=form, page_name='tickets', bookings=current_user.bookings)

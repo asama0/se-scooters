@@ -12,13 +12,18 @@
                 <div class="card">
                     <h6 class="card-header"> {{ booking.pickup_date }} </h6>
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                         <form action="" method="POST">
                             {{ form.hidden_tag() }}
                             {{ form.booking_id(type="hidden", value=booking.id ) }}
+                            {{ form.set_duration_options(booking)|default("", True) }}
+                            <div class="form-group input-group">
+                            {{ form.new_dutration(class_="form-select") }}
+                            {{ form.extend(class_="btn btn-outline-secondary") }}
+                            </div>
+                            <br>
                             <div class="form-group">
-                            {{ form.refund(class_="btn btn-danger",  value="refund") }}
+                            {{ form.refund(class_="btn btn-outline-danger") }}
+                            {{ form.activate(class_="btn btn-outline-success", style="float: right;") }}
                             </div>
                         </form>
                     </div>

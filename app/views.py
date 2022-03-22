@@ -16,14 +16,17 @@ from analytics_quries import *
 def index():
     return render_template('index.html')
 
-@app.route('/QRCodeScanner')
-def QRCodeScanner():
+@login_required
+@app.route('/activate')
+def activate():
     return render_template('QRCodeScanner.html')
 
+@login_required
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     return render_template('account.html', page_name='account')
 
+@login_required
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     return render_template('feedback.html', page_name='feedback')
