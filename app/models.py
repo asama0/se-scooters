@@ -5,7 +5,6 @@ from flask_admin import BaseView, expose
 import jwt
 from time import time
 
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     stripe_id = db.Column(db.String(64), nullable=False)

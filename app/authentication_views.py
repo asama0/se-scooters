@@ -9,6 +9,7 @@ from .models import *
 from .forms import *
 from stripe_functions import *
 from helper_functions import *
+from components.email_with_image import send_mail 
 
 authentication_views = Blueprint('authentication_views', __name__, static_folder='static', template_folder='template')
 
@@ -102,13 +103,7 @@ def reset_token(token):
 # email is visable for now, must be hidden for security reasons
 def reset_email(user):
     token = user.get_reset_token()
-    message = Message('Password Reset Request',
-                   sender='salimbader734@gmail.com',
-                   recipients=[user.email])
-    message.body = f''' visit the following link to reset your password:
-{url_for('authentication_views.reset_token', token=token, _external=True)}
-'''
-    mail.send( message)
+    send_mail("Password reset", user.email, 'forgetpassword', forgot_password_url=url_for('authentication_views.reset_token', token=token, _external=True))
 
 
 
