@@ -23,18 +23,18 @@ class User(db.Model, UserMixin):
 
     #for password reset
     def get_reset_token(self, expires=1000):
-        return jwt.encode({'reset_password': self.username, 'exp': time() + expires},
+        return jwt.encode({'reset_password': self.email, 'exp': time() + expires},
                            key=app.config['SECRET_KEY'])
 
     @staticmethod
     def verify_reset_token(token):
         try:
-            username = jwt.decode(token, key=app.config['SECRET_KEY'])['reset_password']
-            print('Verifed toker for:',username)
+            email = jwt.decode(token, key=app.config['SECRET_KEY'],  algorithms=["HS256"])['reset_password']
+            print('Verifed toker for:', email)
         except Exception as e:
             print(e)
             return
-        return User.query.filter_by(username=username).first()
+        return User.query.filter_by(email=email).first()
 
 class Scooter(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,8 +1,8 @@
 from email.message import EmailMessage
 from email.utils import make_msgid
 import mimetypes
-from os import remove
 import smtplib
+import pathlib
 
 DOMAIM_NAME = 'google.com'
 
@@ -31,6 +31,7 @@ bodies = {
 def send_mail(Subject, To, Body_name, **kwargs):
     global bodies
     msg = EmailMessage()
+    parent_path = str(pathlib.Path(__file__).parent.resolve())+"/"
 
     # generic email headers
     msg['Subject'] = Subject
@@ -44,7 +45,7 @@ def send_mail(Subject, To, Body_name, **kwargs):
     #image_cid = make_msgid(domain='gmail.com')
     # if `domain` argument isn't provided, it will
     # use your computer's name
-    with open (bodies[Body_name]['filename'], "r", encoding='utf8') as htmlfile:
+    with open(parent_path+bodies[Body_name]['filename'], "r", encoding='utf8') as htmlfile:
         htmlBody = htmlfile.read().replace("\n", "")
         htmlBody = ' '.join(htmlBody.split())
 
@@ -65,7 +66,7 @@ def send_mail(Subject, To, Body_name, **kwargs):
 
     # now open the image and attach it to the email
     for image_path, image_cid in bodies[Body_name]['images'].items():
-        with open(image_path, 'rb') as img:
+        with open(parent_path+image_path, 'rb') as img:
 
             # know the Content-Type of the image
             maintype, subtype = mimetypes.guess_type(img.name)[0].split('/')
