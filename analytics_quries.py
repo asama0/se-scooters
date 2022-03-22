@@ -92,4 +92,9 @@ def get_analitics(period, period_key):
             year.append(sum_of_period)
 
 week.insert(1, 111)
-month.insert(2, 30)
+week.insert(2, 111)
+week.insert(4, 111)
+month.insert(5, 30)
+year.insert(4, 1190)
+max_period.insert(3, 212)
+year.insert(4, 700)

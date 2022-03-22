@@ -36,6 +36,7 @@ class User(db.Model, UserMixin):
             return
         return User.query.filter_by(username=username).first()
 
+
 class Scooter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     availability = db.Column(db.Boolean, default=True, nullable=False)
@@ -45,6 +46,7 @@ class Scooter(db.Model):
 
     def __repr__(self):
         return f'<Scooter #{self.id}>'
+
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,6 +59,7 @@ class Booking(db.Model):
 
     def __repr__(self):
         return f'<Booking #{self.id}>'
+
 
 class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,4 +83,8 @@ class Price(db.Model):
 
     def __repr__(self):
         return str(self.lookup_key)
+
+
+
+
 
