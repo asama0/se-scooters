@@ -7,10 +7,20 @@ import smtplib
 DOMAIM_NAME = 'google.com'
 
 bodies = {
+    'welcome': {
+        'filename': 'welcome.html',
+        'images': {
+            'images/dkcubedlogo.png': make_msgid(domain=DOMAIM_NAME),
+            'images/TR.png': make_msgid(domain=DOMAIM_NAME),
+            'images/Facebook.png': make_msgid(domain=DOMAIM_NAME),
+            'images/Twitter.png': make_msgid(domain=DOMAIM_NAME),
+        }
+    },
+    
     'reciept': {
         'filename': 'reciept.html',
         'images': {
-            'images/DKcubedLogo.png': make_msgid(domain=DOMAIM_NAME),
+            'images/dkcubedlogo.png': make_msgid(domain=DOMAIM_NAME),
             'images/tick.png': make_msgid(domain=DOMAIM_NAME),
             'images/shop-basket.png': make_msgid(domain=DOMAIM_NAME),
         }
@@ -18,7 +28,7 @@ bodies = {
     'forgetpassword': {
             'filename': 'forgot_password.html',
             'images': {
-            'images/DKcubedLogo.png': make_msgid(domain=DOMAIM_NAME),
+            'images/dkcubedlogo.png': make_msgid(domain=DOMAIM_NAME),
             'images/animated_header.gif': make_msgid(domain=DOMAIM_NAME),
             'images/body_background_2.png': make_msgid(domain=DOMAIM_NAME),
             'images/bottom_img.png': make_msgid(domain=DOMAIM_NAME),
@@ -89,8 +99,8 @@ def send_mail(Subject, To, Body_name, **kwargs):
 
 
 def main():
-    # send_mail('Hello there', 'salimbader22@gmail.com', 'reciept')
-    send_mail('Hello there', 'salimbader22@gmail.com', 'forgetpassword', forgot_password_url="www.youtube.com")
+    send_mail('Hello there', 'salimbader22@gmail.com', 'welcome')
+    #send_mail('Hello there', 'salimbader22@gmail.com', 'forgetpassword', forgot_password_url="www.youtube.com")
 
 if __name__ == '__main__':
     main()
