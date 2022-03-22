@@ -29,3 +29,17 @@
 #loading_screen {
     z-index: 100;
 }
+
+.qrcenter {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 800PX) {
+    .qrcenter {
+        width: 100%;
+        position: absolute;
+    }
+}
