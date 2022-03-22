@@ -36,4 +36,3 @@ from app.authentication_views import authentication_views
 app.register_blueprint(authentication_views)
 
 
-
