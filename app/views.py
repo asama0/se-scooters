@@ -1,3 +1,4 @@
+import email
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flask_login import current_user, login_required
 from email.message import EmailMessage
@@ -68,7 +69,19 @@ def tickets():
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
-    return render_template('account.html', page_name='account')
+    title = "Edit Profile"
+    
+    form = editProfileForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.phone = form.phone.data
+        current_user.birth_date = form.birth_date.data
+        
+        db.session.commit()
+        flash("Updated Successfully!", category='alert-success')
+    else:
+        flash_errors(form)
+    return render_template('account.html', page_name='account',form=form)
 
 @app.route('/feedback', methods=['GET', 'POST'])
 @login_required
