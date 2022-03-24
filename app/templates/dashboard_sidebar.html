@@ -10,7 +10,7 @@
                 </div>
                 <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
                     <li class="nav-item border-bottom">
-                        <a href="{{ url_for('dashboard') if page_name != 'dashboard' else '' }}"
+                        <a href="{{ url_for('booking_views.dashboard') if page_name != 'dashboard' else '' }}"
                         class="nav-link {{ 'active' if page_name == 'dashboard' }}"
                         title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
@@ -20,7 +20,7 @@
                         </a>
                     </li>
                     <li class="nav-item  border-bottom">
-                        <a href="{{ url_for('tickets') if page_name != 'tickets' else '' }}"
+                        <a href="{{ url_for('booking_views.tickets') if page_name != 'tickets' else '' }}"
                         class="nav-link {{ 'active' if page_name == 'tickets' }}"
                         title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-ticket-detailed-fill" viewBox="0 0 16 16">

@@ -32,7 +32,9 @@ from app import admin_views
 
 # adding blueprints
 from app.authentication_views import authentication_views
+from app.booking_views import booking_views
 
 app.register_blueprint(authentication_views)
+app.register_blueprint(booking_views)
 
 

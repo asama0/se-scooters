@@ -1,6 +1,40 @@
 {% extends "dashboard_sidebar.html" %}
 {% block main_content %}
 
-<!-- the user should be able to use their tickets here -->
+<div class="py-5">
+    <div class="container">
+        {% for booking in bookings %}
+            {% if loop.index0%3 == 0 %}
+            <div class="row hidden-md-up">
+            {% endif %}
+
+            <div class="col-md-4" style="width: 20rem;">
+                <div class="card">
+                    <h6 class="card-header"> {{ booking.pickup_date }} </h6>
+                    <div class="card-body">
+                        {{ form.set_duration_options(booking)|default("", True) }}
+                        <form action="" method="POST">
+                            {{ form.hidden_tag() }}
+                            {{ form.booking_id(type="hidden", value=booking.id ) }}
+                            <div class="form-group input-group">
+                                {{ form.new_dutration(class_="form-select") }}
+                                {{ form.extend(class_="btn btn-outline-secondary") }}
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                {{ form.refund(class_="btn btn-outline-danger") }}
+                                {{ form.activate(class_="btn btn-outline-success", style="float: right;") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {% if loop.index0%3 == 2 %}
+            </div><br>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}
