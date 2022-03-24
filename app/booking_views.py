@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request
 from datetime import date, datetime
 import stripe
+from telnetlib import Telnet
 
 from app import db
 from .views import current_user, login_required
@@ -81,12 +82,13 @@ def tickets():
             booking_chosen = Booking.query.get(form.booking_id.data)
             print(form.refund.data, form.activate.data)
             if form.refund.data:
-                print("=================== refund was pushed")
                 refund(booking_chosen.payment_intent)
                 db.session.delete(booking_chosen)
                 db.session.commit()
             elif form.activate.data:
-                print("=================== activate was pushed")
+                with Telnet('192.168.50.174', 23) as tn:
+                    tn.write(bytes(str(booking_chosen.scooter_id), 'utf-8'))
+                    tn.close()
                 return redirect(url_for('activate'))
         else:
             flash_errors(form)
