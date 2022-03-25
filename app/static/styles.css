@@ -37,3 +37,13 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+#dropdownMenuLink{
+    display: none;
+}
+
+@media screen and (max-width: 575px) {
+    #dropdownMenuLink{
+        display: inline-block;
+    }
+}
