@@ -74,6 +74,7 @@ def dashboard():
                             time_now=datetime.now().strftime("%H:00"))
 
 @booking_views.route('/tickets', methods=['GET', 'POST'])
+@login_required
 def tickets():
 
     form = TicketForm()
@@ -89,7 +90,7 @@ def tickets():
                 with Telnet('192.168.50.174', 23) as tn:
                     tn.write(bytes(str(booking_chosen.scooter_id), 'utf-8'))
                     tn.close()
-                return redirect(url_for('activate'))
+                return redirect(url_for('activate',token=str(booking_chosen.scooter_id)))
         else:
             flash_errors(form)
 

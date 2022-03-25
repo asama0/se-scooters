@@ -4,6 +4,9 @@
 <div class="qrcenter">
     <h2>Scan the scooters</h2>
     <video id="qr-video" style="width: 100%;"></video>
+    <form id="qr_code_form" method="post" action="" hidden>
+        <input id="qr_result" name="qr_result" type="text" hidden>
+    </form>
 </div>
 
 <script type="module">
@@ -15,6 +18,11 @@
     function setResult(result) {
         QrMessage = Number(result.data); // this assumes we are only getting numbers
         console.log(QrMessage);
+
+        document.getElementById("qr_result").value = result.data;
+        document.getElementById("qr_code_form").action = window.location.href;
+        document.getElementById("qr_code_form").submit();
+
         if(QrMessage != undefined){
             scanner.stop();
         }
