@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<video id="qr-video"></video>
-<br>
-<button id="start-button">Start</button>
-<button id="stop-button">Stop</button>
+<div class="qrcenter">
+    <h2>Scan the scooters</h2>
+    <video id="qr-video" style="width: 100%;"></video>
+</div>
 
 <script type="module">
     import QrScanner from "{{url_for('static', filename='qr-scanner.min.js')}}";
@@ -26,13 +26,7 @@
         highlightCodeOutline: true,
     });
 
-    document.getElementById('start-button').addEventListener('click', () => {
-        scanner.start();
-    });
-
-    document.getElementById('stop-button').addEventListener('click', () => {
-        scanner.stop();
-    });
+    scanner.start();
 </script>
 
 {% endblock %}
