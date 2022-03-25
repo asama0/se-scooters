@@ -11,7 +11,7 @@ prod_L7tv4Gbl7YQuKm
 
 
 prices:
-lookup key | ID
+lookup key | ID 
 1h         | price_1KS0sAAWMfIxY0DOOfJJlzag
 4h         | rice_1KS0sAAWMfIxY0DOXu2iK9M6
 1d         | price_1KS0sAAWMfIxY0DO2wKYA9OY
