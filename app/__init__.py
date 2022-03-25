@@ -38,4 +38,3 @@ app.register_blueprint(authentication_views)
 app.register_blueprint(booking_views)
 
 
-

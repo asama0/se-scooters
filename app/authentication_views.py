@@ -20,7 +20,7 @@ def load_user(user_id):
 @authentication_views.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('booking_views.dashboard'))
 
     form = registrationForm()
     if form.validate_on_submit():
@@ -41,7 +41,7 @@ def register():
 @authentication_views.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('booking_views.dashboard'))
 
     form = loginForm()
     if form.validate_on_submit():
@@ -55,7 +55,7 @@ def login():
                 if not is_safe_url(next):
                     return abort(400)
 
-                return redirect(next or url_for('dashboard'))
+                return redirect(next or url_for('booking_views.dashboard'))
             flash('Log in failed.', category='alert-danger')
     else:
         flash_errors(form)
@@ -71,9 +71,9 @@ def logout():
 
 #here user requist password reset by submmiting email account, email must be registerd
 @authentication_views.route("/forgot_password", methods=['GET', 'POST'])
-def reset_request():
+def forgot_password():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('booking_views.dashboard'))
     form = forgotPasswordForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -86,7 +86,7 @@ def reset_request():
 @authentication_views.route("/forgot_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('booking_views.dashboard'))
     user = User.verify_reset_token(token)
     if user is None:
         return redirect(url_for('authentication_views.forgotPassword'))

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextAreaField, RadioField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
 from wtforms.fields import DateField,TelField, TimeField, SelectField
 from wtforms_sqlalchemy.fields import QuerySelectField
@@ -123,6 +123,39 @@ class resetPasswordForm(FlaskForm):
                             )
     submit = SubmitField('change password')
 
+class feedbackForm(FlaskForm):
+    experience = RadioField('Experience', choices=["awful", "bad", "average", "good", "excellent"],
+                        validators=[DataRequired()])
+    feedback = TextAreaField('Feedback', 
+                        validators=[
+                            DataRequired(), Length(min=0, max=10000, 
+                            message='please provide a feedback')
+                        ]
+                        )
+    urgent = BooleanField('Urgent')
+    submit = SubmitField('Submit')
+
+
+
+
+class editProfileForm(FlaskForm):
+    # string field to write username
+    name = StringField('Name', validators=[])
+
+    # password field to write user password
+    # length, min=8,max=25
+    birth_date = DateField('Date of Birth',
+                            validators=[
+                            ]
+                            )
+
+    phone = TelField('Phone Number',
+                            validators=[
+                            ]
+                            )
+
+    # submit field to submit user info
+    submit = SubmitField('Update')
 
 class TicketForm(FlaskForm):
 
@@ -134,5 +167,3 @@ class TicketForm(FlaskForm):
 
     def set_duration_options(self, booking:Booking):
         self.new_dutration.choices = [(price.id, price.lookup_key) for price in Price.query.all()]
-
-
