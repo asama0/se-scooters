@@ -17,12 +17,12 @@ function InitializeMe(){
 
      $.post("/year_request", function (data){
         year_array = data.slice();
-        updateTheGraphs(barchar, labels2, year_array);
+        updateTheGraphs(barchar3, year_lable, year_array);
     })
 
      $.post("/total_request", function (data){
         total_array = data.slice();
-        updateTheGraphs(barchar, labels2, total_array);
+        updateTheGraphs(barchar4, total_lable, total_array);
     })
 }
 
@@ -43,12 +43,12 @@ function updateTheGraphs(chart, label, arr) {
 
 
 
-const weekl = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+const weekl = ['Monday', 'Tuesday', 'Wednesday', 'Thurthsday', 'Friday', 'Saturday', 'Sunday']
 
 var data_week = {
   labels: weekl,
         datasets: [{
-            label: '# of Votes',
+            label: 'WEEKLY GRAPH',
             data: [],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -72,12 +72,14 @@ var data_week = {
 
 
 
-const month_lable = ['1', '2', '3', '4', '5', '6']
+const month_lable = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+'13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', "24", "25", '26',
+'27', '28', '29', '30']
 
 var data_month = {
   labels: month_lable,
         datasets: [{
-            label: 'Second',
+            label: 'MONTHLY GRAPH',
             data: [],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -102,7 +104,7 @@ var data_month = {
 
 
 var config2 = {
-  type: 'bar',
+  type: 'line',
   data: data_week,
   options: {
         scales: {
@@ -115,7 +117,7 @@ var config2 = {
 
 
 var monthl = {
-  type: 'bar',
+  type: 'line',
   data: data_month,
   options: {
         scales: {
@@ -132,13 +134,94 @@ var monthl = {
 
 
 
+const year_lable = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+
+var data_year = {
+  labels: year_lable,
+        datasets: [{
+            label: 'YEARLY GRAPH',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+};
+
+
+
+
+var yearl = {
+  type: 'bar',
+  data: data_year,
+  options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
 
 
 
 
 
 
+const total_lable = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
+var data_total = {
+  labels: total_lable,
+        datasets: [{
+            label: 'TOTAL GRAPH',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+};
+
+
+
+
+var totals = {
+  type: 'bar',
+  data: data_total,
+  options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
 
 
 
@@ -161,14 +244,14 @@ const barchar2 = new Chart(
 //for  different layers dublicated
 const barchar3 = new Chart(
     document.getElementById('canvas_plot3'),
-    config2
+    yearl
 )
 
 
 //for  different layers dublicated
 const barchar4 = new Chart(
-    document.getElementById('canvas_plot5'),
-    config2
+    document.getElementById('canvas_plot4'),
+    totals
 )
 
 
@@ -176,7 +259,7 @@ const barchar4 = new Chart(
 //for  different layers dublicated
 const barchar5 = new Chart(
     document.getElementById('canvas_plot7'),
-    config2
+    yearl
 )
 
 
@@ -239,8 +322,8 @@ const barchar5 = new Chart(
 
     //for  different layers dublicated
     const myChart = new Chart(
-    document.getElementById('canvas_plot4'),
-    config
+    document.getElementById('canvas_plot5'),
+    config2
   );
 
 
@@ -248,14 +331,14 @@ const barchar5 = new Chart(
     //for  different layers dublicated
     const myChart2 = new Chart(
     document.getElementById('canvas_plot6'),
-    config
+    monthl
   );
 
 
      //for  different layers dublicated
     const myChart3 = new Chart(
     document.getElementById('canvas_plot8'),
-    config
+    totals
   );
 
 

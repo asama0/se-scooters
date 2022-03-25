@@ -29,13 +29,13 @@ body {
 
 #canvas_plot {
     margin: auto;
-    background-color: wheat;
+    background-color: white;
 }
 
 
 #canvas_plot2 {
     margin: auto;
-    background-color: cadetblue;
+    background-color: white;
 }
 
 
@@ -78,7 +78,7 @@ body {
 
 .item{
     padding: 10px;
-    border: 2px solid black;
+    /*border: 2px solid black;*/
 }
 
 

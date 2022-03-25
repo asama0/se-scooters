@@ -131,4 +131,5 @@ def post_total_request():
 
 @app.route('/analytics')
 def analytics():
-    return render_template('analytics.html')
+    return render_template('analytics_index.html')
+

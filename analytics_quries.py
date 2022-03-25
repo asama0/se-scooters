@@ -1,5 +1,5 @@
 import numpy as np
-from app.models import Booking
+from app.models import Booking, Price
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -23,8 +23,8 @@ def query_booking_by_date(start_date, end_date):
     # change every booking to a dictionary
     result_dict = [
         {'date': str(booking.created_date_time),
-         'amount': booking.amount,
-         'duration': booking.duration}
+         'amount': Price.query.get(booking.price_id).amount,
+         'duration': Price.query.get(booking.price_id).duration}
         for booking in result_query
     ]
 
@@ -36,8 +36,8 @@ def get_full_data():
     # change every booking to a dictionary
     result_dict = [
         {'date': str(booking.created_date_time),
-         'amount': booking.amount,
-         'duration': booking.duration}
+         'amount': Price.query.get(booking.price_id).amount,
+         'duration': Price.query.get(booking.price_id).duration}
         for booking in resssult
     ]
 
@@ -58,7 +58,7 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
             (datetime(start_year, start_month, start_day) - relativedelta(months=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(months=period_list_end))
     elif period_key == "total":
-        period = np.array_split(get_full_data(), 20)
+        period = np.array_split(get_full_data(), 10)
 
     # sum for lenth
     global sum
@@ -92,4 +92,9 @@ def get_analitics(period, period_key):
             year.append(sum_of_period)
 
 week.insert(1, 111)
-month.insert(2, 30)
+week.insert(2, 111)
+week.insert(4, 111)
+month.insert(5, 30)
+year.insert(4, 1190)
+max_period.insert(3, 212)
+year.insert(4, 700)
