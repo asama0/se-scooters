@@ -12,7 +12,7 @@
                 <div class="card">
                     <h6 class="card-header"> {{ booking.pickup_date }} </h6>
                     <div class="card-body">
-                        {{ form.set_duration_options(booking)|default("", True) }}
+                        {#{ form.set_duration_options(booking)|default("", True) }#}
                         <form action="" method="POST">
                             {{ form.hidden_tag() }}
                             {{ form.booking_id(type="hidden", value=booking.id ) }}
