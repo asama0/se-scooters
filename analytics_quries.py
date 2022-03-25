@@ -58,7 +58,7 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
             (datetime(start_year, start_month, start_day) - relativedelta(months=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(months=period_list_end))
     elif period_key == "total":
-        period = np.array_split(get_full_data(), 20)
+        period = np.array_split(get_full_data(), 10)
 
     # sum for lenth
     global sum

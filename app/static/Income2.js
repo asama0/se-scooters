@@ -43,7 +43,7 @@ function updateTheGraphs(chart, label, arr) {
 
 
 
-const weekl = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+const weekl = ['Monday', 'Tuesday', 'Wednesday', 'Thurthsday', 'Friday', 'Saturday', 'Sunday']
 
 var data_week = {
   labels: weekl,
@@ -72,7 +72,9 @@ var data_week = {
 
 
 
-const month_lable = ['1', '2', '3', '4', '5', '6']
+const month_lable = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+'13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', "24", "25", '26',
+'27', '28', '29', '30']
 
 var data_month = {
   labels: month_lable,
@@ -102,7 +104,7 @@ var data_month = {
 
 
 var config2 = {
-  type: 'bar',
+  type: 'line',
   data: data_week,
   options: {
         scales: {
@@ -115,7 +117,7 @@ var config2 = {
 
 
 var monthl = {
-  type: 'bar',
+  type: 'line',
   data: data_month,
   options: {
         scales: {
@@ -132,7 +134,7 @@ var monthl = {
 
 
 
-const year_lable = ['1', '2', '3', '4', '5', '6']
+const year_lable = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
 
 var data_year = {
   labels: year_lable,
@@ -179,7 +181,7 @@ var yearl = {
 
 
 
-const total_lable = ['1', '2', '3', '4', '5', '6']
+const total_lable = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
 var data_total = {
   labels: total_lable,
