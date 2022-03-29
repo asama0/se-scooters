@@ -10,7 +10,7 @@ def get_time_periods():
     return Price.query.order_by('duration')
 
 def get_parkings():
-    return Parking.query.filter(Parking.scooters.any()).order_by('location')
+    return Parking.query.filter(Parking.scooters.any()).order_by('name')
 
 class registrationForm(FlaskForm):
     # string field to write username
@@ -159,7 +159,7 @@ class editProfileForm(FlaskForm):
 
 class TicketForm(FlaskForm):
 
-    new_dutration = SelectField(choices=[(price.id, price.lookup_key) for price in Price.query.all()], coerce=int)
+    # new_dutration = SelectField(choices=[(price.id, price.lookup_key) for price in Price.query.all()], coerce=int)
     extend = SubmitField('Extend')
     booking_id = IntegerField(validators=[DataRequired()])
     refund = SubmitField('Refund')

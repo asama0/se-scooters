@@ -63,20 +63,19 @@ class Booking(db.Model):
 
 class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(120), unique=True, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
 
     scooters = db.relationship('Scooter', backref='parking')
 
     def __repr__(self):
-        return str(self.location)
+        return str(self.name)
 
 class Price(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     api_id = db.Column(db.String(100), unique=True, nullable=False)
     lookup_key = db.Column(db.String(100), unique=True, nullable=False)
-    duration = db.Column(db.Float, nullable=False)
     amount = db.Column(db.Float, nullable=False)
 
     bookings = db.relationship('Booking', backref='price')
@@ -84,7 +83,13 @@ class Price(db.Model):
     def __repr__(self):
         return str(self.lookup_key)
 
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    experience = db.Column(db.String(10), nullable=False)
+    feedback = db.Column(db.String(10000), nullable=False)
+    urgent = db.Column(db.Boolean, default=False, nullable=False)
 
-
+    def __repr__(self):
+        return f'<Feedback #{self.id}>'
 
 

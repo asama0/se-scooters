@@ -11,7 +11,7 @@ prod_L7tv4Gbl7YQuKm
 
 
 prices:
-lookup key | ID 
+lookup key | ID
 1h         | price_1KS0sAAWMfIxY0DOOfJJlzag
 4h         | rice_1KS0sAAWMfIxY0DOXu2iK9M6
 1d         | price_1KS0sAAWMfIxY0DO2wKYA9OY
@@ -107,7 +107,13 @@ def get_all_prices():
     specificList = []
 
     for price in fullList:
-        specificList.append((price.get("lookup_key"), price.get("id"), float(price.get("unit_amount"))/100))
+        specificList.append(
+            {
+               'api_id': price.get("id"),
+               'lookup_key': price.get("lookup_key"),
+               'amount': float(price.get("unit_amount"))/100
+            }
+        )
 
     return specificList
 
@@ -139,7 +145,7 @@ def list_payments(start_date:datetime, end_date:datetime):
 def refund(payment_intent):
     stripe.Refund.create(payment_intent=payment_intent)
 
-
+# print(get_all_prices())
 #create_a_price("prod_L7tv4Gbl7YQuKm", 10, "1h")
 #create_a_price("prod_L7tv4Gbl7YQuKm", 40, "4h")
 #create_a_price("prod_L7tv4Gbl7YQuKm", 80, "1d")
