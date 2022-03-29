@@ -59,7 +59,8 @@ admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
 admin.add_view(UserView(User, db.session))
 admin.add_view(ScooterView(Scooter, db.session))
 admin.add_view(ParkingView(Parking, db.session))
-# admin.add_view(ModelView(Cost, db.session))
+admin.add_view(ModelView(Booking, db.session))
+admin.add_view(ModelView(Feedback, db.session))
 admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
 
 

@@ -4,12 +4,11 @@ import stripe
 import csv
 from datetime import datetime
 
-with open('csv/users.csv', 'w', newline='') as file:
+
+with open('csv/users.csv', 'r', newline='') as file:
     csv_reader = csv.DictReader(file, delimiter=',')
 
     for line_count, row in enumerate(csv_reader):
-        if line_count == 0:
-            continue
 
         hashedPassword = bcrypt.generate_password_hash(row['password']).decode('utf-8')
         new_stripe_id = stripe.Customer.create()['id']
@@ -22,5 +21,4 @@ with open('csv/users.csv', 'w', newline='') as file:
                 privilege=int(row['privilege'])
             )
         )
-
-    db.session.commit()
+        db.session.commit()

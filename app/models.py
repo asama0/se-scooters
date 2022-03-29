@@ -87,7 +87,7 @@ class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     experience = db.Column(db.String(10), nullable=False)
     feedback = db.Column(db.String(10000), nullable=False)
-    urgent = availability = db.Column(db.Boolean, default=False, nullable=False)
+    urgent = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return f'<Feedback #{self.id}>'
