@@ -13,13 +13,14 @@ with open('csv/users.csv', 'w', newline='') as file:
 
         hashedPassword = bcrypt.generate_password_hash(row['password']).decode('utf-8')
         new_stripe_id = stripe.Customer.create()['id']
-        new_user = User(
-            name=row['name'], email=row['email'], password=hashedPassword,
-            birth_date=datetime.strptime(row['birth_date'], '%d/%m/%Y'),
-            phone=int(row['phone']), stripe_id=new_stripe_id,
-            privilege=int(row['privilege'])
-        )
 
-        db.session.add(new_user)
+        db.session.add(
+            User(
+                name=row['name'], email=row['email'], password=hashedPassword,
+                birth_date=datetime.strptime(row['birth_date'], '%d/%m/%Y'),
+                phone=int(row['phone']), stripe_id=new_stripe_id,
+                privilege=int(row['privilege'])
+            )
+        )
 
     db.session.commit()

@@ -9,12 +9,12 @@ with open('csv/parkings.csv', 'w', newline='') as file:
         if line_count == 0:
             continue
 
-        new_parking = Parking(
-            name=row['name'],
-            latitude=float(row['latitude']),
-            longitude=float(row['longitude'])
+        db.session.add(
+            Parking(
+                name=row['name'],
+                latitude=float(row['latitude']),
+                longitude=float(row['longitude'])
+            )
         )
-
-        db.session.add(new_parking)
 
     db.session.commit()
