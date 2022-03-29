@@ -70,7 +70,7 @@ class Parking(db.Model):
     scooters = db.relationship('Scooter', backref='parking')
 
     def __repr__(self):
-        return str(self.location)
+        return str(self.name)
 
 class Price(db.Model):
     id = db.Column(db.Integer, primary_key=True)
