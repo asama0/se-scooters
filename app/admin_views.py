@@ -48,8 +48,8 @@ class ScooterView(ModelView):
 
 class ParkingView(ModelView):
     can_delete = False
-    column_filters = ['location']
-    column_searchable_list = ['location']
+    column_filters = ['name']
+    column_searchable_list = ['name']
 
 
 # admin pages setup

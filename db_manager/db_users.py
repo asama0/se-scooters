@@ -1,10 +1,23 @@
 from app import db, bcrypt
+from app.models import User
+import stripe
+import csv
 
-new_user = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-new_stripe_id = stripe.Customer.create()['id']
-user = User(name=form.name.data, email=form.email.data,
-            password=hashedPassword, birth_date=form.birth_date.data,
-            phone=form.phone.data, stripe_id=new_stripe_id)
+with open('csv/users.csv', 'w', newline='') as file:
+    csv_reader = csv.DictReader(file, delimiter=',')
 
-db.session.add(new_user)
-db.session.commit()
+    for line_count, row in enumerate(csv_reader):
+        if line_count == 0:
+            continue
+
+        hashedPassword = bcrypt.generate_password_hash(row['password']).decode('utf-8')
+        new_stripe_id = stripe.Customer.create()['id']
+        new_user = User(name=row['name'], email=row['email'],
+                    password=hashedPassword, birth_date=row['birth_date'],
+                    phone=row['phone'], stripe_id=new_stripe_id,
+                    privilege=row['privilege']
+                )
+
+        db.session.add(new_user)
+
+    db.session.commit()

@@ -63,7 +63,7 @@ class Booking(db.Model):
 
 class Parking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(120), unique=True, nullable=False)
+    name = db.Column(db.String(120), unique=True, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
 

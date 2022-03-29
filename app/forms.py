@@ -10,7 +10,7 @@ def get_time_periods():
     return Price.query.order_by('duration')
 
 def get_parkings():
-    return Parking.query.filter(Parking.scooters.any()).order_by('location')
+    return Parking.query.filter(Parking.scooters.any()).order_by('name')
 
 class registrationForm(FlaskForm):
     # string field to write username
