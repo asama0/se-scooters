@@ -76,7 +76,6 @@ class Price(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     api_id = db.Column(db.String(100), unique=True, nullable=False)
     lookup_key = db.Column(db.String(100), unique=True, nullable=False)
-    duration = db.Column(db.Float, nullable=False)
     amount = db.Column(db.Float, nullable=False)
 
     bookings = db.relationship('Booking', backref='price')
