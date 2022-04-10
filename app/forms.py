@@ -7,7 +7,7 @@ from .models import *
 
 
 def get_time_periods():
-    return Price.query.order_by('duration')
+    return Price.query.order_by('amount')
 
 def get_parkings():
     return Parking.query.filter(Parking.scooters.any()).order_by('name')
