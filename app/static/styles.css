@@ -51,3 +51,23 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+#btn{
+    display: none;
+}
+
+@media screen and (max-width: 575px) {
+    #btn{
+        display: inline-block;
+        box-shadow: none !important;
+    }
+    #list {
+        list-style-type: none !important;
+        position: absolute;
+        z-index: 100 !important;
+        width: 50%;
+        top: 145px;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+}
