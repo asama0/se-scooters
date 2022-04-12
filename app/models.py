@@ -10,7 +10,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    phone = db.Column(db.Integer, unique=True, nullable=False)
+    phone = db.Column(db.Integer, nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
     privilege = db.Column(db.Integer, nullable=False, default=1)
     blocked = db.Column(db.Boolean, nullable=False, default=False)

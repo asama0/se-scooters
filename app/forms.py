@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextAreaField, RadioField, BooleanField
-from wtforms.validators import DataRequired, Email, Length, EqualTo,ValidationError
+from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
 from wtforms.fields import DateField,TelField, TimeField, SelectField
 from wtforms_sqlalchemy.fields import QuerySelectField
+from helper_functions import Unique
 from .models import *
 
 
@@ -19,7 +20,8 @@ class registrationForm(FlaskForm):
     email = StringField('Email',
                         validators=[
                             Email(message='Error, Enter a valid email'),
-                            DataRequired()
+                            DataRequired(),
+                            Unique(User, User.email)
                         ]
                         )
     # password field to write user password
@@ -144,15 +146,9 @@ class editProfileForm(FlaskForm):
 
     # password field to write user password
     # length, min=8,max=25
-    birth_date = DateField('Date of Birth',
-                            validators=[
-                            ]
-                            )
+    birth_date = DateField('Date of Birth', validators=[])
 
-    phone = TelField('Phone Number',
-                            validators=[
-                            ]
-                            )
+    phone = TelField('Phone Number', validators=[])
 
     # submit field to submit user info
     submit = SubmitField('Update')
