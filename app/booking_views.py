@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import stripe
 from telnetlib import Telnet
+from time import time
 
 from app import db
 from .views import current_user, login_required
@@ -32,7 +33,28 @@ def dashboard():
 
     form = BookingForm()
     if form.validate_on_submit():
+        discounts = None
+        totalHours = 0
+        weekAgo = datetime.today() - timedelta(days=7)
+        senior = datetime.today() - timedelta(days=21900)
+        
+        # counts the booking hours in the last 7 days
+        userBookings = Booking.query.filter_by(user_id=current_user.id).all() 
+        for booking in userBookings:
+            if booking.created_date_time > weekAgo:
+                if booking.price_id == 4:
+                    totalHours += 1
+                elif booking.price_id == 3:
+                    totalHours += 4
+                elif booking.price_id == 2:
+                    totalHours += 24
+                elif booking.price_id == 1:
+                    totalHours += 168
 
+        #applies the discount if the current user is a regular user or a senior citizen
+        if totalHours > 7 or datetime.combine(current_user.birth_date, datetime.min.time()) < senior:
+            discounts=[{'coupon': "returning",}]
+        
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
@@ -42,6 +64,7 @@ def dashboard():
                 },
             ],
             mode='payment',
+            discounts=discounts,
             success_url= url_for('booking_views.dashboard', _external=True, checkout_status='success'),
             cancel_url= url_for('booking_views.dashboard', _external=True, checkout_status='canceled'),
             customer = current_user.stripe_id,
