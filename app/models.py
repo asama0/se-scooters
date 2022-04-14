@@ -58,6 +58,9 @@ class Booking(db.Model):
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
     payment_intent = db.Column(db.String(100), unique=True, nullable=False)
 
+    def get_end_datetime(self):
+        return self.pickup_date + Price.query.get(self.price_id).get_timedelta()
+
     def __repr__(self):
         return f'<Booking #{self.id}>'
 
@@ -73,6 +76,7 @@ class Parking(db.Model):
     def __repr__(self):
         return str(self.name)
 
+
 class Price(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     api_id = db.Column(db.String(100), unique=True, nullable=False)
@@ -81,13 +85,12 @@ class Price(db.Model):
 
     bookings = db.relationship('Booking', backref='price')
 
-
     def get_timedelta(self):
         return string_to_timedelta(self.lookup_key)
 
-
     def __repr__(self):
         return str(self.lookup_key)
+
 
 class Feedback(db.Model):
     id = db.Column(db.Integer, primary_key=True)
