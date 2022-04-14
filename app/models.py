@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy.sql.functions import now
 import jwt
 from time import time
+from helper_functions import string_to_timedelta
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -79,6 +80,11 @@ class Price(db.Model):
     amount = db.Column(db.Float, nullable=False)
 
     bookings = db.relationship('Booking', backref='price')
+
+
+    def get_timedelta(self):
+        return string_to_timedelta(self.lookup_key)
+
 
     def __repr__(self):
         return str(self.lookup_key)
