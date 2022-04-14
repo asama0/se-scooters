@@ -1,5 +1,7 @@
 from urllib.parse import urlparse, urljoin
 from flask import request, flash
+from datetime import timedelta
+import re
 
 # check if url in get request is safe
 def is_safe_url(target):
@@ -36,3 +38,15 @@ class Unique(object):
         check = self.model.query.filter(self.field == field.data).first()
         if check:
             raise ValidationError(self.message)
+
+def string_to_timedelta(str):
+    matchObj = re.match(r'(\d+)\s(\w+)', str, re.M)
+    number = int(matchObj.group(1))
+    unit = matchObj.group(2)
+
+    if 'hour' in unit:
+        return timedelta(hours=number)
+    if 'day' in unit:
+        return timedelta(days=number)
+    if 'week' in unit:
+        return timedelta(weeks=number)
