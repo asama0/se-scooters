@@ -1,6 +1,6 @@
 from flask import flash
 from flask_admin import Admin, AdminIndexView, expose
-from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.sqla import ModelView, func
 
 from app import app, db
 from .models import *
@@ -51,6 +51,11 @@ class ParkingView(ModelView):
     column_filters = ['name']
     column_searchable_list = ['name']
 
+class PriorityFeedbackView(ModelView):
+    def get_query(self):
+        return self.session.query(self.model).filter(self.model.urgent==True)
+    def get_count_query(self):
+        return self.session.query(func.count('*')).filter(self.model.urgent==True)
 
 # admin pages setup
 admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
@@ -60,7 +65,8 @@ admin.add_view(UserView(User, db.session))
 admin.add_view(ScooterView(Scooter, db.session))
 admin.add_view(ParkingView(Parking, db.session))
 admin.add_view(ModelView(Booking, db.session))
-admin.add_view(ModelView(Feedback, db.session))
+admin.add_view(ModelView(Feedback, db.session,name="feedback"))
+admin.add_view(PriorityFeedbackView(FeedbackPiority, db.session,name="feedback"))
 admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
 
 
