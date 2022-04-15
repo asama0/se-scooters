@@ -134,7 +134,6 @@ class feedbackForm(FlaskForm):
                             message='please provide a feedback')
                         ]
                         )
-    urgent = BooleanField('Urgent')
     submit = SubmitField('Submit')
 
 
