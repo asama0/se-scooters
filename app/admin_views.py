@@ -1,6 +1,7 @@
 from flask import flash
 from flask_admin import Admin, AdminIndexView, expose
-from flask_admin.contrib.sqla import ModelView, func
+from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.sqla.view import func
 
 from app import app, db
 from .models import *
@@ -65,8 +66,8 @@ admin.add_view(UserView(User, db.session))
 admin.add_view(ScooterView(Scooter, db.session))
 admin.add_view(ParkingView(Parking, db.session))
 admin.add_view(ModelView(Booking, db.session))
-admin.add_view(ModelView(Feedback, db.session,name="feedback"))
-admin.add_view(PriorityFeedbackView(FeedbackPiority, db.session,name="feedback"))
+# admin.add_view(ModelView(Feedback, db.session,name="feedback"))
+admin.add_view(PriorityFeedbackView(Feedback, db.session))
 admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
 
 
