@@ -154,7 +154,7 @@ class editProfileForm(FlaskForm):
 
 class TicketForm(FlaskForm):
 
-    new_dutration = SelectField(choices=[(price.id, price.lookup_key) for price in Price.query.all()], coerce=int)
+    # new_dutration = SelectField(choices=[(price.id, price.lookup_key) for price in Price.query.all()], coerce=int)
     extend = SubmitField('Extend')
     booking_id = IntegerField(validators=[DataRequired()])
     refund = SubmitField('Refund')
