@@ -126,9 +126,9 @@ class resetPasswordForm(FlaskForm):
     submit = SubmitField('change password')
 
 class feedbackForm(FlaskForm):
-    experience = RadioField('Experience', choices=["awful", "bad", "average", "good", "excellent"],
+    experience = RadioField( choices=["awful", "bad", "average", "good", "excellent"],
                         validators=[DataRequired()])
-    feedback = TextAreaField('Feedback', 
+    feedback = TextAreaField(
                         validators=[
                             DataRequired(), Length(min=0, max=10000, 
                             message='please provide a feedback')
