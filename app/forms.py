@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextAreaField, RadioField, BooleanField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
-from wtforms.fields import DateField,TelField, TimeField, SelectField
+from wtforms.fields import DateField, TelField, TimeField, SelectField
 from wtforms_sqlalchemy.fields import QuerySelectField
 from helper_functions import Unique
 from .models import *
@@ -10,8 +10,10 @@ from .models import *
 def get_time_periods():
     return Price.query.order_by('amount')
 
+
 def get_parkings():
     return Parking.query.filter(Parking.scooters.any()).order_by('name')
+
 
 class registrationForm(FlaskForm):
     # string field to write username
@@ -44,16 +46,16 @@ class registrationForm(FlaskForm):
                               ]
                               )
     birth_date = DateField('Date of Birth',
-                            validators=[
-                                DataRequired()
-                            ]
-                            )
+                           validators=[
+                               DataRequired()
+                           ]
+                           )
 
     phone = TelField('Phone Number',
-                            validators=[
-                                DataRequired()
-                            ]
-                            )
+                     validators=[
+                         DataRequired()
+                     ]
+                     )
 
     # submit field to submit user info
     submit = SubmitField('register')
@@ -93,50 +95,50 @@ class BookingForm(FlaskForm):
 
     submit = SubmitField('submit')
 
+
 class forgotPasswordForm(FlaskForm):
     email = StringField('Email',
-                    validators=[
-                        Email()
-                        ,
-                         DataRequired()
-                    ]
-                     )
+                        validators=[
+                            Email(),
+                            DataRequired()
+                        ]
+                        )
     submit = SubmitField('send email')
+
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError('no account found .')
 
+
 class resetPasswordForm(FlaskForm):
     password = PasswordField('Password',
-                            validators=[
-                                Length(
-                                    min=8, max=25, message='Error, password must be between 8-25 charecter '),
-                                DataRequired()
-                            ]
-                            )
+                             validators=[
+                                 Length(
+                                     min=8, max=25, message='Error, password must be between 8-25 charecter '),
+                                 DataRequired()
+                             ]
+                             )
     # password field to re-write user password
     password2 = PasswordField('Confirm Password',
-                            validators=[
-                                EqualTo(
-                                    'password', message='passwords does not match'),
-                                DataRequired()
-                            ]
-                            )
+                              validators=[
+                                  EqualTo(
+                                      'password', message='passwords does not match'),
+                                  DataRequired()
+                              ]
+                              )
     submit = SubmitField('change password')
 
+
 class feedbackForm(FlaskForm):
-    experience = RadioField( choices=["awful", "bad", "average", "good", "excellent"],
-                        validators=[DataRequired()])
+    experience = RadioField(choices=["awful", "bad", "average", "good", "excellent"],
+                            validators=[DataRequired()])
     feedback = TextAreaField(
-                        validators=[
-                            DataRequired(), Length(min=0, max=10000, 
-                            message='please provide a feedback')
-                        ]
-                        )
+        validators=[
+            DataRequired(), Length(min=0, max=10000,message='please provide a feedback')
+        ]
+    )
     submit = SubmitField('Submit')
-
-
 
 
 class editProfileForm(FlaskForm):
@@ -152,13 +154,10 @@ class editProfileForm(FlaskForm):
     # submit field to submit user info
     submit = SubmitField('Update')
 
-class TicketForm(FlaskForm):
 
-    # new_dutration = SelectField(choices=[(price.id, price.lookup_key) for price in Price.query.all()], coerce=int)
+class TicketForm(FlaskForm):
+    new_dutration = QuerySelectField(validators=[DataRequired()], query_factory=get_time_periods)
     extend = SubmitField('Extend')
     booking_id = IntegerField(validators=[DataRequired()])
     refund = SubmitField('Refund')
     activate = SubmitField('Activate')
-
-    def set_duration_options(self, booking:Booking):
-        self.new_dutration.choices = [(price.id, price.lookup_key) for price in Price.query.all()]

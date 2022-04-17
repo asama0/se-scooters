@@ -13,6 +13,7 @@ year = []
 max_period = []
 sum = 0
 
+
 def query_booking_by_date(start_date, end_date):
     # querying bookings from database
     result_query = Booking.query \
@@ -30,8 +31,10 @@ def query_booking_by_date(start_date, end_date):
 
     return result_dict
 
+
 def get_full_data():
-    resssult = Booking.query.filter((Booking.id >= 1) & (Booking.created_date_time <= datetime(start_year, start_month, start_day)))
+    resssult = Booking.query.filter((Booking.id >= 1) & (
+        Booking.created_date_time <= datetime(start_year, start_month, start_day)))
 
     # change every booking to a dictionary
     result_dict = [
@@ -44,18 +47,23 @@ def get_full_data():
     return result_dict
 
 # pass days between to store sumes in the list , ex  January to February and so on
+
+
 def get_data_list_days(period_list_start, period_list_end, period_key):
     if period_key == "week":
         period = query_booking_by_date(
-            (datetime(start_year, start_month, start_day) - relativedelta(days=period_list_start)),
+            (datetime(start_year, start_month, start_day) -
+             relativedelta(days=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(days=period_list_end))
     elif period_key == "month":
         period = query_booking_by_date(
-            (datetime(start_year, start_month, start_day) - relativedelta(days=period_list_start)),
+            (datetime(start_year, start_month, start_day) -
+             relativedelta(days=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(days=period_list_end))
     elif period_key == "year":
         period = query_booking_by_date(
-            (datetime(start_year, start_month, start_day) - relativedelta(months=period_list_start)),
+            (datetime(start_year, start_month, start_day) -
+             relativedelta(months=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(months=period_list_end))
     elif period_key == "total":
         period = np.array_split(get_full_data(), 10)
@@ -75,6 +83,7 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
             sum = sum + i.get("amount")
         return sum
 
+
 def get_analitics(period, period_key):
     sum_of_period = 0
 
@@ -90,6 +99,7 @@ def get_analitics(period, period_key):
         elif period_key == "year":
             sum_of_period = get_data_list_days(i + 1, i, period_key)
             year.append(sum_of_period)
+
 
 week.insert(1, 111)
 week.insert(2, 111)

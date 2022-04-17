@@ -14,6 +14,7 @@ from analytics_quries import *
 def index():
     return render_template('index.html')
 
+
 @login_required
 @app.route('/activate/<token>', methods=['GET', 'POST'])
 def activate(token):
@@ -26,8 +27,8 @@ def activate(token):
 
         return redirect(url_for('booking_views.dashboard'))
 
-
     return render_template('QRCodeScanner.html')
+
 
 @login_required
 @app.route('/account', methods=['GET', 'POST'])
@@ -41,7 +42,8 @@ def account():
         flash("Updated Successfully!", category='alert-success')
     else:
         flash_errors(form)
-    return render_template('account.html', page_name='account',form=form)
+    return render_template('account.html', page_name='account', form=form)
+
 
 @login_required
 @app.route('/feedback', methods=['GET', 'POST'])
@@ -49,9 +51,10 @@ def account():
 def feedback():
     form = feedbackForm()
 
-    # retrieve the feedback then adds it to the database 
+    # retrieve the feedback then adds it to the database
     if form.validate_on_submit():
-        feedback = Feedback(experience=form.experience.data, feedback=form.feedback.data)
+        feedback = Feedback(experience=form.experience.data,
+                            feedback=form.feedback.data)
         db.session.add(feedback)
         db.session.commit()
         flash('Feedback submitted successfully')
@@ -91,7 +94,7 @@ def post_total_request():
     get_data_list_days(1, 1, "total")
     return jsonify(max_period)
 
+
 @app.route('/analytics')
 def analytics():
     return render_template('analytics_index.html')
-

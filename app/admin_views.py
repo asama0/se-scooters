@@ -10,6 +10,7 @@ from .authentication_views import current_user, login, redirect, url_for, reques
 
 from flask_admin import BaseView, expose
 
+
 class AdminHomeView(AdminIndexView):
     @expose('/')
     def index(self):
@@ -29,17 +30,18 @@ class AdminHomeView(AdminIndexView):
     #     flash('/admin is staff only.', category='message alert-danger')
     #     return redirect(url_for('login'))
 
+
 class Analytics(BaseView):
     @expose('/')
     def index(self):
         return self.render('analytics_index.html')
+
 
 class UserView(ModelView):
     can_delete = False
     column_searchable_list = ['name', 'email', 'phone', 'birth_date']
     column_editable_list = ['name', 'email', 'phone', 'birth_date']
     column_filters = ['privilege', 'blocked']
-
 
 
 class ScooterView(ModelView):
@@ -52,11 +54,14 @@ class ParkingView(ModelView):
     column_filters = ['name']
     column_searchable_list = ['name']
 
+
 class PriorityFeedbackView(ModelView):
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.urgent==True)
+        return self.session.query(self.model).filter(self.model.urgent == True)
+
     def get_count_query(self):
-        return self.session.query(func.count('*')).filter(self.model.urgent==True)
+        return self.session.query(func.count('*')).filter(self.model.urgent == True)
+
 
 # admin pages setup
 admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
@@ -69,9 +74,3 @@ admin.add_view(ModelView(Booking, db.session))
 # admin.add_view(ModelView(Feedback, db.session,name="feedback"))
 admin.add_view(PriorityFeedbackView(Feedback, db.session))
 admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
-
-
-
-
-
-

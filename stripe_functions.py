@@ -55,21 +55,26 @@ creates a checkout session with app: current app, domain: the current domain, pr
 """
 
 # creates a price for the product id, with the price which can be obtained using lookupKey
+
+
 def create_a_price(id, price, lookupKey):
-    stripe.Price.create( product = id, unit_amount = int(price * 100), currency = "GBP", lookup_key = lookupKey,)
+    stripe.Price.create(product=id, unit_amount=int(
+        price * 100), currency="GBP", lookup_key=lookupKey,)
 
 
 # creates  discount with the given id and applies the amount amountOff or percentage (0-100) percentageOff, provide one while the other is None
 def create_a_discount(id, percentageOff, amountOff):
     if percentageOff and (not amountOff):
-        stripe.Coupon.create(duration = "once", id = id, percent_off = int(percentageOff), currency="GBP")
+        stripe.Coupon.create(duration="once", id=id,
+                             percent_off=int(percentageOff), currency="GBP")
     elif amountOff and (not percentageOff):
-        stripe.Coupon.create(duration = "once", id = id, currency="GBP", amount_off = int(amountOff * 100))
+        stripe.Coupon.create(duration="once", id=id,
+                             currency="GBP", amount_off=int(amountOff * 100))
 
 
 # edits the price to the new price newprice (the id of the price not the product)
 def edit_price(id, newPrice):
-    stripe.Product.modify(id, unit_amount = int(newPrice * 100))
+    stripe.Product.modify(id, unit_amount=int(newPrice * 100))
 
 
 # edit the discount to the new percentage off and amount off (one of them must equal to None)
@@ -80,9 +85,11 @@ def edit_discount(id, newPercentageOff, newAmountOff):
 
     # creates a new discount object with the new values
     if newPercentageOff and (not newAmountOff):
-        stripe.Coupon.create(duration = "once", id = id, percent_off = int(newPercentageOff), currency="GBP")
+        stripe.Coupon.create(duration="once", id=id, percent_off=int(
+            newPercentageOff), currency="GBP")
     elif newAmountOff and (not newPercentageOff):
-        stripe.Coupon.create(duration = "once", id = id, currency="GBP", amount_off = int(newAmountOff * 100))
+        stripe.Coupon.create(duration="once", id=id,
+                             currency="GBP", amount_off=int(newAmountOff * 100))
 
 
 # returns the price from its lookup key
@@ -109,9 +116,9 @@ def get_all_prices():
     for price in fullList:
         specificList.append(
             {
-               'api_id': price.get("id"),
-               'lookup_key': price.get("lookup_key"),
-               'amount': float(price.get("unit_amount"))/100
+                'api_id': price.get("id"),
+                'lookup_key': price.get("lookup_key"),
+                'amount': float(price.get("unit_amount"))/100
             }
         )
 
@@ -134,7 +141,7 @@ def get_discount(id):
     return [percentage, amount, used]
 
 
-def list_payments(start_date:datetime, end_date:datetime):
+def list_payments(start_date: datetime, end_date: datetime):
     start_unix_timestamp = mktime(start_date.timetuple())
     end_unix_timestamp = mktime(end_date.timetuple())
 
@@ -142,28 +149,6 @@ def list_payments(start_date:datetime, end_date:datetime):
         'gte': start_unix_timestamp, 'lte': end_unix_timestamp
     })
 
+
 def refund(payment_intent):
     stripe.Refund.create(payment_intent=payment_intent)
-
-# print(get_all_prices())
-#create_a_price("prod_L7tv4Gbl7YQuKm", 10, "1h")
-#create_a_price("prod_L7tv4Gbl7YQuKm", 40, "4h")
-#create_a_price("prod_L7tv4Gbl7YQuKm", 80, "1d")
-#create_a_price("prod_L7tv4Gbl7YQuKm", 500, "1w")
-
-#print(str(get_price("1h")))
-#print(str(get_price("4h")))
-#print(str(get_price("1d")))
-#print(str(get_price("1w")))
-
-#print(str(get_price_id("1h")))
-
-#create_a_discount("test", 0, 3)
-#edit_discount("test", 20, None)
-#print(get_discount("test"))
-#stripe.Coupon.delete("test")
-
-#create_a_discount("returning", 10, None)
-#print(get_discount("returning"))
-
-#get_all_prices()

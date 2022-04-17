@@ -12,9 +12,11 @@ from stripe_functions import *
 from helper_functions import *
 
 
-booking_views = Blueprint('booking_views', __name__, static_folder='static', template_folder='template')
+booking_views = Blueprint('booking_views', __name__,
+                          static_folder='static', template_folder='template')
 
 new_booking = None
+
 
 @booking_views.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -37,9 +39,9 @@ def dashboard():
         totalHours = 0
         weekAgo = datetime.today() - timedelta(days=7)
         senior = datetime.today() - timedelta(days=21900)
-        
+
         # counts the booking hours in the last 7 days
-        userBookings = Booking.query.filter_by(user_id=current_user.id).all() 
+        userBookings = Booking.query.filter_by(user_id=current_user.id).all()
         for booking in userBookings:
             if booking.created_date_time > weekAgo:
                 if booking.price_id == 4:
@@ -51,10 +53,10 @@ def dashboard():
                 elif booking.price_id == 1:
                     totalHours += 168
 
-        #applies the discount if the current user is a regular user or a senior citizen
+        # applies the discount if the current user is a regular user or a senior citizen
         if totalHours > 7 or datetime.combine(current_user.birth_date, datetime.min.time()) < senior:
-            discounts=[{'coupon': "returning",}]
-        
+            discounts = [{'coupon': "returning", }]
+
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
@@ -65,24 +67,27 @@ def dashboard():
             ],
             mode='payment',
             discounts=discounts,
-            success_url= url_for('booking_views.dashboard', _external=True, checkout_status='success'),
-            cancel_url= url_for('booking_views.dashboard', _external=True, checkout_status='canceled'),
-            customer = current_user.stripe_id,
+            success_url=url_for('booking_views.dashboard',
+                                _external=True, checkout_status='success'),
+            cancel_url=url_for('booking_views.dashboard',
+                               _external=True, checkout_status='canceled'),
+            customer=current_user.stripe_id,
         )
 
-        pickup_date = datetime.combine(form.pickup_date.data, form.pickup_time.data)
+        pickup_date = datetime.combine(
+            form.pickup_date.data, form.pickup_time.data)
         scooter_chosen = Scooter.query.filter(
-                            (Scooter.availability==True)&\
-                            (Scooter.parking_id==form.pickup_parking_id.data)
-                        ).first()
+            (Scooter.availability == True) &
+            (Scooter.parking_id == form.pickup_parking_id.data)
+        ).first()
         price_used = form.time_period.data
 
         new_booking = Booking(
-            pickup_date= pickup_date,
-            user_id = current_user.id,
-            scooter_id = scooter_chosen.id,
-            price_id = price_used.id,
-            payment_intent = checkout_session.payment_intent,
+            pickup_date=pickup_date,
+            user_id=current_user.id,
+            scooter_id=scooter_chosen.id,
+            price_id=price_used.id,
+            payment_intent=checkout_session.payment_intent,
         )
 
         return redirect(checkout_session.url)
@@ -93,8 +98,9 @@ def dashboard():
     parkings = Parking.query.filter(Parking.scooters.any()).all()
 
     return render_template('dashboard.html', form=form, parkings=parkings,
-                            page_name='dashboard', date_today=date.today(),
-                            time_now=datetime.now().strftime("%H:00"))
+                           page_name='dashboard', date_today=date.today(),
+                           time_now=datetime.now().strftime("%H:00"))
+
 
 @booking_views.route('/tickets', methods=['GET', 'POST'])
 @login_required
@@ -113,7 +119,7 @@ def tickets():
                 with Telnet('192.168.50.174', 23) as tn:
                     tn.write(bytes(str(booking_chosen.scooter_id), 'utf-8'))
                     tn.close()
-                return redirect(url_for('activate',token=str(booking_chosen.scooter_id)))
+                return redirect(url_for('activate', token=str(booking_chosen.scooter_id)))
         else:
             flash_errors(form)
 

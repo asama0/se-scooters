@@ -5,6 +5,7 @@ import jwt
 from time import time
 from helper_functions import string_to_timedelta
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     stripe_id = db.Column(db.String(64), nullable=False)
@@ -21,15 +22,16 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User #{self.id} {self.name}>'
 
-    #for password reset
+    # for password reset
     def get_reset_token(self, expires=1000):
         return jwt.encode({'reset_password': self.email, 'exp': time() + expires},
-                           key=app.config['SECRET_KEY'])
+                          key=app.config['SECRET_KEY'])
 
     @staticmethod
     def verify_reset_token(token):
         try:
-            email = jwt.decode(token, key=app.config['SECRET_KEY'],  algorithms=["HS256"])['reset_password']
+            email = jwt.decode(token, key=app.config['SECRET_KEY'],  algorithms=[
+                               "HS256"])['reset_password']
             print('Verifed toker for:', email)
         except Exception as e:
             print(e)
@@ -54,7 +56,8 @@ class Booking(db.Model):
     created_date_time = db.Column(db.DateTime(timezone=True), default=now())
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    scooter_id = db.Column(db.Integer, db.ForeignKey('scooter.id'), nullable=False)
+    scooter_id = db.Column(db.Integer, db.ForeignKey(
+        'scooter.id'), nullable=False)
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
     payment_intent = db.Column(db.String(100), unique=True, nullable=False)
 
@@ -100,6 +103,3 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return f'<Feedback #{self.id}>'
-
-
-

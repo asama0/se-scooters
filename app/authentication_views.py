@@ -10,12 +10,16 @@ from stripe_functions import *
 from helper_functions import *
 from components.email_with_image import send_mail
 
-authentication_views = Blueprint('authentication_views', __name__, static_folder='static', template_folder='template')
+authentication_views = Blueprint(
+    'authentication_views', __name__, static_folder='static', template_folder='template')
 
 # this is for flask login
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 
 @authentication_views.route("/register", methods=['GET', 'POST'])
 def register():
@@ -24,7 +28,8 @@ def register():
 
     form = registrationForm()
     if form.validate_on_submit():
-        hashedPassword = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        hashedPassword = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
         new_stripe_id = stripe.Customer.create()['id']
         user = User(name=form.name.data, email=form.email.data,
                     password=hashedPassword, birth_date=form.birth_date.data,
@@ -37,6 +42,7 @@ def register():
         flash_errors(form)
 
     return render_template('register.html', title='register', form=form)
+
 
 @authentication_views.route('/login', methods=['GET', 'POST'])
 def login():
@@ -62,6 +68,7 @@ def login():
 
     return render_template('login.html', title='login', form=form)
 
+
 @authentication_views.route("/logout")
 @login_required
 def logout():
@@ -69,7 +76,9 @@ def logout():
     flash('Logged out successfully.', category='alert-success')
     return redirect(url_for('authentication_views.login'))
 
-#here user requist password reset by submmiting email account, email must be registerd
+# here user requist password reset by submmiting email account, email must be registerd
+
+
 @authentication_views.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
     if current_user.is_authenticated:
@@ -82,7 +91,7 @@ def forgot_password():
     return render_template('forgotPassword.html', title='Forgot Password', form=form)
 
 
-#here user will write the new paassword after clicking on the link recieved in the email
+# here user will write the new paassword after clicking on the link recieved in the email
 @authentication_views.route("/forgot_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
@@ -93,7 +102,8 @@ def reset_token(token):
         return redirect(url_for('index'))
     form = resetPasswordForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
         return redirect(url_for('authentication_views.login'))
@@ -101,13 +111,9 @@ def reset_token(token):
 
 # the reset password email sender
 # email is visable for now, must be hidden for security reasons
+
+
 def reset_email(user):
     token = user.get_reset_token()
-    send_mail("Password reset", user.email, 'forgetpassword', forgot_password_url=url_for('authentication_views.reset_token', token=token, _external=True))
-
-
-
-
-
-
-
+    send_mail("Password reset", user.email, 'forgetpassword', forgot_password_url=url_for(
+        'authentication_views.reset_token', token=token, _external=True))
