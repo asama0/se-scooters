@@ -23,10 +23,11 @@ def query_booking_by_date(start_date, end_date):
 
     # change every booking to a dictionary
     result_dict = [
-        {'date': str(booking.created_date_time),
-         'amount': Price.query.get(booking.price_id).amount,
-         'duration': Price.query.get(booking.price_id).duration}
-        for booking in result_query
+        {
+            'date': str(booking.created_date_time),
+            'amount': Price.query.get(booking.price_id).amount,
+            'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600
+        } for booking in result_query
     ]
 
     return result_dict
@@ -40,7 +41,7 @@ def get_full_data():
     result_dict = [
         {'date': str(booking.created_date_time),
          'amount': Price.query.get(booking.price_id).amount,
-         'duration': Price.query.get(booking.price_id).duration}
+         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600}
         for booking in resssult
     ]
 
@@ -52,19 +53,24 @@ def get_full_data():
 def get_data_list_days(period_list_start, period_list_end, period_key):
     if period_key == "week":
         period = query_booking_by_date(
-            (datetime(start_year, start_month, start_day) -
-             relativedelta(days=period_list_start)),
-            datetime(start_year, start_month, start_day) - relativedelta(days=period_list_end))
+            datetime(start_year, start_month, start_day) -
+            relativedelta(days=period_list_start),
+            datetime(start_year, start_month, start_day) -
+            relativedelta(days=period_list_end)
+        )
+
     elif period_key == "month":
         period = query_booking_by_date(
             (datetime(start_year, start_month, start_day) -
              relativedelta(days=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(days=period_list_end))
+
     elif period_key == "year":
         period = query_booking_by_date(
             (datetime(start_year, start_month, start_day) -
              relativedelta(months=period_list_start)),
             datetime(start_year, start_month, start_day) - relativedelta(months=period_list_end))
+
     elif period_key == "total":
         period = np.array_split(get_full_data(), 10)
 

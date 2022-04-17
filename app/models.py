@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     blocked = db.Column(db.Boolean, nullable=False, default=False)
 
     bookings = db.relationship('Booking', backref='user')
+    feedbacks = db.relationship('Feedback', backref='user')
 
     def __repr__(self):
         return f'<User #{self.id} {self.name}>'
@@ -59,7 +60,7 @@ class Booking(db.Model):
     scooter_id = db.Column(db.Integer, db.ForeignKey(
         'scooter.id'), nullable=False)
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
-    payment_intent = db.Column(db.String(100), unique=True, nullable=False)
+    payment_intent = db.Column(db.String(100), unique=True)
 
     def get_end_datetime(self):
         return self.pickup_date + Price.query.get(self.price_id).get_timedelta()
@@ -100,6 +101,8 @@ class Feedback(db.Model):
     experience = db.Column(db.String(10), nullable=False)
     feedback = db.Column(db.String(10000), nullable=False)
     urgent = db.Column(db.Boolean, default=False, nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<Feedback #{self.id}>'
