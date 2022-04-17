@@ -6,7 +6,6 @@ from .models import *
 from .forms import *
 from stripe_functions import *
 from helper_functions import *
-from analytics_quries import *
 
 
 @app.route('/')
@@ -60,41 +59,3 @@ def feedback():
         flash('Feedback submitted successfully')
 
     return render_template('feedback.html', page_name='feedback', form=form)
-
-
-# sending array to javascript
-@app.route('/week_request', methods=['POST'])
-def post_week_request():
-    # return a list of integers
-    # one week graph
-    get_analitics(7, "week")
-    return jsonify(week)
-
-
-@app.route('/month_request', methods=['POST'])
-def post_month_request():
-    # return a list of integers
-    # one month graph
-    get_analitics(30, "month")
-    return jsonify(month)
-
-
-@app.route('/year_request', methods=['POST'])
-def post_year_request():
-    # return a list of integers
-    # one year graph
-    get_analitics(12, "year")
-    return jsonify(year)
-
-
-@app.route('/total_request', methods=['POST'])
-def post_total_request():
-    # return a list of integers
-    # general dynamic graph
-    get_data_list_days(1, 1, "total")
-    return jsonify(max_period)
-
-
-@app.route('/analytics')
-def analytics():
-    return render_template('analytics_index.html')

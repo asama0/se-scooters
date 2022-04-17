@@ -25,7 +25,7 @@ def query_booking_by_date(start_date, end_date):
     result_dict = [
         {'date': str(booking.created_date_time),
          'amount': Price.query.get(booking.price_id).amount,
-         'duration': Price.query.get(booking.price_id).duration}
+         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600}
         for booking in result_query
     ]
 
@@ -40,7 +40,7 @@ def get_full_data():
     result_dict = [
         {'date': str(booking.created_date_time),
          'amount': Price.query.get(booking.price_id).amount,
-         'duration': Price.query.get(booking.price_id).duration}
+         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600}
         for booking in resssult
     ]
 

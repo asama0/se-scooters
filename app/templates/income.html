@@ -1,29 +1,18 @@
-var week_array = []
-var month_array = []
-var year_array = []
-var total_array = []
+<script type="text/javascript">
+let week_array = []
+let month_array = []
+let year_array = []
+let total_array = []
 
 //sets array and gets data from flask
 function InitializeMe(){
-    $.post("/week_request", function (data){
-        week_array = data.slice();
-        updateTheGraphs(barchar, weekl, week_array);
-    })
+    week_array = {{ week_analytics|tojson }};
 
-     $.post("/month_request", function (data){
-        month_array = data.slice();
-        updateTheGraphs(barchar2, month_lable, month_array);
-    })
+    month_array = {{ month_analytics|tojson }};
 
-     $.post("/year_request", function (data){
-        year_array = data.slice();
-        updateTheGraphs(barchar3, year_lable, year_array);
-    })
+    year_array = {{ year_analytics|tojson }};
 
-     $.post("/total_request", function (data){
-        total_array = data.slice();
-        updateTheGraphs(barchar4, total_lable, total_array);
-    })
+    total_array = {{ total_analytics|tojson }};
 }
 
 
@@ -367,3 +356,4 @@ const barchar5 = new Chart(
 //     content.style.display = "none"
 //     content2.style.display = "block"
 // })
+</script>
