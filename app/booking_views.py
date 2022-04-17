@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request
 from datetime import date, datetime, timedelta
 import stripe
 from telnetlib import Telnet
-from time import time
 
 from app import db
 from .views import current_user, login_required

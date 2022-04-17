@@ -60,7 +60,7 @@ class Booking(db.Model):
     scooter_id = db.Column(db.Integer, db.ForeignKey(
         'scooter.id'), nullable=False)
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
-    payment_intent = db.Column(db.String(100), unique=True, nullable=False)
+    payment_intent = db.Column(db.String(100), unique=True)
 
     def get_end_datetime(self):
         return self.pickup_date + Price.query.get(self.price_id).get_timedelta()

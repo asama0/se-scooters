@@ -10,9 +10,8 @@ from .models import *
 def get_time_periods():
     return Price.query.order_by('amount')
 
-
-def get_parkings():
-    return Parking.query.filter(Parking.scooters.any()).order_by('name')
+def get_scooters():
+    return Scooter.query.order_by('id').all()
 
 
 class registrationForm(FlaskForm):
@@ -93,7 +92,32 @@ class BookingForm(FlaskForm):
 
     pickup_parking_id = IntegerField(validators=[DataRequired()])
 
-    submit = SubmitField('submit')
+    submit = SubmitField('Submit')
+
+
+class AdminBookingForm(FlaskForm):
+
+    user_email = StringField(validators=[
+                                 Email(message='Error, Enter a valid email'),
+                                 DataRequired()
+                             ]
+                             )
+
+    pickup_date = DateField(validators=[DataRequired()])
+
+    pickup_time = TimeField(validators=[DataRequired()])
+
+    time_period = QuerySelectField(
+        validators=[DataRequired()],
+        query_factory=get_time_periods
+    )
+
+    scooter_id = QuerySelectField(
+        validators=[DataRequired()],
+        query_factory=get_scooters
+    )
+
+    submit = SubmitField('Submit')
 
 
 class forgotPasswordForm(FlaskForm):
@@ -135,7 +159,7 @@ class feedbackForm(FlaskForm):
                             validators=[DataRequired()])
     feedback = TextAreaField(
         validators=[
-            DataRequired(), Length(min=0, max=10000,message='please provide a feedback')
+            DataRequired(), Length(min=0, max=10000, message='please provide a feedback')
         ]
     )
     submit = SubmitField('Submit')
@@ -154,7 +178,8 @@ class editProfileForm(FlaskForm):
 
 
 class TicketForm(FlaskForm):
-    new_dutration = QuerySelectField(validators=[DataRequired()], query_factory=get_time_periods)
+    new_dutration = QuerySelectField(
+        validators=[DataRequired()], query_factory=get_time_periods)
     extend = SubmitField('Extend')
     booking_id = IntegerField(validators=[DataRequired()])
     refund = SubmitField('Refund')
