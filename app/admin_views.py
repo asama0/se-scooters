@@ -66,10 +66,16 @@ class ParkingView(ModelView):
 
 class PriorityFeedbackView(ModelView):
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.urgent == True)
+        if current_user.privilege == 333:
+            return self.session.query(self.model).filter(self.model.urgent == True)
+        else:
+            return super().get_query()
 
     def get_count_query(self):
-        return self.session.query(func.count('*')).filter(self.model.urgent == True)
+        if current_user.privilege == 333:
+            return self.session.query(func.count('*')).filter(self.model.urgent == True)
+        else:
+            return super().get_count_query()
 
 
 # admin pages setup
@@ -80,6 +86,5 @@ admin.add_view(UserView(User, db.session))
 admin.add_view(ScooterView(Scooter, db.session))
 admin.add_view(ParkingView(Parking, db.session))
 admin.add_view(ModelView(Booking, db.session))
-# admin.add_view(ModelView(Feedback, db.session,name="feedback"))
 admin.add_view(PriorityFeedbackView(Feedback, db.session))
 admin.add_view(Analytics(name='Analytics', endpoint='analytics'))

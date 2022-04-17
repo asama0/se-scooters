@@ -106,8 +106,6 @@ def get_analitics(period, period_key):
             sum_of_period = get_data_list_days(i + 1, i, period_key)
             year.append(sum_of_period)
 
-    print('weeeekkkkk', week)
-
 
 week.insert(1, 111)
 week.insert(2, 111)
