@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     blocked = db.Column(db.Boolean, nullable=False, default=False)
 
     bookings = db.relationship('Booking', backref='user')
+    feedbacks = db.relationship('Feedback', backref='user')
 
     def __repr__(self):
         return f'<User #{self.id} {self.name}>'
@@ -100,6 +101,8 @@ class Feedback(db.Model):
     experience = db.Column(db.String(10), nullable=False)
     feedback = db.Column(db.String(10000), nullable=False)
     urgent = db.Column(db.Boolean, default=False, nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'<Feedback #{self.id}>'

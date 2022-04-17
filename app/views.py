@@ -53,9 +53,12 @@ def feedback():
     # retrieve the feedback then adds it to the database
     if form.validate_on_submit():
         feedback = Feedback(experience=form.experience.data,
-                            feedback=form.feedback.data)
+                            feedback=form.feedback.data,
+                            user_id=current_user.id)
         db.session.add(feedback)
         db.session.commit()
-        flash('Feedback submitted successfully')
+        flash('Feedback submitted successfully', category='alert-success')
+    else:
+        flash_errors(form)
 
     return render_template('feedback.html', page_name='feedback', form=form)
