@@ -1,25 +1,4 @@
 <script type="text/javascript">
-let week_array = []
-let month_array = []
-let year_array = []
-let total_array = []
-
-//sets array and gets data from flask
-function InitializeMe(){
-    week_array = {{ week_analytics|tojson }};
-
-    month_array = {{ month_analytics|tojson }};
-
-    year_array = {{ year_analytics|tojson }};
-
-    total_array = {{ total_analytics|tojson }};
-}
-
-
-
-
-
-
 
 function updateTheGraphs(chart, label, arr) {
 
@@ -259,87 +238,92 @@ const barchar5 = new Chart(
 //     config2
 // )
 
+//------------------------------//
 
 
 
 
 
 
-//---------------------------------------------------//
+const labels = [
+'January',
+'February',
+'March',
+'April',
+'May',
+'June',
+];
+
+const data = {
+labels: labels,
+datasets: [{
+label: 'Lololop',
+backgroundColor: 'rgb(255, 99, 132)',
+borderColor: 'rgb(255, 99, 132)',
+data: [],
+},
+// {
+//     label: 'Something',
+//   backgroundColor: 'rgb(100, 99, 132)',
+//   borderColor: 'rgb(100, 99, 132)',
+//   data: [0, 30, 5, 33, 20, 30, 45],
+// }
+]
+};
+
+
+
+const config = {
+type: 'line',
+data: data,
+options: {
+
+}
+};
+
+
+//for  different layers dublicated
+const myChart = new Chart(
+document.getElementById('canvas_plot5'),
+config2
+);
+
+
+
+//for  different layers dublicated
+const myChart2 = new Chart(
+document.getElementById('canvas_plot6'),
+monthl
+);
+
+
+//for  different layers dublicated
+const myChart3 = new Chart(
+document.getElementById('canvas_plot8'),
+totals
+);
+
+
+var week_array = {{ week_analytics|tojson }};
+var month_array = {{ month_analytics|tojson }};
+var year_array = {{ year_analytics|tojson }};
+var total_array = {{ total_analytics|tojson }};
+
+updateTheGraphs(barchar, weekl, week_array);
+updateTheGraphs(barchar2, month_lable, month_array);
+updateTheGraphs(barchar3, year_lable, year_array);
+updateTheGraphs(barchar4, total_lable, total_array);
 
 
 
 
 
 
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
-
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Lololop',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [],
-    },
-        // {
-        //     label: 'Something',
-        //   backgroundColor: 'rgb(100, 99, 132)',
-        //   borderColor: 'rgb(100, 99, 132)',
-        //   data: [0, 30, 5, 33, 20, 30, 45],
-        // }
-    ]
-  };
-
-
-
-  const config = {
-    type: 'line',
-    data: data,
-    options: {
-
-    }
-  };
-
-
-    //for  different layers dublicated
-    const myChart = new Chart(
-    document.getElementById('canvas_plot5'),
-    config2
-  );
-
-
-
-    //for  different layers dublicated
-    const myChart2 = new Chart(
-    document.getElementById('canvas_plot6'),
-    monthl
-  );
-
-
-     //for  different layers dublicated
-    const myChart3 = new Chart(
-    document.getElementById('canvas_plot8'),
-    totals
-  );
 
 
 
 
-
-
-
-
-
-
-    //code for showing and hiding canvas layers
+//code for showing and hiding canvas layers
 
 
 // let content2 = document.getElementById("item")

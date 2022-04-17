@@ -1,9 +1,7 @@
 {% extends "admin/master.html" %}
 {% block body %}
 
-<!-- onload calls all integers -->
-
-<body onload="InitializeMe()">
+<body>
 
     <link href="{{ url_for('static', filename='index.css')}}" rel="stylesheet">
 
@@ -11,11 +9,11 @@
         <div class="SuperContainer">
 
             <!-- BUTTONS TO HIDE OR VICE VERSA -->
-            <button id="Full graph">Full Graph</button>
-            <button id="Week">Weekly graph</button>
-            <button id="Month">Monthly Graph</button>
-            <button id="Year">Yearly Graph</button>
-            <button id="Total">Total Graph</button>
+            <button id="Full graph" class="btn btn-secondary" style="margin: 5px;">Full Graph</button>
+            <button id="Week" class="btn btn-secondary" style="margin: 5px;">Weekly graph</button>
+            <button id="Month" class="btn btn-secondary" style="margin: 5px;">Monthly Graph</button>
+            <button id="Year" class="btn btn-secondary" style="margin: 5px;">Yearly Graph</button>
+            <button id="Total" class="btn btn-secondary" style="margin: 5px;">Total Graph</button>
 
         </div>
 

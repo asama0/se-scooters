@@ -10,7 +10,7 @@ from .authentication_views import current_user, login, redirect, url_for, reques
 
 from analytics_quries import *
 
-
+#d
 class AdminHomeView(AdminIndexView):
     @expose('/')
     def index(self):
@@ -34,16 +34,16 @@ class AdminHomeView(AdminIndexView):
 class Analytics(BaseView):
     @expose('/')
     def index(self):
-        week_analytics = get_analitics(7, "week")
-        month_analytics = get_analitics(30, "month")
-        year_analytics = get_analitics(12, "year")
-        total_analytics = get_data_list_days(1, 1, "total")
+        get_analitics(7, "week")
+        get_analitics(30, "month")
+        get_analitics(12, "year")
+        get_data_list_days(1, 1, "total")
         return self.render(
             'analytics_index.html',
-            week_analytics=week_analytics,
-            month_analytics=month_analytics,
-            year_analytics=year_analytics,
-            total_analytics=total_analytics
+            week_analytics=week,
+            month_analytics=month,
+            year_analytics=year,
+            total_analytics=max_period
         )
 
 
