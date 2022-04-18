@@ -1,3 +1,4 @@
+from app import app, db, models
 from flask.testing import FlaskClient
 from flask import url_for
 from pprint import pprint
@@ -12,7 +13,7 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 # adding the parent directory to the sys.path.
 sys.path.append(parent)
-from app import app, db, models
+
 
 @pytest.fixture
 def client():
@@ -35,14 +36,17 @@ def client():
     db.session.remove()
     db.drop_all()
 
+
 def test_test(client):
     assert 1+1 == 2
 
-def test_index(client:FlaskClient):
+
+def test_index(client: FlaskClient):
     response = client.get('/')
     assert response.status_code == 200
 
-def test_register(client:FlaskClient):
+
+def test_register(client: FlaskClient):
     response = client.get('/register')
     assert response.status_code == 200
 
@@ -74,7 +78,8 @@ def test_register(client:FlaskClient):
     assert response.status_code == 200
     assert response.request.path == url_for('authentication_views.register')
 
-def test_login(client:FlaskClient):
+
+def test_login(client: FlaskClient):
     response = client.get('/login')
     assert response.status_code == 200
 
