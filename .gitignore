@@ -4,3 +4,4 @@
 **/.vscode
 **/app.db
 **/test.db
+**/.pytest_cache
