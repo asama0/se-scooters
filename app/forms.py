@@ -69,13 +69,8 @@ class loginForm(FlaskForm):
                             DataRequired()
                         ]
                         )
-    password = PasswordField('Password',
-                             validators=[
-                                 Length(min=8, max=25,
-                                        message='Wrong password '),
-                                 DataRequired()
-                             ]
-                             )
+    password = PasswordField('Password',validators=[DataRequired()])
+
     submit = SubmitField('Login')
 
 

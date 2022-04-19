@@ -62,7 +62,12 @@ def login():
                     return abort(400)
 
                 return redirect(next or url_for('booking_views.dashboard'))
-            flash('Log in failed.', category='alert-danger')
+            else:
+                print('Wrong password.', form.password.data)
+                flash('Wrong password.', category='alert-danger')
+        else:
+            print('Email not found.')
+            flash('Email not found.', category='alert-danger')
     else:
         flash_errors(form)
 
