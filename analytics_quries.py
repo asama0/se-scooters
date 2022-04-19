@@ -51,6 +51,12 @@ def get_full_data():
 
 
 def get_data_list_days(period_list_start, period_list_end, period_key):
+    global max_period
+    if period_key == "total":
+        max_period = []
+        print('max_period',max_period)
+
+
     if period_key == "week":
         period = query_booking_by_date(
             datetime(start_year, start_month, start_day) -
@@ -91,26 +97,40 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
 
 
 def get_analitics(period, period_key):
+    global week
+    global month
+    global year
+    if period_key == "week":
+        week = []
+    elif period_key == "month":
+        month = []
+    elif period_key == "year":
+        year = []
+
     sum_of_period = 0
 
     for i in range(period):
         sum_of_period = 0
 
         if period_key == "week":
-            sum_of_period = get_data_list_days(i + 1, i, period_key)
+            sum_of_period = get_data_list_days(i, i-1, period_key)
             week.append(sum_of_period)
         elif period_key == "month":
-            sum_of_period = get_data_list_days(i + 1, i, period_key)
+            sum_of_period = get_data_list_days(i, i-1, period_key)
             month.append(sum_of_period)
         elif period_key == "year":
-            sum_of_period = get_data_list_days(i + 1, i, period_key)
+            sum_of_period = get_data_list_days(i, i-1, period_key)
             year.append(sum_of_period)
 
+    print('week',week)
+    print('month',month)
+    print('year',year)
 
-week.insert(1, 111)
-week.insert(2, 111)
-week.insert(4, 111)
-month.insert(5, 30)
-year.insert(4, 1190)
-max_period.insert(3, 212)
-year.insert(4, 700)
+
+# week.insert(1, 111)
+# week.insert(2, 111)
+# week.insert(4, 111)
+# month.insert(5, 30)
+# year.insert(4, 1190)
+# max_period.insert(3, 212)
+# year.insert(4, 700)
