@@ -11,7 +11,7 @@ def test_register(client:FlaskClient):
     response = client.get('/register')
     assert response.status_code == 200
 
-    # testing successfull registeration
+    # testing SUCCESSFUL registeration
     response = client.post(
         '/register',
         data=json.dumps(dict(
@@ -25,7 +25,7 @@ def test_register(client:FlaskClient):
     assert response.status_code == 200
     assert response.request.path == url_for('authentication_views.login')
 
-    # testing failed registeration (wrong phone number)
+    # testing FAILED registeration (wrong phone number)
     response = client.post(
         '/register',
         data=json.dumps(dict(

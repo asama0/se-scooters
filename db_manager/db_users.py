@@ -14,8 +14,6 @@ def add_users():
             hashedPassword = bcrypt.generate_password_hash(row['password']).decode('utf-8')
             new_stripe_id = stripe.Customer.create()['id']
 
-            print(row['password'], '==', '5pbHUKESWV%O!', '?', bcrypt.check_password_hash(hashedPassword, '5pbHUKESWV%O!'))
-
             db.session.add(
                 User(
                     name=row['name'], email=row['email'], password=hashedPassword,
