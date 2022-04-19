@@ -46,7 +46,7 @@ class AdminHomeView(AdminIndexView):
         flash('admin is for staff only.', category='message alert-danger')
         return redirect(url_for('authentication_views.login'))
 
-
+#pspspspspsps
 class Analytics(BaseView):
     @expose('/')
     def index(self):

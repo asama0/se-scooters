@@ -27,6 +27,11 @@ body {
     min-height: 600px;
 }
 
+#canvas_plot9 {
+    min-width: 600px;
+    min-height: 600px;
+}
+
 #canvas_plot {
     margin: auto;
     background-color: white;
@@ -76,6 +81,13 @@ body {
     display: inline-block;
 }
 
+#container6{
+    margin: 5% auto 5%;
+
+    display: inline-block;
+}
+
+
 .item{
     padding: 10px;
     /*border: 2px solid black;*/
@@ -85,7 +97,7 @@ body {
 .SuperContainer {
 
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(6, auto);
     grid-template-rows: 50px 50px;
 }
 
