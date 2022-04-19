@@ -34,8 +34,7 @@ def query_booking_by_date(start_date, end_date):
 
 
 def get_full_data():
-    resssult = Booking.query.filter((Booking.id >= 1) & (
-        Booking.created_date_time <= datetime(start_year, start_month, start_day)))
+    resssult = Booking.query.all()
 
     # change every booking to a dictionary
     result_dict = [
@@ -54,7 +53,7 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
     global max_period
     if period_key == "total":
         max_period = []
-        print('max_period',max_period)
+
 
 
     if period_key == "week":
@@ -95,6 +94,8 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
             sum = sum + i.get("amount")
         return sum
 
+    print('max_period',max_period)
+
 
 def get_analitics(period, period_key):
     global week
@@ -122,9 +123,9 @@ def get_analitics(period, period_key):
             sum_of_period = get_data_list_days(i, i-1, period_key)
             year.append(sum_of_period)
 
-    print('week',week)
-    print('month',month)
-    print('year',year)
+    # print('week',week)
+    # print('month',month)
+    # print('year',year)
 
 
 # week.insert(1, 111)

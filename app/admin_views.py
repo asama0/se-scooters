@@ -51,16 +51,16 @@ class Analytics(BaseView):
     @expose('/')
     def index(self):
         analytics_quries.get_analitics(7, "week")
-        print('admin week', analytics_quries.week)
+        # print('admin week', analytics_quries.week)
 
         analytics_quries.get_analitics(30, "month")
-        print('admin month', analytics_quries.month)
+        # print('admin month', analytics_quries.month)
 
         analytics_quries.get_analitics(12, "year")
-        print('admin year', analytics_quries.year)
+        # print('admin year', analytics_quries.year)
 
         analytics_quries.get_data_list_days(1, 1, "total")
-        print('admin total', analytics_quries.max_period)
+        # print('admin total', analytics_quries.max_period)
 
         return self.render(
             'analytics_index.html',
