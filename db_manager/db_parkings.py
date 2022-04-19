@@ -2,17 +2,18 @@ from app import db
 from app.models import Parking
 import csv
 
-with open('csv/parkings.csv', 'r', newline='') as file:
-    csv_reader = csv.DictReader(file, delimiter=',')
+def add_parkings():
+    with open('csv/parkings.csv', 'r', newline='') as file:
+        csv_reader = csv.DictReader(file, delimiter=',')
 
-    for line_count, row in enumerate(csv_reader):
+        for row in csv_reader:
 
-        db.session.add(
-            Parking(
-                name=row['name'],
-                latitude=float(row['latitude']),
-                longitude=float(row['longitude'])
+            db.session.add(
+                Parking(
+                    name=row['name'],
+                    latitude=float(row['latitude']),
+                    longitude=float(row['longitude'])
+                )
             )
-        )
 
-    db.session.commit()
+        db.session.commit()

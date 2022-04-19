@@ -62,7 +62,10 @@ def login():
                     return abort(400)
 
                 return redirect(next or url_for('booking_views.dashboard'))
-            flash('Log in failed.', category='alert-danger')
+            else:
+                flash('Wrong password.', category='alert-danger')
+        else:
+            flash('Email not found.', category='alert-danger')
     else:
         flash_errors(form)
 
@@ -88,6 +91,8 @@ def forgot_password():
         user = User.query.filter_by(email=form.email.data).first()
         reset_email(user)
         return redirect(url_for('authentication_views.login'))
+    else:
+        flash_errors(form)
     return render_template('forgotPassword.html', title='Forgot Password', form=form)
 
 
@@ -106,7 +111,10 @@ def reset_token(token):
             form.password.data).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
+        flash('Password has been r out successfully.', category='alert-success')
         return redirect(url_for('authentication_views.login'))
+    else:
+        flash_errors(form)
     return render_template('resetPassword.html', title='Reset Password', form=form)
 
 # the reset password email sender
