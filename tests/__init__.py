@@ -1,16 +1,12 @@
 import pytest
-import runpy
+import db_manager
 
 from app import app, db, models
 
 # creating and configuring the app object
-app.config['SECRET_KEY'] = 'WEKAS'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['WTF_CSRF_ENABLED'] = False
 app.config['TESTING'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-
-import db_manager
 
 @pytest.fixture
 def client():
@@ -21,7 +17,6 @@ def client():
     db_manager.add_prices()
 
     with app.test_client() as client:
-        print(models.User.query.all())
         yield client
 
     db.session.remove()

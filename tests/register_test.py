@@ -7,6 +7,7 @@ from tests import client
 
 
 def test_register(client:FlaskClient):
+    # checking if register page exists
     response = client.get('/register')
     assert response.status_code == 200
 

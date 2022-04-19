@@ -7,7 +7,7 @@ from tests import client
 
 
 def test_login(client:FlaskClient):
-    #checking if login page exists
+    # checking if login page exists
     response = client.get('/login')
     assert response.status_code == 200
 
@@ -15,7 +15,7 @@ def test_login(client:FlaskClient):
     response = client.post(
         '/login',
         data=json.dumps(dict(
-            email='dkacubed+admin@gmail.com', password='5pbHUKESWV%O!',
+            email='dkacubed+admin@gmail.com', password='5pbHUKESWV%O',
         )),
         content_type='application/json',
         follow_redirects=True,

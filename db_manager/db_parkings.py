@@ -6,7 +6,7 @@ def add_parkings():
     with open('csv/parkings.csv', 'r', newline='') as file:
         csv_reader = csv.DictReader(file, delimiter=',')
 
-        for line_count, row in enumerate(csv_reader):
+        for row in csv_reader:
 
             db.session.add(
                 Parking(

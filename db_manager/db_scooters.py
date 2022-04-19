@@ -7,7 +7,7 @@ def add_scooters():
     with open('csv/scooters.csv', 'r', newline='') as file:
         csv_reader = csv.DictReader(file, delimiter=',')
 
-        for line_count, row in enumerate(csv_reader):
+        for row in csv_reader:
 
             new_scooter_parking = Parking.query.filter_by(name=row['parking_name']).first()
 
