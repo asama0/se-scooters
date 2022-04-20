@@ -33,6 +33,41 @@ def query_booking_by_date(start_date, end_date):
     return result_dict
 
 
+one_h = 0
+four_h = 0
+one_week = 0
+one_day = 0
+
+
+def popular_time_find():
+    global one_day
+    global four_h
+    global one_week
+    global one_h
+    one_h = 0
+    four_h = 0
+    one_week = 0
+    one_day = 0
+    somedata = get_full_data()
+    print(somedata)
+    pop = 0
+    for i in somedata:
+        pop = 0
+        pop = i.get("amount")
+        if pop == 500:
+            one_week += 1
+        elif pop == 80:
+            one_day += 1
+        elif pop == 40:
+            four_h += 1
+        elif pop == 10:
+            one_h += 1
+
+
+
+
+
+
 def get_full_data():
     resssult = Booking.query.all()
 
@@ -40,7 +75,8 @@ def get_full_data():
     result_dict = [
         {'date': str(booking.created_date_time),
          'amount': Price.query.get(booking.price_id).amount,
-         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600}
+         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600+
+                     24*Price.query.get(booking.price_id).get_timedelta().days//1}
         for booking in resssult
     ]
 
@@ -94,7 +130,7 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
             sum = sum + i.get("amount")
         return sum
 
-    print('max_period',max_period)
+    # print('max_period',max_period)
 
 
 def get_analitics(period, period_key):
@@ -135,3 +171,9 @@ def get_analitics(period, period_key):
 # year.insert(4, 1190)
 # max_period.insert(3, 212)
 # year.insert(4, 700)
+
+# popular_time_find()
+# print(one_h)
+# print(one_day)
+# print(one_week)
+# print(four_h)

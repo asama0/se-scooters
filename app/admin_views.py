@@ -13,6 +13,7 @@ from .authentication_views import current_user, login, redirect, url_for, reques
 
 import analytics_quries
 
+
 class AdminHomeView(AdminIndexView):
     @expose('/', methods=['GET', 'POST'])
     def index(self):
@@ -62,12 +63,23 @@ class Analytics(BaseView):
         analytics_quries.get_data_list_days(1, 1, "total")
         # print('admin total', analytics_quries.max_period)
 
+        analytics_quries.popular_time_find()
+        print('admin',analytics_quries.one_h)
+        print('admin',analytics_quries.four_h)
+        print('admin',analytics_quries.one_week)
+        print('admin',analytics_quries.one_day)
+
+
         return self.render(
             'analytics_index.html',
             week_analytics=analytics_quries.week,
             month_analytics=analytics_quries.month,
             year_analytics=analytics_quries.year,
-            total_analytics=analytics_quries.max_period
+            total_analytics=analytics_quries.max_period,
+            bobo_hour=analytics_quries.one_h,
+            bobo_4=analytics_quries.four_h,
+            bobo_day=analytics_quries.one_day,
+            bobo_week=analytics_quries.one_week
         )
 
     def is_accessible(self):
