@@ -33,18 +33,38 @@ body {
 }
 
 #canvas_plot {
+    width: 100%;
+    height: 100%;
     margin: auto;
     background-color: white;
 }
 
 
 #canvas_plot2 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: white;
+}
+
+#canvas_plot3 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-color: white;
+}
+
+#canvas_plot4 {
+     width: 100%;
+    height: 100%;
     margin: auto;
     background-color: white;
 }
 
 
 #container{
+    min-height: 700px;
+    min-width: 1000px;
     margin: 5% auto 5%;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
