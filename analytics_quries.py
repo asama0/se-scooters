@@ -53,14 +53,14 @@ def popular_time_find():
     pop = 0
     for i in somedata:
         pop = 0
-        pop = i.get("amount")
-        if pop == 500:
+        pop = i.get("duration")
+        if pop == 168:
             one_week += 1
-        elif pop == 80:
+        elif pop == 24:
             one_day += 1
-        elif pop == 40:
+        elif pop == 4:
             four_h += 1
-        elif pop == 10:
+        elif pop == 1:
             one_h += 1
 
 
