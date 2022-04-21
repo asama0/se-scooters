@@ -90,7 +90,7 @@ class Price(db.Model):
     bookings = db.relationship('Booking', backref='price')
 
     def get_timedelta(self):
-        print(string_to_timedelta(self.lookup_key))
+        # print(string_to_timedelta(self.lookup_key))
         return string_to_timedelta(self.lookup_key)
 
     def __repr__(self):

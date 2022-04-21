@@ -14,6 +14,8 @@ max_period = []
 sum = 0
 
 
+
+
 def query_booking_by_date(start_date, end_date):
     # querying bookings from database
     result_query = Booking.query \
@@ -49,7 +51,6 @@ def popular_time_find():
     one_week = 0
     one_day = 0
     somedata = get_full_data()
-    print(somedata)
     pop = 0
     for i in somedata:
         pop = 0
@@ -150,30 +151,21 @@ def get_analitics(period, period_key):
         sum_of_period = 0
 
         if period_key == "week":
-            sum_of_period = get_data_list_days(i, i-1, period_key)
+            sum_of_period = get_data_list_days(i+1, i, period_key)
             week.append(sum_of_period)
         elif period_key == "month":
-            sum_of_period = get_data_list_days(i, i-1, period_key)
+            sum_of_period = get_data_list_days(i+1, i, period_key)
             month.append(sum_of_period)
         elif period_key == "year":
-            sum_of_period = get_data_list_days(i, i-1, period_key)
+            sum_of_period = get_data_list_days(i+1, i, period_key)
             year.append(sum_of_period)
 
-    # print('week',week)
-    # print('month',month)
-    # print('year',year)
-
-
-# week.insert(1, 111)
-# week.insert(2, 111)
-# week.insert(4, 111)
-# month.insert(5, 30)
-# year.insert(4, 1190)
-# max_period.insert(3, 212)
-# year.insert(4, 700)
-
-# popular_time_find()
+popular_time_find()
 # print(one_h)
 # print(one_day)
 # print(one_week)
 # print(four_h)
+
+
+
+

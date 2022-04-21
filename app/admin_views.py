@@ -63,11 +63,11 @@ class Analytics(BaseView):
         analytics_quries.get_data_list_days(1, 1, "total")
         # print('admin total', analytics_quries.max_period)
 
-        analytics_quries.popular_time_find()
-        print('admin',analytics_quries.one_h)
-        print('admin',analytics_quries.four_h)
-        print('admin',analytics_quries.one_week)
-        print('admin',analytics_quries.one_day)
+        # analytics_quries.popular_time_find()
+        # print('admin',analytics_quries.one_h)
+        # print('admin',analytics_quries.four_h)
+        # print('admin',analytics_quries.one_week)
+        # print('admin',analytics_quries.one_day)
 
 
         return self.render(
