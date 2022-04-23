@@ -9,12 +9,13 @@ from .models import *
 from .forms import *
 from stripe_functions import *
 from helper_functions import *
+from components.email_with_image import send_mail
 
 
 booking_views = Blueprint('booking_views', __name__,
                           static_folder='static', template_folder='template')
 
-new_booking = None
+new_booking:Booking = None
 
 
 @booking_views.route('/dashboard', methods=['GET', 'POST'])
@@ -29,6 +30,17 @@ def dashboard():
         elif checkout_status == 'success':
             db.session.add(new_booking)
             db.session.commit()
+
+            price = Price.query.get(new_booking.price_id)
+
+            send_mail(
+                'Enjoy the ride!', current_user.email, 'reciept',
+                payment_id=new_booking.id, payment_amount=price.amount ,
+                payment_hours=price.get_timedelta().seconds//3600
+                +24*price.get_timedelta().days,
+                payment_discount=0, payment_total=price.amount,
+                payemnt_date_created=new_booking.created_date_time
+            )
             flash('Booking was saved successfuly.', category='alert-success')
             new_booking = None
 
