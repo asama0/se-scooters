@@ -162,11 +162,11 @@ class feedbackForm(FlaskForm):
 
 class editProfileForm(FlaskForm):
     # string field to write username
-    name = StringField('Name', validators=[])
+    name = StringField('Name', validators=[DataRequired()])
 
-    birth_date = DateField('Date of Birth', validators=[])
+    birth_date = DateField('Date of Birth', validators=[DataRequired()])
 
-    phone = TelField('Phone Number', validators=[])
+    phone = TelField('Phone Number', validators=[DataRequired()])
 
     # submit field to submit user info
     submit = SubmitField('Update')
