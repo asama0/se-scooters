@@ -3,6 +3,7 @@ from flask_admin import BaseView, Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.view import func
 from datetime import date
+from datetime import datetime
 
 from app import app, db
 from helper_functions import flash_errors
@@ -10,7 +11,7 @@ from .models import *
 from .forms import AdminBookingForm
 from .authentication_views import current_user, login, redirect, url_for, request
 
-from analytics_quries import *
+import analytics_quries
 
 
 class AdminHomeView(AdminIndexView):
@@ -46,20 +47,39 @@ class AdminHomeView(AdminIndexView):
         flash('admin is for staff only.', category='message alert-danger')
         return redirect(url_for('authentication_views.login'))
 
-
+#pspspspspsps
 class Analytics(BaseView):
     @expose('/')
     def index(self):
-        get_analitics(7, "week")
-        get_analitics(30, "month")
-        get_analitics(12, "year")
-        get_data_list_days(1, 1, "total")
+        analytics_quries.get_analitics(7, "week")
+        # print('admin week', analytics_quries.week)
+
+        analytics_quries.get_analitics(30, "month")
+        # print('admin month', analytics_quries.month)
+
+        analytics_quries.get_analitics(12, "year")
+        # print('admin year', analytics_quries.year)
+
+        analytics_quries.get_data_list_days(1, 1, "total")
+        # print('admin total', analytics_quries.max_period)
+
+        # analytics_quries.popular_time_find()
+        # print('admin',analytics_quries.one_h)
+        # print('admin',analytics_quries.four_h)
+        # print('admin',analytics_quries.one_week)
+        # print('admin',analytics_quries.one_day)
+
+
         return self.render(
             'analytics_index.html',
-            week_analytics=week,
-            month_analytics=month,
-            year_analytics=year,
-            total_analytics=max_period
+            week_analytics=analytics_quries.week,
+            month_analytics=analytics_quries.month,
+            year_analytics=analytics_quries.year,
+            total_analytics=analytics_quries.max_period,
+            bobo_hour=analytics_quries.one_h,
+            bobo_4=analytics_quries.four_h,
+            bobo_day=analytics_quries.one_day,
+            bobo_week=analytics_quries.one_week
         )
 
     def is_accessible(self):

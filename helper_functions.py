@@ -51,3 +51,4 @@ def string_to_timedelta(str):
         return timedelta(days=number)
     if 'week' in unit:
         return timedelta(weeks=number)
+

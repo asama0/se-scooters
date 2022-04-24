@@ -9,12 +9,13 @@ from .models import *
 from .forms import *
 from stripe_functions import *
 from helper_functions import *
+from components.email_with_image import send_mail
 
 
 booking_views = Blueprint('booking_views', __name__,
                           static_folder='static', template_folder='template')
 
-new_booking = None
+new_booking:Booking = None
 
 
 @booking_views.route('/dashboard', methods=['GET', 'POST'])
@@ -29,6 +30,17 @@ def dashboard():
         elif checkout_status == 'success':
             db.session.add(new_booking)
             db.session.commit()
+
+            price = Price.query.get(new_booking.price_id)
+
+            send_mail(
+                'Enjoy the ride!', current_user.email, 'reciept',
+                payment_id=new_booking.id, payment_amount=price.amount ,
+                payment_hours=price.get_timedelta().seconds//3600
+                +24*price.get_timedelta().days,
+                payment_discount=0, payment_total=price.amount,
+                payemnt_date_created=new_booking.created_date_time
+            )
             flash('Booking was saved successfuly.', category='alert-success')
             new_booking = None
 
@@ -104,12 +116,13 @@ def dashboard():
 @booking_views.route('/tickets', methods=['GET', 'POST'])
 @login_required
 def tickets():
+    global new_booking
 
     form = TicketForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            booking_chosen = Booking.query.get(form.booking_id.data)
-            print(form.refund.data, form.activate.data)
+            booking_chosen:Booking = Booking.query.get(form.booking_id.data)
+
             if form.refund.data:
                 refund(booking_chosen.payment_intent)
                 db.session.delete(booking_chosen)
@@ -119,7 +132,37 @@ def tickets():
                     tn.write(bytes(str(booking_chosen.scooter_id), 'utf-8'))
                     tn.close()
                 return redirect(url_for('activate', token=str(booking_chosen.scooter_id)))
+            elif form.extend.data:
+                new_price:Price = Price.query.filter_by(lookup_key=form.new_dutration.data.lookup_key).first()
+                pickup_date = booking_chosen.pickup_date
+                scooter_chosen_id = booking_chosen.scooter_id
+
+
+                refund(booking_chosen.payment_intent)
+                db.session.delete(booking_chosen)
+                db.session.commit()
+                flash('Old booking was refunded', category='alert-success')
+
+                checkout_session = stripe.checkout.Session.create(
+                    line_items=[{'price': new_price.api_id, 'quantity': 1}],
+                    mode='payment',
+                    success_url=url_for('booking_views.dashboard',
+                                        _external=True, checkout_status='success'),
+                    cancel_url=url_for('booking_views.dashboard',
+                                    _external=True, checkout_status='canceled'),
+                    customer=current_user.stripe_id,
+                )
+
+                new_booking = Booking(
+                    pickup_date=pickup_date,
+                    user_id=current_user.id,
+                    scooter_id=scooter_chosen_id,
+                    price_id=new_price.id,
+                    payment_intent=checkout_session.payment_intent,
+                )
+
+                return redirect(checkout_session.url)
         else:
             flash_errors(form)
 
-    return render_template('tickets.html', form=form, page_name='tickets', bookings=current_user.bookings)
+    return render_template('tickets.html', form=form, page_name='tickets', bookings=current_user.bookings, Price=Price)

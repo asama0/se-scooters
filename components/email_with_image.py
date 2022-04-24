@@ -49,8 +49,9 @@ def send_mail(Subject, To, Body_name, **kwargs):
         htmlBody = htmlfile.read().replace("\n", "")
         htmlBody = ' '.join(htmlBody.split())
 
+        # replacing kewords in email template
         for key in kwargs.keys():
-            htmlBody = htmlBody.replace("{{"+str(key)+"}}", kwargs[key])
+            htmlBody = htmlBody.replace("{{"+str(key)+"}}", str(kwargs[key]))
 
 
     # set an alternative html body
@@ -90,8 +91,10 @@ def send_mail(Subject, To, Body_name, **kwargs):
 
 
 def main():
-    # send_mail('Hello there', 'salimbader22@gmail.com', 'reciept')
-    send_mail('Hello there', 'salimbader22@gmail.com', 'forgetpassword', forgot_password_url="www.youtube.com")
+    send_mail('Enjoy the ride!', 'fy19amaa@leeds.ac.uk', 'reciept',
+    payment_id=123, payment_amount=10, payment_hours=24, payment_discount=0,
+    payment_total=10, payemnt_date_created='2022-02-16')
+    # send_mail('Hello there', 'salimbader22@gmail.com', 'forgetpassword', forgot_password_url="www.youtube.com")
 
 if __name__ == '__main__':
     main()
