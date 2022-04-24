@@ -11,7 +11,7 @@ function updateTheGraphs(chart, label, arr) {
 
 
 
-const weekl = ['Monday', 'Tuesday', 'Wednesday', 'Thurthsday', 'Friday', 'Saturday', 'Sunday']
+const weekl = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 var data_week = {
   labels: weekl,
@@ -143,6 +143,83 @@ var yearl = {
         }
     }
 };
+
+
+
+
+
+
+
+
+////for popular time
+
+
+
+
+
+
+
+const popular_lable = ['1-hour', '4-hours', '1-day', '1-week']
+
+var data_popular = {
+  labels: popular_lable,
+        datasets: [{
+            label: 'POPULAR TIME',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(154, 62, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(154, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+};
+
+
+
+
+var popularl = {
+  type: 'bar',
+  data: data_popular,
+  options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
+
+
+//for  different layers dublicated
+var barchar6 = new Chart(
+    document.getElementById('canvas_plot9'),
+    popularl
+)
+
+
+
+///----- END
+
+
+
+
+
+
+
+
+
 
 
 
@@ -308,11 +385,24 @@ var week_array = {{ week_analytics|tojson }};
 var month_array = {{ month_analytics|tojson }};
 var year_array = {{ year_analytics|tojson }};
 var total_array = {{ total_analytics|tojson }};
+var bobo_h_variable = {{bobo_hour|tojson}};
+var bobo_4_variable = {{bobo_4|tojson}};
+var bobo_day_variable = {{bobo_day|tojson}};
+var bobo_week_variable = {{bobo_week|tojson}};
+
+goodArr = []
+goodArr.push(bobo_h_variable)
+goodArr.push(bobo_4_variable)
+goodArr.push(bobo_day_variable)
+goodArr.push(bobo_week_variable)
+
+
 
 updateTheGraphs(barchar, weekl, week_array);
 updateTheGraphs(barchar2, month_lable, month_array);
 updateTheGraphs(barchar3, year_lable, year_array);
 updateTheGraphs(barchar4, total_lable, total_array);
+updateTheGraphs(barchar6, popular_lable, goodArr);
 
 
 
