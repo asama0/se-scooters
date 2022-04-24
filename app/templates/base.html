@@ -26,22 +26,43 @@
 </head>
 
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <ul style="list-style-type: none;margin: 0;padding: 0;" id="flash" class="flashes">
-        {% for category, message in messages %}
-        {% if category == 'message' %}
-        {% set category = "alert-info" %}
-        {% endif %}
-        <li class="alert {{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </li>
-        {% endfor %}
-    </ul>
+    {% block content %} {% endblock %}
+   
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+
+      <div aria-live="polite" aria-atomic="true" class="position-relative" >
+        <!-- Position it: -->
+        <!-- - `.toast-container` for spacing between toasts -->
+        <!-- - `.position-absolute`, `top-0` & `end-0` to position the toasts in the upper right corner -->
+        <!-- - `.p-3` to prevent the toasts from sticking to the edge of the container  -->
+        <div class="toast-container position-absolute top-0 end-0 p-3 z-index-2">
+            {% for category, message in messages %}
+      
+          <!-- Then put toasts within -->
+      
+          <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true"  >
+            <div class="toast-header">
+              <!-- <img src="..." class="rounded me-2" alt="..."> -->
+              <strong class="me-auto">Bootstrap</strong>
+              <small class="text-muted">2 seconds ago</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              {{ message }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     {% endif %}
     {% endwith %}
-    {% block content %} {% endblock %}
+  
+    <!-- <script>
+        $(document).ready(function () {
+            $(".toast").toast('show');
+        });
+    </script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
