@@ -10,9 +10,13 @@
 
             <div class="col-md-4" style="width: 20rem;">
                 <div class="card">
-                    <h6 class="card-header"> {{ booking.pickup_date }} </h6>
+                    <h6 class="card-header">
+                        {{Price.query.get(booking.price_id).lookup_key}}
+                        <span style="float: right;">
+                            {{ booking.pickup_date.strftime("%I:%M %p, %m/%d/%Y")}}
+                        </span>
+                    </h6>
                     <div class="card-body">
-                        {#{ form.set_duration_options(booking)|default("", True) }#}
                         <form action="" method="POST">
                             {{ form.hidden_tag() }}
                             {{ form.booking_id(type="hidden", value=booking.id ) }}
