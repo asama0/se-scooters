@@ -7,6 +7,7 @@ from datetime import datetime
 
 from app import app, db
 from helper_functions import flash_errors
+from stripe_functions import create_a_price, deactivate_price
 from .models import *
 from .forms import AdminBookingForm
 from .authentication_views import current_user, login, redirect, url_for, request
@@ -57,13 +58,11 @@ class UserView(ModelView):
 
 
 class ParkingView(ModelView):
-    can_delete = True
     column_filters = ['name']
     column_searchable_list = ['name']
 
 
 class ScooterView(ModelView):
-    can_delete = True
     column_filters = ['parking']
 
 
@@ -89,6 +88,32 @@ class PriorityFeedbackView(ModelView):
 
 class PriceView(ModelView):
     can_delete = False
+    can_export = True
+    form_columns = (Price.lookup_key, Price.amount)
+
+    def after_model_change(self, form, model, is_created):
+        if is_created:
+            # product ID must be changed if changed in stripe API
+            new_price = create_a_price(
+                'prod_L7tv4Gbl7YQuKm',
+                model.amount, model.lookup_key
+            )
+            model.api_id = new_price.id
+            db.session.commit()
+        else:
+            deactivate_price(model.api_id, model.lookup_key)
+            new_api_price = create_a_price(
+                'prod_L7tv4Gbl7YQuKm',
+                model.amount, model.lookup_key
+            )
+            updated_price = Price(
+                api_id=new_api_price.id,
+                lookup_key=model.lookup_key,
+                amount=model.amount,
+            )
+            Price.query.filter_by(id=model.id).delete()
+            db.session.add(updated_price)
+            db.session.commit()
 
     def is_accessible(self):
         if current_user.is_authenticated:
@@ -104,6 +129,7 @@ class PriceView(ModelView):
 class Analytics(BaseView):
     @expose('/')
     def index(self):
+        analytics_quries.popular_time_find()
         analytics_quries.get_analitics(7, "week")
         analytics_quries.get_analitics(30, "month")
         analytics_quries.get_analitics(12, "year")
@@ -139,7 +165,7 @@ admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
 admin.add_view(UserView(User, db.session))
 admin.add_view(ParkingView(Parking, db.session))
 admin.add_view(ScooterView(Scooter, db.session))
-admin.add_view(ModelView(Booking, db.session))
+admin.add_view(BookingView(Booking, db.session))
 admin.add_view(PriorityFeedbackView(Feedback, db.session))
 admin.add_view(PriceView(Price, db.session))
 admin.add_view(Analytics(name='Analytics', endpoint='analytics'))

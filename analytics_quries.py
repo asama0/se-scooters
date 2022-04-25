@@ -14,8 +14,6 @@ max_period = []
 sum = 0
 
 
-
-
 def query_booking_by_date(start_date, end_date):
     # querying bookings from database
     result_query = Booking.query \
@@ -65,10 +63,6 @@ def popular_time_find():
             one_h += 1
 
 
-
-
-
-
 def get_full_data():
     resssult = Booking.query.all()
 
@@ -76,22 +70,19 @@ def get_full_data():
     result_dict = [
         {'date': str(booking.created_date_time),
          'amount': Price.query.get(booking.price_id).amount,
-         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600+
-                     24*Price.query.get(booking.price_id).get_timedelta().days//1}
+         'duration': Price.query.get(booking.price_id).get_timedelta().seconds//3600 +
+         24*Price.query.get(booking.price_id).get_timedelta().days//1}
         for booking in resssult
     ]
 
     return result_dict
 
-# pass days between to store sumes in the list , ex  January to February and so on
-
 
 def get_data_list_days(period_list_start, period_list_end, period_key):
+    # pass days between to store sumes in the list , ex  January to February and so on
     global max_period
     if period_key == "total":
         max_period = []
-
-
 
     if period_key == "week":
         period = query_booking_by_date(
@@ -131,8 +122,6 @@ def get_data_list_days(period_list_start, period_list_end, period_key):
             sum = sum + i.get("amount")
         return sum
 
-    # print('max_period',max_period)
-
 
 def get_analitics(period, period_key):
     global week
@@ -159,13 +148,3 @@ def get_analitics(period, period_key):
         elif period_key == "year":
             sum_of_period = get_data_list_days(i+1, i, period_key)
             year.append(sum_of_period)
-
-popular_time_find()
-# print(one_h)
-# print(one_day)
-# print(one_week)
-# print(four_h)
-
-
-
-
