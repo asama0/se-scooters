@@ -20,22 +20,24 @@ class AdminHomeView(AdminIndexView):
         form = AdminBookingForm()
         if form.validate_on_submit():
             new_booking = Booking(
-                pickup_date=datetime.combine(form.pickup_date.data, form.pickup_time.data),
+                pickup_date=datetime.combine(
+                    form.pickup_date.data, form.pickup_time.data),
                 user_id=current_user.id,
                 scooter_id=form.scooter_id.data.id,
                 price_id=form.time_period.data.id,
             )
             db.session.add(new_booking)
             db.session.commit()
-            flash('Booking was saved successfuly.', category='message alert-success')
+            flash('Booking was saved successfuly.',
+                  category='message alert-success')
         else:
             flash_errors(form=form)
 
         return self.render(
-                            'admin/index.html',
-                            form=form,
-                            date_today=date.today(),
-                            time_now=datetime.now().strftime("%H:00"))
+            'admin/index.html',
+            form=form,
+            date_today=date.today(),
+            time_now=datetime.now().strftime("%H:00"))
 
     def is_accessible(self):
         if current_user.is_authenticated:
@@ -47,28 +49,65 @@ class AdminHomeView(AdminIndexView):
         flash('admin is for staff only.', category='message alert-danger')
         return redirect(url_for('authentication_views.login'))
 
-#pspspspspsps
+
+class UserView(ModelView):
+    can_delete = False
+    column_searchable_list = ['name', 'email', 'phone', 'birth_date']
+    column_filters = ['privilege', 'blocked']
+
+
+class ParkingView(ModelView):
+    can_delete = True
+    column_filters = ['name']
+    column_searchable_list = ['name']
+
+
+class ScooterView(ModelView):
+    can_delete = True
+    column_filters = ['parking']
+
+
+class BookingView(ModelView):
+    can_delete = False
+    can_edit = False
+    can_export = True
+
+
+class PriorityFeedbackView(ModelView):
+    def get_query(self):
+        if current_user.privilege == 333:
+            return self.session.query(self.model).filter(self.model.urgent == True)
+        else:
+            return super().get_query()
+
+    def get_count_query(self):
+        if current_user.privilege == 333:
+            return self.session.query(func.count('*')).filter(self.model.urgent == True)
+        else:
+            return super().get_count_query()
+
+
+class PriceView(ModelView):
+    can_delete = False
+
+    def is_accessible(self):
+        if current_user.is_authenticated:
+            return current_user.privilege == 333
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        flash('Analytics are Admin only.', category='message alert-danger')
+        return redirect(url_for('authentication_views.login'))
+
+
 class Analytics(BaseView):
     @expose('/')
     def index(self):
         analytics_quries.get_analitics(7, "week")
-        # print('admin week', analytics_quries.week)
-
         analytics_quries.get_analitics(30, "month")
-        # print('admin month', analytics_quries.month)
-
         analytics_quries.get_analitics(12, "year")
-        # print('admin year', analytics_quries.year)
-
         analytics_quries.get_data_list_days(1, 1, "total")
-        # print('admin total', analytics_quries.max_period)
-
-        # analytics_quries.popular_time_find()
-        # print('admin',analytics_quries.one_h)
-        # print('admin',analytics_quries.four_h)
-        # print('admin',analytics_quries.one_week)
-        # print('admin',analytics_quries.one_day)
-
 
         return self.render(
             'analytics_index.html',
@@ -93,57 +132,14 @@ class Analytics(BaseView):
         return redirect(url_for('authentication_views.login'))
 
 
-class UserView(ModelView):
-    can_delete = False
-    column_searchable_list = ['name', 'email', 'phone', 'birth_date']
-    column_filters = ['privilege', 'blocked']
-
-
-class ScooterView(ModelView):
-    can_delete = False
-    column_filters = ['parking']
-
-
-class ParkingView(ModelView):
-    can_delete = False
-    column_filters = ['name']
-    column_searchable_list = ['name']
-
-class PriceView(ModelView):
-
-    def is_accessible(self):
-        if current_user.is_authenticated:
-            return current_user.privilege == 333
-        return False
-
-    def inaccessible_callback(self, name, **kwargs):
-        # redirect to login page if user doesn't have access
-        flash('Analytics are Admin only.', category='message alert-danger')
-        return redirect(url_for('authentication_views.login'))
-
-
-class PriorityFeedbackView(ModelView):
-    def get_query(self):
-        if current_user.privilege == 333:
-            return self.session.query(self.model).filter(self.model.urgent == True)
-        else:
-            return super().get_query()
-
-    def get_count_query(self):
-        if current_user.privilege == 333:
-            return self.session.query(func.count('*')).filter(self.model.urgent == True)
-        else:
-            return super().get_count_query()
-
-
 # admin pages setup
 admin = Admin(app, template_mode='bootstrap4', index_view=AdminHomeView())
 
 # add models to admin page
 admin.add_view(UserView(User, db.session))
-admin.add_view(ScooterView(Scooter, db.session))
 admin.add_view(ParkingView(Parking, db.session))
+admin.add_view(ScooterView(Scooter, db.session))
 admin.add_view(ModelView(Booking, db.session))
 admin.add_view(PriorityFeedbackView(Feedback, db.session))
-admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
 admin.add_view(PriceView(Price, db.session))
+admin.add_view(Analytics(name='Analytics', endpoint='analytics'))
