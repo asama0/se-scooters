@@ -33,7 +33,6 @@ class User(db.Model, UserMixin):
         try:
             email = jwt.decode(token, key=app.config['SECRET_KEY'],  algorithms=[
                                "HS256"])['reset_password']
-            print('Verifed toker for:', email)
         except Exception as e:
             print(e)
             return
@@ -83,14 +82,13 @@ class Parking(db.Model):
 
 class Price(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    api_id = db.Column(db.String(100), unique=True, nullable=False)
+    api_id = db.Column(db.String(100), unique=True)
     lookup_key = db.Column(db.String(100), unique=True, nullable=False)
     amount = db.Column(db.Float, nullable=False)
 
     bookings = db.relationship('Booking', backref='price')
 
     def get_timedelta(self):
-        # print(string_to_timedelta(self.lookup_key))
         return string_to_timedelta(self.lookup_key)
 
     def __repr__(self):

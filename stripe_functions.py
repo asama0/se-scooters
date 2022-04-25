@@ -57,9 +57,13 @@ creates a checkout session with app: current app, domain: the current domain, pr
 # creates a price for the product id, with the price which can be obtained using lookupKey
 
 
-def create_a_price(id, price, lookupKey):
-    stripe.Price.create(product=id, unit_amount=int(
-        price * 100), currency="GBP", lookup_key=lookupKey,)
+def create_a_price(product_id, price, lookupKey):
+    return stripe.Price.create(
+        product=product_id,
+        unit_amount=int(price * 100),
+        currency="GBP",
+        lookup_key=lookupKey,
+    )
 
 
 # creates  discount with the given id and applies the amount amountOff or percentage (0-100) percentageOff, provide one while the other is None
@@ -73,8 +77,8 @@ def create_a_discount(id, percentageOff, amountOff):
 
 
 # edits the price to the new price newprice (the id of the price not the product)
-def edit_price(id, newPrice):
-    stripe.Product.modify(id, unit_amount=int(newPrice * 100))
+def deactivate_price(price_id, old_lookup_key):
+    stripe.Price.modify(price_id, lookup_key='DEACTIVATED000'+old_lookup_key, active=False)
 
 
 # edit the discount to the new percentage off and amount off (one of them must equal to None)
