@@ -62,3 +62,21 @@ def feedback():
         flash_errors(form)
 
     return render_template('feedback.html', page_name='feedback', form=form)
+
+@login_required
+@app.route('/not_available_times', methods=['POST'])
+@login_required
+def not_available_times():
+    parking_id = int(request.args.get('parking_id'))
+    date = datetime.fromisoformat(request.args.get('date'))
+
+    parking = Parking.query.get(parking_id)
+
+    bookings = []
+    for scooter in parking.scooters:
+        bookings = Booking.query.filter_by(scooter_id=scooter.id, pickup_date=date)
+
+    return jsonify({
+        booking.pickup_date: booking.price_id
+        for booking in bookings
+    })

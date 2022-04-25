@@ -6,7 +6,7 @@
 
             <div class="form-group">
                 <label for="pickup_date">Date:</label>
-                {{ form.pickup_date(class_="form-control", min=date_today ) }}
+                {{ form.pickup_date(class_="form-control", onchange="update_fields(this)", min=date_today ) }}
             </div>
 
             <div class="form-group">
