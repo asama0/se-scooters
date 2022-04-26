@@ -179,3 +179,8 @@ class TicketForm(FlaskForm):
     booking_id = IntegerField(validators=[DataRequired()])
     refund = SubmitField('Refund')
     activate = SubmitField('Activate')
+
+
+class NotAvailableTimesForm(FlaskForm):
+    pickup_date = DateField(validators=[DataRequired()])
+    pickup_parking_id = IntegerField(validators=[DataRequired()])

@@ -58,6 +58,7 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     scooter_id = db.Column(db.Integer, db.ForeignKey(
         'scooter.id'), nullable=False)
+    parking_id = db.Column(db.Integer, db.ForeignKey('parking.id'), nullable=False)
     price_id = db.Column(db.Integer, db.ForeignKey('price.id'), nullable=False)
     payment_intent = db.Column(db.String(100), unique=True)
 

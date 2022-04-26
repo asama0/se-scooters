@@ -92,11 +92,13 @@ def dashboard():
             (Scooter.parking_id == form.pickup_parking_id.data)
         ).first()
         price_used = form.time_period.data
+        parking_used = form.pickup_parking_id.data
 
         new_booking = Booking(
             pickup_date=pickup_date,
             user_id=current_user.id,
             scooter_id=scooter_chosen.id,
+            parking_id=parking_used.id,
             price_id=price_used.id,
             payment_intent=checkout_session.payment_intent,
         )
@@ -108,9 +110,12 @@ def dashboard():
 
     parkings = Parking.query.filter(Parking.scooters.any()).all()
 
-    return render_template('dashboard.html', form=form, parkings=parkings,
-                           page_name='dashboard', date_today=date.today(),
-                           time_now=datetime.now().strftime("%H:00"))
+    return render_template(
+        'dashboard.html', form=form, parkings=parkings,
+        not_available_times_form=NotAvailableTimesForm(),
+        page_name='dashboard', date_today=date.today(),
+        time_now=datetime.now().strftime("%H:00")
+    )
 
 
 @booking_views.route('/tickets', methods=['GET', 'POST'])
@@ -165,4 +170,7 @@ def tickets():
         else:
             flash_errors(form)
 
-    return render_template('tickets.html', form=form, page_name='tickets', bookings=current_user.bookings, Price=Price)
+    return render_template(
+        'tickets.html', form=form, page_name='tickets',
+        bookings=current_user.bookings, Price=Price
+    )

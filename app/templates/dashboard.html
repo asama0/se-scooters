@@ -22,6 +22,12 @@
     });
 </script>
 
+<form id="not_available_times_form" method="POST" hidden>
+    {{ not_available_times_form.hidden_tag() }}
+    {{ not_available_times_form.pickup_date() }}
+    {{ not_available_times_form.pickup_parking_id(type="number") }}
+</form>
+
 <script src="{{ url_for('static', filename='dynamic_select.js') }}" ></script>
 
 {% endblock %}

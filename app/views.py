@@ -14,7 +14,6 @@ def index():
     return render_template('index.html')
 
 
-@login_required
 @app.route('/activate/<token>', methods=['GET', 'POST'])
 def activate(token):
     if request.method == 'POST':
@@ -29,8 +28,8 @@ def activate(token):
     return render_template('QRCodeScanner.html')
 
 
-@login_required
 @app.route('/account', methods=['GET', 'POST'])
+@login_required
 def account():
     form = editProfileForm()
     if form.validate_on_submit():
@@ -44,7 +43,7 @@ def account():
     return render_template('account.html', page_name='account', form=form)
 
 
-@login_required
+
 @app.route('/feedback', methods=['GET', 'POST'])
 @login_required
 def feedback():
@@ -63,20 +62,24 @@ def feedback():
 
     return render_template('feedback.html', page_name='feedback', form=form)
 
-@login_required
 @app.route('/not_available_times', methods=['POST'])
 @login_required
 def not_available_times():
-    parking_id = int(request.args.get('parking_id'))
-    date = datetime.fromisoformat(request.args.get('date'))
+    form = NotAvailableTimesForm()
 
-    parking = Parking.query.get(parking_id)
+    if form.validate_on_submit():
+        parking_id = form.pickup_parking_id.data
+        date = form.pickup_date.data
 
-    bookings = []
-    for scooter in parking.scooters:
-        bookings = Booking.query.filter_by(scooter_id=scooter.id, pickup_date=date)
+        parking = Parking.query.get(parking_id)
 
-    return jsonify({
-        booking.pickup_date: booking.price_id
-        for booking in bookings
-    })
+        bookings = []
+        for scooter in parking.scooters:
+            bookings = Booking.query.filter_by(scooter_id=scooter.id, pickup_date=date)
+
+        return jsonify({
+            booking.pickup_date: booking.price_id
+            for booking in bookings
+        })
+
+    return "The server refuses the attempt to brew coffee with a teapot.", 418
