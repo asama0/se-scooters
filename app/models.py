@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     feedbacks = db.relationship('Feedback', backref='user')
 
     def __repr__(self):
-        return f'<User #{self.id} {self.name}>'
+        return f'<User #{self.id}>'
 
     # for password reset
     def get_reset_token(self, expires=1000):
@@ -76,6 +76,7 @@ class Parking(db.Model):
     longitude = db.Column(db.Float, nullable=False)
 
     scooters = db.relationship('Scooter', backref='parking')
+    Bookings = db.relationship('Booking', backref='parking')
 
     def __repr__(self):
         return str(self.name)

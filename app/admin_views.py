@@ -25,6 +25,7 @@ class AdminHomeView(AdminIndexView):
                     form.pickup_date.data, form.pickup_time.data),
                 user_id=current_user.id,
                 scooter_id=form.scooter_id.data.id,
+                parking_id=form.scooter_id.data.parking_id,
                 price_id=form.time_period.data.id,
             )
             db.session.add(new_booking)

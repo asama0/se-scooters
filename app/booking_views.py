@@ -92,13 +92,13 @@ def dashboard():
             (Scooter.parking_id == form.pickup_parking_id.data)
         ).first()
         price_used = form.time_period.data
-        parking_used = form.pickup_parking_id.data
+        parking_id = form.pickup_parking_id.data
 
         new_booking = Booking(
             pickup_date=pickup_date,
             user_id=current_user.id,
             scooter_id=scooter_chosen.id,
-            parking_id=parking_used.id,
+            parking_id=parking_id,
             price_id=price_used.id,
             payment_intent=checkout_session.payment_intent,
         )

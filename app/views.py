@@ -43,7 +43,6 @@ def account():
     return render_template('account.html', page_name='account', form=form)
 
 
-
 @app.route('/feedback', methods=['GET', 'POST'])
 @login_required
 def feedback():
@@ -62,6 +61,7 @@ def feedback():
 
     return render_template('feedback.html', page_name='feedback', form=form)
 
+
 @app.route('/not_available_times', methods=['POST'])
 @login_required
 def not_available_times():
@@ -71,11 +71,7 @@ def not_available_times():
         parking_id = form.pickup_parking_id.data
         date = form.pickup_date.data
 
-        parking = Parking.query.get(parking_id)
-
-        bookings = []
-        for scooter in parking.scooters:
-            bookings = Booking.query.filter_by(scooter_id=scooter.id, pickup_date=date)
+        bookings = Booking.query.filter_by(parking_id=parking_id, pickup_date=date)
 
         return jsonify({
             booking.pickup_date: booking.price_id
