@@ -184,3 +184,6 @@ class TicketForm(FlaskForm):
 class NotAvailableTimesForm(FlaskForm):
     pickup_date = DateField(validators=[DataRequired()])
     pickup_parking_id = IntegerField(validators=[DataRequired()])
+
+class NotAvailableDurationsForm(FlaskForm):
+    booking_id = IntegerField(validators=[DataRequired()])

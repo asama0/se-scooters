@@ -65,6 +65,9 @@ class Booking(db.Model):
     def get_end_datetime(self):
         return self.pickup_date + Price.query.get(self.price_id).get_timedelta()
 
+    def get_timedelta(self):
+        return Price.query.get(self.price_id).get_timedelta()
+
     def __repr__(self):
         return f'<Booking #{self.id}>'
 

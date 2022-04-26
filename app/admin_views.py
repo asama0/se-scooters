@@ -70,6 +70,7 @@ class ScooterView(ModelView):
 class BookingView(ModelView):
     can_delete = False
     can_edit = False
+    can_create = False
     can_export = True
 
 
