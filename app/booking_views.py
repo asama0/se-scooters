@@ -162,6 +162,7 @@ def tickets():
                     pickup_date=pickup_date,
                     user_id=current_user.id,
                     scooter_id=scooter_chosen_id,
+                    parking_id=booking_chosen.parking_id,
                     price_id=new_price.id,
                     payment_intent=checkout_session.payment_intent,
                 )
@@ -172,5 +173,6 @@ def tickets():
 
     return render_template(
         'tickets.html', form=form, page_name='tickets',
-        bookings=current_user.bookings, Price=Price
+        not_available_durations_form=NotAvailableDurationsForm(),
+        bookings=current_user.bookings, Price=Price, Parking=Parking
     )

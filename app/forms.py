@@ -150,7 +150,7 @@ class resetPasswordForm(FlaskForm):
 
 
 class feedbackForm(FlaskForm):
-    experience = RadioField(choices=["awful", "bad", "average", "good", "excellent"],
+    experience = RadioField(choices=["Excellent", "Good", "Average", "Bad", "Very bad"],
                             validators=[DataRequired()])
     feedback = TextAreaField(
         validators=[

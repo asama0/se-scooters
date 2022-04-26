@@ -80,3 +80,16 @@ label {
     font-size: 16px;
     margin-bottom: 3px
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    padding: 10px;
+    align-items: center;
+}
+
+
+.grid-item {
+    padding: 10px;
+    align-items: center;
+}

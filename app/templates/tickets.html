@@ -2,26 +2,24 @@
 {% block main_content %}
 
 <div class="py-5">
-    <div class="container">
+    <div class="container grid-container">
         {% for booking in bookings %}
-            {% if loop.index0%3 == 0 %}
-            <div class="row hidden-md-up">
-            {% endif %}
-
-            <div class="col-md-4" style="width: 20rem;">
-                <div class="card">
+            <div class="grid-item" style="width: 100%;">
+                <div class="card" style="width: 21rem; margin: auto;">
                     <h6 class="card-header">
-                        {{Price.query.get(booking.price_id).lookup_key}}
-                        <span style="float: right;">
-                            {{ booking.pickup_date.strftime("%I:%M %p, %m/%d/%Y")}}
-                        </span>
+                        <div>
+                            {{Parking.query.get(booking.parking_id)}}
+                            <span style="float: right;">
+                                Scooter: {{ booking.scooter_id }}
+                            </span>
+                        </div>
                     </h6>
                     <div class="card-body">
                         <form action="" method="POST">
                             {{ form.hidden_tag() }}
                             {{ form.booking_id(type="hidden", value=booking.id ) }}
                             <div class="form-group input-group">
-                                {{ form.new_dutration(class_="form-select") }}
+                                {{ form.new_dutration(class_="form-select", onclick="update_durations(this)") }}
                                 {{ form.extend(class_="btn btn-outline-secondary") }}
                             </div>
                             <br>
@@ -31,14 +29,27 @@
                             </div>
                         </form>
                     </div>
+                    <div class="card-footer">
+                        <div>
+                            {{Price.query.get(booking.price_id).lookup_key}}
+                            <span style="float: right;">
+                                {{ booking.pickup_date.strftime("%I:%M %p %d/%m/%Y") }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
+                <br>
+                <br>
             </div>
-
-            {% if loop.index0%3 == 2 %}
-            </div><br>
-            {% endif %}
         {% endfor %}
     </div>
 </div>
+
+<form id="not_available_durations_form" method="POST" hidden>
+    {{ not_available_durations_form.hidden_tag() }}
+    {{ not_available_durations_form.booking_id(type="number") }}
+</form>
+
+<script src="{{ url_for('static', filename='dynamic_select.js') }}" ></script>
 
 {% endblock %}

@@ -103,7 +103,7 @@ def not_available_times():
 @app.route('/not_available_durations', methods=['POST'])
 @login_required
 def not_available_durations():
-    form = NotAvailableTimesForm()
+    form = NotAvailableDurationsForm()
 
     if form.validate_on_submit():
         booking = Booking.query.get(form.booking_id.data)
@@ -112,10 +112,12 @@ def not_available_durations():
 
         for price in Price.query.all():
             if Booking.query.filter(
-            Booking.pickup_date <= ( booking.pickup_date + price.get_timedelta() ) ):
+            ( Booking.id != booking.id ) &
+            ( Booking.scooter_id == booking.scooter_id ) &
+            ( Booking.pickup_date <= ( booking.pickup_date + price.get_timedelta() ) )
+            ).all():
                 durations_to_disable.append(price.id)
 
         return jsonify(durations_to_disable)
-
 
     return "The server refuses the attempt to brew coffee with a teapot.", 418
