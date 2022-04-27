@@ -2,15 +2,17 @@
 {% block content %}
 
 <div class="qrcenter">
-    <h2>Scan the scooters</h2>
+    <h2 style="text-align: center;">Scan the QR code!</h2>
     <video id="qr-video" style="width: 100%;"></video>
     <form id="qr_code_form" method="post" action="" hidden>
         <input id="qr_result" name="qr_result" type="text" hidden>
     </form>
 </div>
 
-<script type="module">
-    import QrScanner from "{{url_for('static', filename='qr-scanner.min.js')}}";
+<script src="{{url_for('static', filename='qr-scanner.min.js')}}"></script>
+
+<script>
+    //import QrScanner from "{{url_for('static', filename='qr-scanner.min.js')}}";
     const video = document.getElementById('qr-video');
 
     var QrMessage;

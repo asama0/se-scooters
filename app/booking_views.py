@@ -133,7 +133,7 @@ def tickets():
                 db.session.delete(booking_chosen)
                 db.session.commit()
             elif form.activate.data:
-                with Telnet('192.168.50.174', 23) as tn:
+                with Telnet('192.168.217.174', 23) as tn:
                     tn.write(bytes(str(booking_chosen.scooter_id), 'utf-8'))
                     tn.close()
                 return redirect(url_for('activate', token=str(booking_chosen.scooter_id)))
