@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
-from datetime import date, datetime, timedelta
+from pprint import pprint
+from flask import Blueprint, jsonify, render_template, url_for, flash, redirect, request
+from datetime import date, datetime, timedelta, time
 import stripe
 from telnetlib import Telnet
 
@@ -17,11 +18,16 @@ booking_views = Blueprint('booking_views', __name__,
 
 new_booking:Booking = None
 
+# time perdion of the day available for booking (working times)
+opening_hour = 6
+closing_hour = 19
 
 @booking_views.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     global new_booking
+    global opening_hour
+    global closing_hour
     checkout_status = request.args['checkout_status'] if 'checkout_status' in request.args else ''
 
     if request.method == 'GET' and new_booking:
@@ -85,8 +91,10 @@ def dashboard():
             customer=current_user.stripe_id,
         )
 
-        pickup_date = datetime.combine(
-            form.pickup_date.data, form.pickup_time.data)
+        pickup_date = datetime.strptime(form.pickup_date.data, "%d/%m/%Y").date()
+        pickup_time = datetime.strptime(form.pickup_time.data, '%H').time()
+        pickup_datetime = datetime.combine(pickup_date, pickup_time)
+
         scooter_chosen = Scooter.query.filter(
             (Scooter.availability == True) &
             (Scooter.parking_id == form.pickup_parking_id.data)
@@ -95,7 +103,7 @@ def dashboard():
         parking_id = form.pickup_parking_id.data
 
         new_booking = Booking(
-            pickup_date=pickup_date,
+            pickup_date=pickup_datetime,
             user_id=current_user.id,
             scooter_id=scooter_chosen.id,
             parking_id=parking_id,
@@ -110,11 +118,22 @@ def dashboard():
 
     parkings = Parking.query.filter(Parking.scooters.any()).all()
 
+    parking_full_dates_hours = {
+        parking.id: parking.get_full_days(
+            timedelta(hours=opening_hour),
+            timedelta(hours=closing_hour)
+        )
+        for parking in parkings
+    }
+
+    print('=======================================')
+    pprint(parking_full_dates_hours)
+
+
     return render_template(
-        'dashboard.html', form=form, parkings=parkings,
-        not_available_times_form=NotAvailableTimesForm(),
-        page_name='dashboard', date_today=date.today(),
-        time_now=datetime.now().strftime("%H:00")
+        'dashboard.html', page_name='dashboard', form=form, parkings=parkings,
+        opening_hour=opening_hour, closing_hour=closing_hour,
+        parking_full_dates_hours=parking_full_dates_hours,
     )
 
 

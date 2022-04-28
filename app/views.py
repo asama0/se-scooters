@@ -1,7 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flask_login import current_user, login_required
 from app import app, db
-from datetime import timedelta
+from datetime import timedelta, datetime
+from pprint import pprint
 
 from .models import *
 from .forms import *
@@ -12,6 +13,10 @@ from helper_functions import *
 @app.route('/')
 @app.route('/index')
 def index():
+    example_parking:Parking = Parking.query.get(2)
+    pprint(example_parking.get_full_days(
+        timedelta(hours=6), timedelta(hours=19),
+        datetime(2022,4,29), datetime(2022,5,3)))
     return render_template('index.html')
 
 
@@ -69,36 +74,6 @@ def feedback():
 one_week = timedelta(days=7)
 one_day = timedelta(days=1)
 one_hour = timedelta(seconds=3600)
-
-@app.route('/not_available_times', methods=['POST'])
-@login_required
-def not_available_times():
-    global one_day
-    form = NotAvailableTimesForm()
-
-    if form.validate_on_submit():
-        parking_id = form.pickup_parking_id.data
-        date = form.pickup_date.data
-
-        bookings = Booking.query.filter(
-            ( Booking.parking_id == parking_id ) &
-            ( date - one_week <= Booking.pickup_date ) &
-            ( Booking.pickup_date <= date + one_day )
-        )
-
-        times_to_disable = {'all':False}
-
-        for booking in bookings:
-            booking_duration = booking.get_timedelta()
-
-            if  booking_duration >= one_day:
-                return jsonify({'all':True})
-            elif booking.pickup_date == date:
-                times_to_disable[booking.pickup_date.strftime("%H:00")] = booking_duration
-
-        return jsonify(times_to_disable)
-
-    return "The server refuses the attempt to brew coffee with a teapot.", 418
 
 @app.route('/not_available_durations', methods=['POST'])
 @login_required

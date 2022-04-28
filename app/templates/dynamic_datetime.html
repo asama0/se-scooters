@@ -1,0 +1,55 @@
+<script>
+
+let parking_full_dates_hours = {{ parking_full_dates_hours|tojson }};
+let opening_hour = {{ opening_hour|int }};
+let closing_hour = {{ closing_hour|int }};
+let working_hours_duration = closing_hour - opening_hour + 1;
+
+//let fullDates = ["2022-04-29", "2022-05-02", "2021-06-30"];
+//let fullHours = [9];
+
+function enableDate(parking_id, date) {
+    let date_string = $.datepicker.formatDate('yy-mm-dd', date);
+
+    if ( !(parking_id in parking_full_dates_hours) ) return [false];
+    if ( !(date_string in parking_full_dates_hours[parking_id]) ) return [true];
+
+    return [parking_full_dates_hours[parking_id][date_string]?.length < working_hours_duration];
+}
+
+function enableHour(parking_id, hour) {
+    let date_selected = $( ".pickup_date"+parking_id.toString() ).val();
+    date_selected = date_selected.replaceAll('/', '-').split("-").reverse().join("-");
+
+    if (date_selected == false) return false;
+
+    if ( !(parking_id in parking_full_dates_hours) ) return false;
+    if ( !(date_selected in parking_full_dates_hours[parking_id]) ) return true;
+
+    return !parking_full_dates_hours[parking_id.toString()][date_selected]?.includes(hour);
+}
+
+function steup_date_pick(parking_id) {
+    $( ".pickup_date"+parking_id.toString() ).datepicker({
+    minDate: 0,
+    maxDate: 21,
+    dateFormat: "dd/mm/yy",
+    beforeShowDay: (date) => enableDate(parking_id, date),
+    });
+    $( ".pickup_date"+parking_id.toString() ).blur();
+    $( ".pickup_date"+parking_id.toString() ).focus();
+}
+
+function steup_time_pick(parking_id) {
+    $('.pickup_time'+parking_id.toString()).timepicker({
+        hours: { starts: opening_hour, ends: closing_hour },
+        rows: 4,
+        showPeriodLabels: true,
+        onHourShow: (hour) => enableHour(parking_id, hour),
+        showMinutes: false,
+    });
+    $('.pickup_time'+parking_id.toString()).blur();
+    $('.pickup_time'+parking_id.toString()).focus();
+}
+
+</script>

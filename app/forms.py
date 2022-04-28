@@ -76,9 +76,9 @@ class loginForm(FlaskForm):
 
 class BookingForm(FlaskForm):
 
-    pickup_date = DateField(validators=[DataRequired()])
+    pickup_date = StringField(validators=[DataRequired()])
 
-    pickup_time = TimeField(validators=[DataRequired()])
+    pickup_time = StringField(validators=[DataRequired()])
 
     time_period = QuerySelectField(
         validators=[DataRequired()],
@@ -180,10 +180,6 @@ class TicketForm(FlaskForm):
     refund = SubmitField('Refund')
     activate = SubmitField('Activate')
 
-
-class NotAvailableTimesForm(FlaskForm):
-    pickup_date = DateField(validators=[DataRequired()])
-    pickup_parking_id = IntegerField(validators=[DataRequired()])
 
 class NotAvailableDurationsForm(FlaskForm):
     booking_id = IntegerField(validators=[DataRequired()])
