@@ -126,10 +126,6 @@ def dashboard():
         for parking in parkings
     }
 
-    print('=======================================')
-    pprint(parking_full_dates_hours)
-
-
     return render_template(
         'dashboard.html', page_name='dashboard', form=form, parkings=parkings,
         opening_hour=opening_hour, closing_hour=closing_hour,

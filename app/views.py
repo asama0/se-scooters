@@ -1,8 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flask_login import current_user, login_required
 from app import app, db
-from datetime import timedelta, datetime
-from pprint import pprint
+from datetime import timedelta
 
 from .models import *
 from .forms import *
@@ -13,10 +12,6 @@ from helper_functions import *
 @app.route('/')
 @app.route('/index')
 def index():
-    example_parking:Parking = Parking.query.get(2)
-    pprint(example_parking.get_full_days(
-        timedelta(hours=6), timedelta(hours=19),
-        datetime(2022,4,29), datetime(2022,5,3)))
     return render_template('index.html')
 
 
