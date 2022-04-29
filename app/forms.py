@@ -20,7 +20,7 @@ class registrationForm(FlaskForm):
     # string field to write email
     email = StringField('Email',
                         validators=[
-                            Email(message='Error, Enter a valid email'),
+                            Email(message='Enter a valid email'),
                             DataRequired(),
                             Unique(User, User.email)
                         ]
@@ -31,7 +31,7 @@ class registrationForm(FlaskForm):
     password = PasswordField('Password',
                              validators=[
                                  Length(
-                                     min=8, max=25, message='Error, password must be between 8-25 charecter '),
+                                     min=8, max=25, message='password must be between 8-25 charecters '),
                                  DataRequired()
                              ]
                              )
@@ -65,7 +65,7 @@ class registrationForm(FlaskForm):
 class loginForm(FlaskForm):
     email = StringField('Email',
                         validators=[
-                            Email(message='Error, Enter a valid email'),
+                            Email(message='Enter a valid email'),
                             DataRequired()
                         ]
                         )
@@ -93,7 +93,7 @@ class BookingForm(FlaskForm):
 class AdminBookingForm(FlaskForm):
 
     user_email = StringField(validators=[
-                                 Email(message='Error, Enter a valid email'),
+                                 Email(message=' Enter a valid email'),
                                  DataRequired()
                              ]
                              )
@@ -134,7 +134,7 @@ class resetPasswordForm(FlaskForm):
     password = PasswordField('Password',
                              validators=[
                                  Length(
-                                     min=8, max=25, message='Error, password must be between 8-25 charecter '),
+                                     min=8, max=25, message='password must be between 8-25 charecter '),
                                  DataRequired()
                              ]
                              )
