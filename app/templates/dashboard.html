@@ -22,4 +22,10 @@
     });
 </script>
 
+<script src="{{ url_for('static', filename='dynamic_select.js') }}" ></script>
+
+<script src="{{ url_for('static', filename='jquery.ui.timepicker.js') }}" ></script>
+
+{% include 'dynamic_datetime.html' %}
+
 {% endblock %}

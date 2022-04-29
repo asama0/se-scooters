@@ -26,6 +26,7 @@
     background-color: white;
     z-index: 99;
 }
+
 #loading_screen {
     z-index: 100;
 }
@@ -52,15 +53,16 @@
     transform: translate(-50%, -50%);
 }
 
-#btn{
+#btn {
     display: none;
 }
 
 @media screen and (max-width: 575px) {
-    #btn{
+    #btn {
         display: inline-block;
         box-shadow: none !important;
     }
+
     #list {
         list-style-type: none !important;
         position: absolute;
@@ -79,4 +81,39 @@
 label {
     font-size: 16px;
     margin-bottom: 3px
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    padding: 10px;
+    align-items: center;
+}
+
+
+.grid-item {
+    padding: 10px;
+    align-items: center;
+}
+
+
+div.ui-datepicker {
+    font-size: 16px;
+}
+
+
+div.ui-timepicker {
+    font-size: 16px;
+}
+
+input[readonly]{
+    background-color:white !important;
+}
+
+.ui-timepicker-table * {
+    box-sizing: initial;
+}
+
+.leaflet-popup-close-button {
+    display: none;
 }

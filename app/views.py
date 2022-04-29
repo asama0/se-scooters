@@ -1,6 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flask_login import current_user, login_required
 from app import app, db
+from datetime import timedelta
 
 from .models import *
 from .forms import *
@@ -14,7 +15,6 @@ def index():
     return render_template('index.html')
 
 
-@login_required
 @app.route('/activate/<token>', methods=['GET', 'POST'])
 def activate(token):
     if request.method == 'POST':
@@ -29,8 +29,8 @@ def activate(token):
     return render_template('QRCodeScanner.html')
 
 
-@login_required
 @app.route('/account', methods=['GET', 'POST'])
+@login_required
 def account():
     form = editProfileForm()
     if form.validate_on_submit():
@@ -44,7 +44,6 @@ def account():
     return render_template('account.html', page_name='account', form=form)
 
 
-@login_required
 @app.route('/feedback', methods=['GET', 'POST'])
 @login_required
 def feedback():
@@ -52,9 +51,12 @@ def feedback():
 
     # retrieve the feedback then adds it to the database
     if form.validate_on_submit():
-        feedback = Feedback(experience=form.experience.data,
-                            feedback=form.feedback.data,
-                            user_id=current_user.id)
+        feedback = Feedback(
+            experience=form.experience.data,
+            feedback=form.feedback.data,
+            user_id=current_user.id
+        )
+        print(feedback)
         db.session.add(feedback)
         db.session.commit()
         flash('Feedback submitted successfully', category='alert-success')
@@ -62,3 +64,30 @@ def feedback():
         flash_errors(form)
 
     return render_template('feedback.html', page_name='feedback', form=form)
+
+
+one_week = timedelta(days=7)
+one_day = timedelta(days=1)
+one_hour = timedelta(seconds=3600)
+
+@app.route('/not_available_durations', methods=['POST'])
+@login_required
+def not_available_durations():
+    form = NotAvailableDurationsForm()
+
+    if form.validate_on_submit():
+        booking = Booking.query.get(form.booking_id.data)
+
+        durations_to_disable = []
+
+        for price in Price.query.all():
+            if Booking.query.filter(
+            ( Booking.id != booking.id ) &
+            ( Booking.scooter_id == booking.scooter_id ) &
+            ( Booking.pickup_date <= ( booking.pickup_date + price.get_timedelta() ) )
+            ).all():
+                durations_to_disable.append(price.id)
+
+        return jsonify(durations_to_disable)
+
+    return "The server refuses the attempt to brew coffee with a teapot.", 418

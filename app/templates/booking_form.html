@@ -6,12 +6,16 @@
 
             <div class="form-group">
                 <label for="pickup_date">Date:</label>
-                {{ form.pickup_date(class_="form-control", min=date_today ) }}
+                {{ form.pickup_date(class_="form-control pickup_date"+parking.id|string,
+                    onclick="steup_date_pick("+parking.id|string+")",
+                    readonly=True ) }}
             </div>
 
             <div class="form-group">
                 <label for="pickup_time">Pickup time:</label>
-                {{ form.pickup_time(class_="form-control", value="00:00", step=3600) }}
+                {{ form.pickup_time(class_="form-control pickup_time"+parking.id|string,
+                    onclick="steup_time_pick("+parking.id|string+")",
+                    readonly=True ) }}
             </div>
 
             <div class="form-group">
@@ -20,7 +24,7 @@
             </div>
 
             <div class="form-group" hidden>
-                <label for="pickup_location">Pickup location:</label>
+                <label for="pickup_parking_id">Pickup location:</label>
                 {{ form.pickup_parking_id(type="number", class_="form-control", value=parking.id) }}
             </div>
 

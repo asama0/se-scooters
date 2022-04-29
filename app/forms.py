@@ -76,9 +76,9 @@ class loginForm(FlaskForm):
 
 class BookingForm(FlaskForm):
 
-    pickup_date = DateField(validators=[DataRequired()])
+    pickup_date = StringField(validators=[DataRequired()])
 
-    pickup_time = TimeField(validators=[DataRequired()])
+    pickup_time = StringField(validators=[DataRequired()])
 
     time_period = QuerySelectField(
         validators=[DataRequired()],
@@ -150,7 +150,7 @@ class resetPasswordForm(FlaskForm):
 
 
 class feedbackForm(FlaskForm):
-    experience = RadioField(choices=["awful", "bad", "average", "good", "excellent"],
+    experience = RadioField(choices=["Excellent", "Good", "Average", "Bad", "Very bad"],
                             validators=[DataRequired()])
     feedback = TextAreaField(
         validators=[
@@ -179,3 +179,7 @@ class TicketForm(FlaskForm):
     booking_id = IntegerField(validators=[DataRequired()])
     refund = SubmitField('Refund')
     activate = SubmitField('Activate')
+
+
+class NotAvailableDurationsForm(FlaskForm):
+    booking_id = IntegerField(validators=[DataRequired()])

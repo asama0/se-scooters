@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
-from datetime import date, datetime, timedelta
+from pprint import pprint
+from flask import Blueprint, jsonify, render_template, url_for, flash, redirect, request
+from datetime import date, datetime, timedelta, time
 import stripe
 from telnetlib import Telnet
 
@@ -17,11 +18,16 @@ booking_views = Blueprint('booking_views', __name__,
 
 new_booking:Booking = None
 
+# time perdion of the day available for booking (working times)
+opening_hour = 6
+closing_hour = 19
 
 @booking_views.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     global new_booking
+    global opening_hour
+    global closing_hour
     checkout_status = request.args['checkout_status'] if 'checkout_status' in request.args else ''
 
     if request.method == 'GET' and new_booking:
@@ -85,18 +91,22 @@ def dashboard():
             customer=current_user.stripe_id,
         )
 
-        pickup_date = datetime.combine(
-            form.pickup_date.data, form.pickup_time.data)
+        pickup_date = datetime.strptime(form.pickup_date.data, "%d/%m/%Y").date()
+        pickup_time = datetime.strptime(form.pickup_time.data, '%H').time()
+        pickup_datetime = datetime.combine(pickup_date, pickup_time)
+
         scooter_chosen = Scooter.query.filter(
             (Scooter.availability == True) &
             (Scooter.parking_id == form.pickup_parking_id.data)
         ).first()
         price_used = form.time_period.data
+        parking_id = form.pickup_parking_id.data
 
         new_booking = Booking(
-            pickup_date=pickup_date,
+            pickup_date=pickup_datetime,
             user_id=current_user.id,
             scooter_id=scooter_chosen.id,
+            parking_id=parking_id,
             price_id=price_used.id,
             payment_intent=checkout_session.payment_intent,
         )
@@ -108,9 +118,19 @@ def dashboard():
 
     parkings = Parking.query.filter(Parking.scooters.any()).all()
 
-    return render_template('dashboard.html', form=form, parkings=parkings,
-                           page_name='dashboard', date_today=date.today(),
-                           time_now=datetime.now().strftime("%H:00"))
+    parking_full_dates_hours = {
+        parking.id: parking.get_full_days(
+            timedelta(hours=opening_hour),
+            timedelta(hours=closing_hour)
+        )
+        for parking in parkings
+    }
+
+    return render_template(
+        'dashboard.html', page_name='dashboard', form=form, parkings=parkings,
+        opening_hour=opening_hour, closing_hour=closing_hour,
+        parking_full_dates_hours=parking_full_dates_hours,
+    )
 
 
 @booking_views.route('/tickets', methods=['GET', 'POST'])
@@ -128,7 +148,7 @@ def tickets():
                 db.session.delete(booking_chosen)
                 db.session.commit()
             elif form.activate.data:
-                with Telnet('192.168.50.174', 23) as tn:
+                with Telnet('192.168.217.174', 23) as tn:
                     tn.write(bytes(str(booking_chosen.scooter_id), 'utf-8'))
                     tn.close()
                 return redirect(url_for('activate', token=str(booking_chosen.scooter_id)))
@@ -157,6 +177,7 @@ def tickets():
                     pickup_date=pickup_date,
                     user_id=current_user.id,
                     scooter_id=scooter_chosen_id,
+                    parking_id=booking_chosen.parking_id,
                     price_id=new_price.id,
                     payment_intent=checkout_session.payment_intent,
                 )
@@ -165,4 +186,8 @@ def tickets():
         else:
             flash_errors(form)
 
-    return render_template('tickets.html', form=form, page_name='tickets', bookings=current_user.bookings, Price=Price)
+    return render_template(
+        'tickets.html', form=form, page_name='tickets',
+        not_available_durations_form=NotAvailableDurationsForm(),
+        bookings=current_user.bookings, Price=Price, Parking=Parking
+    )
