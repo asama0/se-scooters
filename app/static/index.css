@@ -40,6 +40,7 @@ body {
 }
 
 
+
 #canvas_plot2 {
     width: 100%;
     height: 100%;
@@ -75,6 +76,10 @@ body {
 
 }
 
+.Legend {
+    text-align: center;
+    color: darkolivegreen;
+}
 
 #container2{
     margin: 5% auto 5%;
