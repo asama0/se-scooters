@@ -1,0 +1,21 @@
+image: "python:3.9"
+
+before_script:
+    - python --version
+    - pip install flask flask-login flask-mail flask-sqlalchemy flask-migrate flask-whooshalchemy flask-wtf flask-babel coverage flask-admin flask-bcrypt email_validator WTForms-SQLAlchemy stripe jwt numpy python-dateutil pytest
+    - export FLASK_APP=run.py
+    - export FLASK_ENV=development
+
+stages:
+    - Test
+
+unit_tests:
+    stage: Test
+    script:
+        - pwd
+        - ls -l
+        - export PYTHONPATH="$PYTHONPATH:."
+        - python -c "import sys;print(sys.path)"
+        - pytest 
+    
+
