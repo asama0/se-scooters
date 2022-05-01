@@ -6,17 +6,17 @@
         <div class="col-sm-auto bg-light" style="padding: 0;">
             <div class="d-flex flex-column flex-shrink-0 bg-light" style="height: 100%;">
                 <div class="d-block p-3 link-dark text-decoration-none text-center">
-                    <img src="{{ url_for('static', filename='dka_logo.svg') }}" width="75" height="75">
+                    <img alt="dka cubed logo" src="{{ url_for('static', filename='dka_logo.svg') }}" width="75" height="75">
                 </div>
                 <div class="d-grid gap-2 d-md-block" id="thelist">
-                    <a class="btn" id="btn" data-bs-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list">
+                    <a class="btn" aria-label="collapse_menu_button" id="btn" data-bs-toggle="collapse" href="#list" role="button" aria-expanded="false" aria-controls="list">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
                           </svg>
                     </a>
                     <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" id="list">
                         <li class="nav-item border-bottom">
-                            <a href="{{ url_for('booking_views.dashboard') if page_name != 'dashboard' else '' }}"
+                            <a aria-label="dashboard" href="{{ url_for('booking_views.dashboard') if page_name != 'dashboard' else '' }}"
                             class="nav-link {{ 'active' if page_name == 'dashboard' }}"
                             title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
@@ -26,7 +26,7 @@
                             </a>
                         </li>
                         <li class="nav-item  border-bottom">
-                            <a href="{{ url_for('booking_views.tickets') if page_name != 'tickets' else '' }}"
+                            <a aria-label="tickets" href="{{ url_for('booking_views.tickets') if page_name != 'tickets' else '' }}"
                             class="nav-link {{ 'active' if page_name == 'tickets' }}"
                             title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-ticket-detailed-fill" viewBox="0 0 16 16">
@@ -35,7 +35,7 @@
                             </a>
                         </li>
                         <li class="nav-item border-bottom">
-                            <a href="{{ url_for('account') if page_name != 'account' else '' }}"
+                            <a aria-label="account" href="{{ url_for('account') if page_name != 'account' else '' }}"
                             class="nav-link {{ 'active' if page_name == 'account' }}"
                             title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -45,7 +45,7 @@
                             </a>
                         </li>
                         <li class="nav-item border-bottom">
-                            <a href="{{ url_for('feedback') if page_name != 'feedback' else '' }}"
+                            <a aria-label="feedback" href="{{ url_for('feedback') if page_name != 'feedback' else '' }}"
                             class="nav-link {{ 'active' if page_name == 'feedback' }}"
                             title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item border-bottom">
-                            <a href="{{ url_for('authentication_views.logout') if page_name != 'authentication_views.logout' else '' }}"
+                            <a aria-label="logout" href="{{ url_for('authentication_views.logout') if page_name != 'authentication_views.logout' else '' }}"
                             class="nav-link {{ 'active' if page_name == 'authentication_views.logout' }}"
                             title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
