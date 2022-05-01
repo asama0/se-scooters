@@ -25,12 +25,14 @@ def test_edit_profile(client:FlaskClient):
     response = client.post(
         '/feedback',
         data=json.dumps(dict(
-            experience='average', feedback='Best website!',
+            experience='Average', feedback='Best website!',
         )),
         content_type='application/json',
         follow_redirects=True,
     )
 
+    assert response.status_code == 200
+    assert len(models.Feedback.query.all()) > 0
     the_feedback = models.Feedback.query.get(1)
-    assert the_feedback.experience == 'average'
+    assert the_feedback.experience == 'Average'
     assert the_feedback.feedback == 'Best website!'

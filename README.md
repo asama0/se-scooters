@@ -6,7 +6,7 @@ cd ~
 module add anaconda3
 python3 -m venv flask
 source flask/bin/activate
-flask/bin/pip install flask flask-login flask-mail flask-sqlalchemy flask-migrate flask-whooshalchemy flask-wtf flask-babel coverage flask-admin flask-bcrypt email_validator WTForms-SQLAlchemy stripe jwt numpy python-dateutil
+flask/bin/pip install flask flask-login flask-mail flask-sqlalchemy flask-migrate flask-whooshalchemy flask-wtf flask-babel coverage flask-admin flask-bcrypt email_validator WTForms-SQLAlchemy stripe jwt numpy python-dateutil pytest
 ```
 For other OS plese visit the "How to setup Flask" section in the wiki.
 
