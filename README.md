@@ -1,16 +1,31 @@
-# Cards to test with (use any random CVC and any future date):
+# How to setup
 
-4242424242424242 Visa
-4000056655665556 Visa (debit)
-5555555555554444 Mastercard
-2223003122003222 Mastercard (2-series)
-5200828282828210 Mastercard (debit)
-5105105105105100 Mastercard (prepaid)
-378282246310005 American Express
-371449635398431 American Express
-6011111111111117 Discover
-6011000990139424 Discover
-3056930009020004 Diners Club
-36227206271667 Diners Club (14 digit card)
-3566002020360505 JCB
-6200000000000005 UnionPay
+## UoL computer labs setup:
+```shell
+cd ~
+module add anaconda3
+python3 -m venv flask
+source flask/bin/activate
+flask/bin/pip install flask flask-login flask-mail flask-sqlalchemy flask-migrate flask-whooshalchemy flask-wtf flask-babel coverage flask-admin flask-bcrypt email_validator WTForms-SQLAlchemy stripe jwt numpy python-dateutil
+```
+For other OS plese visit the "How to setup Flask" section in the wiki.
+
+# How to Run
+
+## Adding database entries (make sure app.db file dosen't exist):
+```shell
+python3 -m db_manager
+```
+
+## Run flask:
+```shell
+source ~/flask/bin/activate ### (If in UoL computer Lab) ###
+export FLASK_APP=run.py
+export FLASK_ENV=development
+flask run
+```
+
+# Card to test with (use any random CVC and any future date):
+
+## 4242424242424242 Visa
+## 01632 960231 Phone if needed (fakenumber.org/united-kingdom)

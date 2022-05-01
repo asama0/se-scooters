@@ -85,6 +85,7 @@ def send_mail(Subject, To, Body_name, **kwargs):
     ser = smtplib.SMTP("smtp.gmail.com:587")
     Password = "RX52@h@MqMj3"
     ser.starttls()
+    ser.ehlo()
     ser.login(msg['From'], Password)
     ser.send_message(msg)
     ser.quit()
